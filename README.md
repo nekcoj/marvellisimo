@@ -3,5 +3,5 @@
  
  Omar Nasser\
  Razvan-Petru Nechifor\
- Joacim Norbeck\ 
+ Joacim Norbeck\
  Hang Tran
