@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_dark"
+    tools:context=".HomepageActivity">
+
+    <ImageView
+        android:id="@+id/image_comics"
+        android:layout_width="152dp"
+        android:layout_height="171dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toEndOf="@+id/image_character"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.33"
+        app:srcCompat="@mipmap/ic_marvel_comics" />
+
+    <ImageView
+        android:id="@+id/image_character"
+        android:layout_width="152dp"
+        android:layout_height="171dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.169"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.33"
+        app:srcCompat="@mipmap/ic_marvel" />
+
+    <TextView
+        android:id="@+id/text_character"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show all characters"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/image_character"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="@+id/image_character"
+        app:layout_constraintTop_toBottomOf="@+id/image_character"
+        app:layout_constraintVertical_bias="0.081" />
+
+    <TextView
+        android:id="@+id/text_series"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show all comics"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/image_comics"
+        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintStart_toStartOf="@+id/image_comics"
+        app:layout_constraintTop_toBottomOf="@+id/image_comics"
+        app:layout_constraintVertical_bias="0.081" />
+</androidx.constraintlayout.widget.ConstraintLayout>
