@@ -15,7 +15,8 @@
         android:contentDescription="@string/comicbook_cover"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@mipmap/marvel_logo_small_round"
+        tools:srcCompat="@mipmap/marvel_logo_small_background" />
 
     <TextView
         android:id="@+id/comic_info_comic_page"
@@ -66,7 +67,8 @@
                 android:paddingRight="16dp"
                 android:paddingBottom="16dp"
                 android:text="@string/comic_description"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>
 

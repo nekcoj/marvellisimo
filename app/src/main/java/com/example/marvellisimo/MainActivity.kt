@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         button.setOnClickListener {
-            var intent = Intent(this, ComicActivity::class.java)
+            val intent = Intent(this, ComicActivity::class.java)
             startActivity(intent)
         }
     }
