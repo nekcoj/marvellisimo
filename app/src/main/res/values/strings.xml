@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Marvellisimo</string>
+    <string name="comicbook_cover">Comicbook Cover</string>
+    <string name="comic_description">In darkness there lurks Kaiju – terrifying and unfathomable monsters. Between Kaiju and the rest of us stands the United Science Patrol! But who are these enigmatic defenders, and how do they perform their miracles? Shin Hayata and Kiki Fuji have spent half a lifetime trying to find out – and their quest is about to drive them toward a decades-old dark secret and put them on a collision course with a mysterious warrior from beyond the stars! Kyle Higgins (Mighty Morphin Power Rangers), Mat Groom (Self/Made) and Francesco Manna (AVENGERS) reimagine the classic origin of a pop culture icon as THE RISE OF ULTRAMAN begins!</string>
+    <string name="comic_info_title">The Rise of Ultraman</string>
 </resources>
