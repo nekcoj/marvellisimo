@@ -20,9 +20,9 @@ class ComicActivity: AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.getItemId()) {
+        return when (item.itemId) {
             android.R.id.home -> {
-                NavUtils.navigateUpFromSameTask(this)
+                finish()
                 true
             }
             else -> super.onOptionsItemSelected(item)
