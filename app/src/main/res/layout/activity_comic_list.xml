@@ -34,4 +34,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/comic_list_cover_image"
         app:layout_constraintTop_toTopOf="@+id/comic_list_cover_image" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

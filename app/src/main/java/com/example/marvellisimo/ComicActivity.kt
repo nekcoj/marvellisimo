@@ -3,10 +3,6 @@ package com.example.marvellisimo
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NavUtils
-
-
-
 
 class ComicActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
