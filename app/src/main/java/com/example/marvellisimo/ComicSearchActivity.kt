@@ -1,7 +1,7 @@
 package com.example.marvellisimo
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -11,17 +11,26 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.collections.ArrayList
+import java.util.Timer
+import kotlin.concurrent.schedule
 
 class ComicSearchActivity: AppCompatActivity() {
-
+    var limit = 20
+    var offset = 0
+    var comicList = ArrayList<Comic>()
     lateinit var comics: ArrayList<ComicbookItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_search)
-
+        comicList = drawComicList()
+        Timer("SettingUp", false).schedule(2000) {
+            Log.d("Hoppsan", "kerstin!")
+            Log.d("comiclist:" , comicList.size.toString())
+        }
         val rvComics = findViewById<View>(R.id.rvComics) as RecyclerView
-        comics = ComicbookItem.createComicList(20)
+        comics = ComicbookItem.createComicList(comicList.size, comicList)
         val adapter = ComicsAdapter(comics)
         rvComics.adapter = adapter
         rvComics.layoutManager = LinearLayoutManager(this)
@@ -42,21 +51,26 @@ class ComicSearchActivity: AppCompatActivity() {
         }
     }
 
-    class ComicbookItem(val name: String, val comicbook_cover_url: String) {
+    private fun drawComicList(): ArrayList<Comic> {
+        var comics = MarvelRetrofit.getComics(limit, offset)
+        offset += limit
+        return comics
+    }
+}
 
+    class ComicbookItem(comic: Comic) {
         companion object {
-            private var lastComicId = 0
-            fun createComicList(numComics: Int): ArrayList<ComicbookItem> {
+            fun createComicList(numComics: Int, comicList: ArrayList<Comic>): ArrayList<ComicbookItem> {
                 val comics = ArrayList<ComicbookItem>()
                 for (i in 1..numComics) {
-                    comics.add(ComicbookItem("Comic " + ++lastComicId, "google.com"))
+                    comics.add(ComicbookItem(comicList[i]))
                 }
                 return comics
             }
         }
     }
 
-    class ComicsAdapter(private val mComics: List<ComicbookItem>) :
+    class ComicsAdapter(private val mComics: ArrayList<ComicbookItem>) :
         RecyclerView.Adapter<ComicsAdapter.ViewHolder>() {
 
         inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
@@ -79,7 +93,7 @@ class ComicSearchActivity: AppCompatActivity() {
             val comic: ComicbookItem = mComics[position]
 
             val textView = holder.nameTextView
-            textView.text = comic.name
+            textView.text = comic.toString()
             holder.coverImageView.setImageResource(R.mipmap.marvel_logo_small)
         }
 
@@ -87,4 +101,3 @@ class ComicSearchActivity: AppCompatActivity() {
             return mComics.size
         }
     }
-}

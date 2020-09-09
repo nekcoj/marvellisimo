@@ -3,7 +3,6 @@ package com.example.marvellisimo
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_comic.*
 
 class ComicActivity: AppCompatActivity() {
 
@@ -15,6 +14,7 @@ class ComicActivity: AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true);
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
         supportActionBar?.setDisplayUseLogoEnabled(true);
+
 
     }
 

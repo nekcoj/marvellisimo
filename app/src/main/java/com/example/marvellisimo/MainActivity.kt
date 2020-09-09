@@ -7,16 +7,24 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_homepage.*
+import java.time.Instant.now
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.concurrent.timer
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage)
-        var characterList = ArrayList<CharacterDataWrapper>()
+        var characterList = ArrayList<Character>()
+        var comicList = ArrayList<Comic>()
 
         image_comics.setOnClickListener {
             val intent = Intent(this, ComicSearchActivity::class.java)
@@ -24,23 +32,6 @@ class MainActivity : AppCompatActivity() {
         }
         text_series.setOnClickListener {
             val intent = Intent(this, ComicSearchActivity::class.java)
-            startActivity(intent)
-        }
-
-        image_character.setOnClickListener {
-
-           MarvelRetrofit.marvelService.getAllCharacters(limit = 1, offset = 1)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { result, err ->
-                    characterList.add(result)
-                    Log.d("Characterlist: ", characterList[0].toString())
-                    if (err?.message != null) Log.d("__", "Error getAllCharacters " + err.message)
-                    else {
-                        Log.d("___", "I got a CharacterDataWrapper $result")
-                    }
-                }
-            val intent = Intent(this, ComicActivity::class.java)
             startActivity(intent)
         }
     }
@@ -64,3 +55,10 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+
+//class MyViewModel() : ViewModel() {
+//    val characters: MutableLiveData<List<Character>> by lazy {
+//        MutableLiveData<List<Character>>().also {
+//            ()
+//        }
+//    }

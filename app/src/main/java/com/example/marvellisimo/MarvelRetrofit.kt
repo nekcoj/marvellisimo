@@ -1,5 +1,9 @@
 package com.example.marvellisimo
 
+import android.annotation.SuppressLint
+import android.util.Log
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -9,7 +13,7 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
     object MarvelRetrofit {
-        private const val LOG = true
+        private const val LOG = false
         private const val PUBLIC_KEY = "9e31cec40957c0bc8eaa3c9a3256645c"
         private const val PRIVATE_KEY = "8b4f888188613f05582276cf4e2bd1a30bca16e0"
         private const val BASE_URL = "https://gateway.marvel.com/v1/public/"
@@ -48,6 +52,7 @@ import java.security.NoSuchAlgorithmException
                 .addInterceptor(logging)
             return builder.build()
         }
+
         private fun String.md5(): String {
             val md5 = "MD5"
             try { // Create MD5 Hash
@@ -67,5 +72,23 @@ import java.security.NoSuchAlgorithmException
                 e.printStackTrace()
             }
             return ""
+        }
+
+        @SuppressLint("CheckResult")
+        open fun getComics(limit: Int, offset: Int): ArrayList<Comic> {
+            var comics = ArrayList<Comic>()
+            MarvelRetrofit.marvelService.getAllComics(limit = limit, offset = offset)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { result, err ->
+                    if (err?.message != null) Log.d("__", "Error getAllCharacters " + err.message)
+                    else {
+                        Log.d("___", "I got a CharacterDataWrapper $result")
+                        result.data.results.forEach { comic ->
+                            comics.add(comic)
+                        }
+                    }
+                }
+            return comics
         }
     }
