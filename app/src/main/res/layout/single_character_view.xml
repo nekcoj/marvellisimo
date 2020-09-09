@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/description_text"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#202020">
+
+    <TextView
+        android:id="@+id/character_height10"
+        android:layout_width="82dp"
+        android:layout_height="20dp"
+        android:background="#e62429"
+        android:requiresFadingEdge="vertical"
+        android:text="HAIR"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBaseline_toBaselineOf="@+id/character_height"
+        app:layout_constraintStart_toEndOf="@+id/character_height8" />
+
+    <TextView
+        android:id="@+id/character_height9"
+        android:layout_width="82dp"
+        android:layout_height="20dp"
+        android:background="#e62429"
+        android:text="Bald"
+        android:textAlignment="center"
+        android:textColor="#202020"
+        app:layout_constraintBaseline_toBaselineOf="@+id/character_height2"
+        app:layout_constraintStart_toEndOf="@+id/character_height7" />
+
+    <TextView
+        android:id="@+id/character_height7"
+        android:layout_width="82dp"
+        android:layout_height="20dp"
+        android:background="#e62429"
+        android:text="Red"
+        android:textAlignment="center"
+        android:textColor="#202020"
+        app:layout_constraintBaseline_toBaselineOf="@+id/character_height2"
+        app:layout_constraintStart_toEndOf="@+id/character_height5" />
+
+    <TextView
+        android:id="@+id/character_height8"
+        android:layout_width="82dp"
+        android:layout_height="20dp"
+        android:background="#e62429"
+        android:requiresFadingEdge="vertical"
+        android:text="EYES"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBaseline_toBaselineOf="@+id/character_height"
+        app:layout_constraintStart_toEndOf="@+id/character_height6" />
+
+    <TextView
+        android:id="@+id/character_height6"
+        android:layout_width="82dp"
+        android:layout_height="20dp"
+        android:background="#e62429"
+        android:requiresFadingEdge="vertical"
+        android:text="GENDER"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBaseline_toBaselineOf="@+id/character_height"
+        app:layout_constraintStart_toEndOf="@+id/character_height3" />
+
+    <TextView
+        android:id="@+id/character_height5"
+        android:layout_width="82dp"
+        android:layout_height="20dp"
+        android:background="#e62429"
+        android:text="Male"
+        android:textAlignment="center"
+        android:textColor="#202020"
+        app:layout_constraintBaseline_toBaselineOf="@+id/character_height2"
+        app:layout_constraintStart_toEndOf="@+id/character_height4" />
+
+    <TextView
+        android:id="@+id/character_height4"
+        android:layout_width="82dp"
+        android:layout_height="20dp"
+        android:background="#e62429"
+        android:text="985 lbs."
+        android:textAlignment="center"
+        android:textColor="#202020"
+        app:layout_constraintBaseline_toBaselineOf="@+id/character_height2"
+        app:layout_constraintStart_toEndOf="@+id/character_height2" />
+
+    <TextView
+        android:id="@+id/character_height3"
+        android:layout_width="82dp"
+        android:layout_height="20dp"
+        android:background="#e62429"
+        android:requiresFadingEdge="vertical"
+        android:text="WEIGHT"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBaseline_toBaselineOf="@+id/character_height"
+        app:layout_constraintStart_toEndOf="@+id/character_height" />
+
+    <TextView
+        android:id="@+id/character_height2"
+        android:layout_width="82dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:background="#e62429"
+        android:text="6'7&quot;  "
+        android:textAlignment="center"
+        android:textColor="#202020"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/character_height" />
+
+    <ImageView
+        android:id="@+id/character_img"
+        android:layout_width="408dp"
+        android:layout_height="165dp"
+        android:contentDescription="TODO"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/thanos" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName2"
+        android:layout_width="112dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="50dp"
+        android:autofillHints=""
+        android:background="#00000000"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="textPersonName"
+        android:text="@string/thanos"
+        android:textColor="#202020"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/character_img" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/using_the_power_of_the_infinity_stones_thanos_believes_he_can_ultimately_save_the_universe_by_wiping_out_half_of_its_population"
+        android:textColor="#202020"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/character_img"
+        app:layout_constraintEnd_toEndOf="@+id/character_img"
+        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName2"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+
+    <TextView
+        android:id="@+id/character_height"
+        android:layout_width="82dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="1dp"
+        android:background="#e62429"
+        android:requiresFadingEdge="vertical"
+        android:text="HEIGHT"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/character_img" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/character_scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="32dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.479"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/character_height6">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="394dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="96dp"
+                android:text="He is perhaps the most evil, bloodthirsty, and powerful villain in the universe—so powerful that religious sects have worshipped him as a god. His enemies include nearly every Super Hero in existence. He is obsessed with Goddess Death and has waged genocidal campaigns in an attempt to placate her. Most famously, he has attempted to conquer the universe by wielding the Infinity Gauntlet. He is the Mad Titan.\n\nHe is Thanos."
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="\n\nA native of the planet Titan, Thanos saw the danger his people were in from overpopulation and suggested a severe solution—the elimination of half the population, at random and without prejudice, in order to make life better for the planet as a whole. He was shunned as a madman, but his planet did indeed eventually die, lacking the resources needed to keep up with the demands.\n\nFirmly believing that the universe at large was in the same danger as Titan, Thanos grew to power as a force bringing death and destruction from planet to planet, with untold legions of soldiers and servants at his beck and call. Infamous for annihilating entire races in service of depopulating what he believes to be an overcrowded universe, he most often works through surrogates to achieve his goals, but has been known to take a personal hand in special circumstances. \n\n More than once, Thanos took a child from a galactic species he’d decimated and raised them as his own. Some of these children have been tutored in the arts of assassination and war, making them among the deadliest killers imaginable. Thanos has also given powerful artifacts to individuals who he believes will use them to spread the cause of death in certain important spots among the galaxies. \n\n Thanos went on to have a great interest in acquiring the Infinity Stones, six objects of immense power scattered throughout the universe, and has had the Infinity Gauntlet built in order to harness their power.\n\n"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
