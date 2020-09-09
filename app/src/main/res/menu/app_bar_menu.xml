@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+    android:id="@+id/Favorite"
+    android:title="Favorite"
+    android:icon="@drawable/ic_favorite"
+        android:tooltipText="Show your favorite"
+    app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/Sign_in"
+        android:title="Settings"
+        android:icon="@drawable/ic_sign_in"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/Search_by"
+        android:title="Search by:"
+        app:showAsAction="withText"/>
+
+    <item
+        android:id="@+id/Characters"
+        android:title="     Characters"
+        app:showAsAction="withText"/>
+
+    <item
+        android:id="@+id/Comics"
+        android:title="     Comics"
+        app:showAsAction="withText"/>
+
+    <item
+        android:id="@+id/Contacts"
+        android:title="Contacts:"
+        app:showAsAction="withText"/>
+
+    <item
+        android:id="@+id/My_Contacts"
+        android:title="     My contacts"
+        app:showAsAction="withText"/>
+
+    <item
+        android:id="@+id/Add_Contact"
+        android:title="     Add contact"
+        app:showAsAction="withText"/>
+
+    <item
+        android:id="@+id/Log_Out"
+        android:title="Log out"
+        app:showAsAction="withText"/>
+
+
+
+
+
+</menu>
