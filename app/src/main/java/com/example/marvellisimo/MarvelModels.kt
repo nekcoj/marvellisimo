@@ -1,5 +1,7 @@
 package com.example.marvellisimo
 
+import android.media.Image
+
 class MarvelModels {
 }
 data class CharacterDataWrapper(
@@ -31,5 +33,6 @@ data class Character(
     val series: SeriesList, //, optional): A resource list of series in which this character appears.*/
     val id: Int, //, optional): The unique ID of the character resource.,
     val name: String, //, optional): The name of the character.,
-    val description: String //, optional): A short bio or description of the character.,
+    val description: String, //, optional): A short bio or description of the character.,
+    val thumbnail: Image,
 )
