@@ -57,8 +57,9 @@ data class ComicDataContainer (
 data class Comic (
     val thumbnail: ImageDTO, //(Image, optional): The representative image for this comic.,
     val title: String, //(string, optional): The canonical title of the comic.,
-    val description: String //(string, optional): The preferred description of the comic.,
-    /*'id (int, optional): The unique ID of the comic resource.,
+    val description: String, //(string, optional): The preferred description of the comic.,
+    val id: Int //(int, optional): The unique ID of the comic resource.,
+    /*
     digitalId (int, optional): The ID of the digital comic representation of this comic. Will be 0 if the comic is not available digitally.,
     issueNumber (double, optional): The number of the issue in the series (will generally be 0 for collection formats).,
     variantDescription (string, optional): If the issue is a variant (e.g. an alternate cover, second printing, or director’s cut), a text description of the variant.,

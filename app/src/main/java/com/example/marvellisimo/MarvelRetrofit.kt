@@ -75,8 +75,8 @@ object MarvelRetrofit {
     }
 
     @SuppressLint("CheckResult")
-    open fun getAllComics(limit: Int, offset: Int) {
-        marvelService.getAllComics(limit = limit, offset = offset)
+    open fun getAllComics() {
+        marvelService.getAllComics(limit = Limit.comics, offset = Offset.comics)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result, err ->
@@ -84,7 +84,28 @@ object MarvelRetrofit {
                 else {
                     Log.d("___", "I got a CharacterDataWrapper $result")
                     result.data.results.forEach { comic ->
-                        ComicList.comics.add(comic)
+                        if(!ComicList.comics.contains(comic)){
+                            ComicList.comics.add(comic)
+                        }
+                    }
+                }
+            }
+    }
+
+    @SuppressLint("CheckResult")
+    open fun getAllCharacters(){
+        marvelService.getAllCharacters(limit = 30, offset = 0)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { result, err ->
+                if (err?.message != null) Log.d("__", "Error getAllCharacters " + err.message)
+                else {
+                    result.data.results.forEach { character ->
+                        if(!charList.characters.contains(character)) {
+                            charList.characters?.add(character)
+                        }
+                        Log.d("__", "characters list size :" + charList.characters?.size.toString())
+                        Log.d("__", character.name.toString())
                     }
                 }
             }

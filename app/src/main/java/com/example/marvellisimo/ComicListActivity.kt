@@ -1,6 +1,7 @@
 package com.example.marvellisimo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,18 +9,12 @@ import kotlinx.android.synthetic.main.activity_comic_search.*
 
 
 class ComicListActivity: AppCompatActivity() {
-    var limit = 20
-    var offset = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_search)
 
-        getComics()
-
-        rvComics.layoutManager = LinearLayoutManager(this)
-        rvComics.adapter = ComicListAdapter()
-
+        rv_comics.layoutManager = LinearLayoutManager(this)
+        rv_comics.adapter = ComicListAdapter()
 
         actionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
@@ -30,17 +25,11 @@ class ComicListActivity: AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                finish()
+                onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-
-    fun getComics(){
-        MarvelRetrofit.getAllComics(limit, offset)
-        offset += limit
     }
 }
 

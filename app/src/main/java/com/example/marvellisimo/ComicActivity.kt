@@ -14,8 +14,6 @@ class ComicActivity: AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true);
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
         supportActionBar?.setDisplayUseLogoEnabled(true);
-
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
