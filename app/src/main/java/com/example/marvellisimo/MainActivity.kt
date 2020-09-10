@@ -24,6 +24,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_homepage)
         // var characterList = ArrayList<CharacterDataWrapper>()
 
+        //actionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setDisplayShowHomeEnabled(true);
+        supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
+        supportActionBar?.setDisplayUseLogoEnabled(true);
+
         image_character.setOnClickListener {
             val intent = Intent(this, CharacterListView::class.java)
             startActivity(intent)
