@@ -1,13 +1,13 @@
 package com.example.marvellisimo
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.marvellisimo.character.CharacterView
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.RequestCreator
 import kotlinx.android.synthetic.main.character_view.view.*
 
 class CharacterListAdapter : RecyclerView.Adapter<CustomViewHolder>() {
@@ -39,4 +39,13 @@ class CharacterListAdapter : RecyclerView.Adapter<CustomViewHolder>() {
     }
 }
 
-class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view){}
+class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view){
+
+    init {
+        view.setOnClickListener(){
+            println("Test!!!")
+            val intent = Intent(view.context, CharacterView::class.java)
+            view.context.startActivity(intent)
+        }
+    }
+}

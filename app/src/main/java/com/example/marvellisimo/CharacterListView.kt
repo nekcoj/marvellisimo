@@ -20,6 +20,7 @@ class CharacterListView : AppCompatActivity(){
 //            Log.d("__","LOG FROM MAIN LOG")
         characterList_recyclerView.layoutManager = LinearLayoutManager(this)
         characterList_recyclerView.adapter = CharacterListAdapter()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -32,7 +33,9 @@ class CharacterListView : AppCompatActivity(){
                 finish()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
+
     }
 }

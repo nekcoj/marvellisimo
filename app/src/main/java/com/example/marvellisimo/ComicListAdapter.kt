@@ -23,5 +23,7 @@ class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>() {
         holder.view.comic_list_item_title.text = comicTitle
 
     }
+
+
 }
 class ComicViewHolder(val view: View): RecyclerView.ViewHolder(view){}

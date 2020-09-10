@@ -101,8 +101,6 @@ class MainActivity : AppCompatActivity() {
                 else {
                     result.data.results.forEach { character ->
                         charList.characters?.add(character)
-                        Log.d("__", "characters list size :" + charList.characters?.size.toString())
-                        Log.d("__", character.name.toString())
                     }
 
 
