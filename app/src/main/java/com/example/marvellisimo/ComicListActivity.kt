@@ -17,8 +17,8 @@ class ComicListActivity: AppCompatActivity() {
 
         getComics()
 
-        rvComics.layoutManager = LinearLayoutManager(this)
-        rvComics.adapter = ComicListAdapter()
+        rv_comics.layoutManager = LinearLayoutManager(this)
+        rv_comics.adapter = ComicListAdapter()
 
 
         actionBar?.setDisplayHomeAsUpEnabled(true);
