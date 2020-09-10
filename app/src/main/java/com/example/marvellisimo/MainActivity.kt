@@ -17,8 +17,16 @@ object charList{
     var characters: MutableList<Character> = mutableListOf()
 }
 
-class MainActivity : AppCompatActivity() {
+object Limit{
+    var comics: Int = 10
+}
 
+object Offset{
+    var comics: Int = 0
+}
+
+class MainActivity : AppCompatActivity() {
+private var runOnce: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -40,6 +48,8 @@ class MainActivity : AppCompatActivity() {
 
 
         image_comics.setOnClickListener {
+            //MarvelRetrofit.getAllComics()
+            Log.d("Image Comics: ", "clicked image!")
             val intent = Intent(this, ComicListActivity::class.java)
             startActivity(intent)
         }
@@ -92,22 +102,11 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     override fun onStart() {
         super.onStart()
-        super.startActivity(intent)
-        MarvelRetrofit.marvelService.getAllCharacters(limit = 30, offset = 0)
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { result, err ->
-                if (err?.message != null) Log.d("__", "Error getAllCharacters " + err.message)
-                else {
-                    result.data.results.forEach { character ->
-                        charList.characters?.add(character)
-                        Log.d("__", "characters list size :" + charList.characters?.size.toString())
-                        Log.d("__", character.name.toString())
-                    }
-
-
-                }
-            }
+        if(!runOnce) {
+            MarvelRetrofit.getAllCharacters()
+            MarvelRetrofit.getAllComics()
+            runOnce = true
+        }
     }
 }
 
