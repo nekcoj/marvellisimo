@@ -4,9 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_homepage.*
 
 
@@ -20,9 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage)
-        // var characterList = ArrayList<CharacterDataWrapper>()
 
-        //actionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
         supportActionBar?.setDisplayUseLogoEnabled(true);
@@ -46,7 +47,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ComicListActivity::class.java)
             startActivity(intent)
         }
-    }*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

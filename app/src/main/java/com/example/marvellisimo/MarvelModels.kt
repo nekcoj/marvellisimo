@@ -26,11 +26,11 @@ data class Character(
     /*val modified: Date, //, optional): The date the resource was most recently modified.,
     val resourceURI: string, //, optional): The canonical URL identifier for this resource.,
     val urls: Array, //[Url], optional): A set of public web site URLs for the resource.,
-    val thumbnail: Image, //, optional): The representative image for this character.,
     val comics: ComicList, //, optional): A resource list containing comics which feature this character.,
     val stories: StoryList, //, optional): A resource list of stories in which this character appears.,
     val events: EventList, //, optional): A resource list of events in which this character appears.,
     val series: SeriesList, //, optional): A resource list of series in which this character appears.*/
+    val thumbnail: ImageDTO, //, optional): The representative image for this character.,
     val id: Int, //, optional): The unique ID of the character resource.,
     val name: String, //, optional): The name of the character.,
     val description: String //, optional): A short bio or description of the character.,
@@ -55,7 +55,7 @@ data class ComicDataContainer (
 )
 
 data class Comic (
-    //val thumbnail: Image, //(Image, optional): The representative image for this comic.,
+    val thumbnail: ImageDTO, //(Image, optional): The representative image for this comic.,
     val title: String, //(string, optional): The canonical title of the comic.,
     val description: String //(string, optional): The preferred description of the comic.,
     /*'id (int, optional): The unique ID of the comic resource.,
@@ -84,4 +84,9 @@ data class Comic (
     characters (CharacterList, optional): A resource list containing the characters which appear in this comic.,
     stories (StoryList, optional): A resource list containing the stories which appear in this comic.,
     events (EventList, optional): A resource list containing the events in which this comic appears.*/
+)
+
+data class ImageDTO (
+    val path: String,
+    val extension: String
 )

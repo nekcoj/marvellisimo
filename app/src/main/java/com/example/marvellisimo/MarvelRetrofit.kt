@@ -18,7 +18,7 @@ object MarvelRetrofit {
     private const val PRIVATE_KEY = "8b4f888188613f05582276cf4e2bd1a30bca16e0"
     private const val BASE_URL = "https://gateway.marvel.com/v1/public/"
 
-    private val marvelService: MarvelService = Retrofit.Builder()
+    val marvelService: MarvelService = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -76,8 +76,7 @@ object MarvelRetrofit {
 
     @SuppressLint("CheckResult")
     open fun getAllComics(limit: Int, offset: Int) {
-        var comics = ArrayList<Comic>()
-        MarvelRetrofit.marvelService.getAllComics(limit = limit, offset = offset)
+        marvelService.getAllComics(limit = limit, offset = offset)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result, err ->
@@ -85,13 +84,13 @@ object MarvelRetrofit {
                 else {
                     Log.d("___", "I got a CharacterDataWrapper $result")
                     result.data.results.forEach { comic ->
-                        comicList.comics?.add(comic)
+                        ComicList.comics.add(comic)
                     }
                 }
             }
     }
 }
 
-object comicList {
+object ComicList {
     var comics: MutableList<Comic> = mutableListOf()
 }

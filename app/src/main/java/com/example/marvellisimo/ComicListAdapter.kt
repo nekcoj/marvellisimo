@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_comic_list.view.*
 class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>() {
 
     override fun getItemCount(): Int {
-        return comicList.comics.size
+        return ComicList.comics.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicViewHolder {
@@ -19,7 +19,7 @@ class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ComicViewHolder, position: Int) {
-        val comicTitle = comicList.comics[position].title
+        val comicTitle = ComicList.comics[position].title
         holder.view.comic_list_item_title.text = comicTitle
 
     }
