@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface MarvelService {
-    @GET("characters?limit=1")
+    @GET("characters")
     fun getAllCharacters(
         @Query("nameStartsWith") nameStartsWith: String? = null,
         @Query("name") byExactName: String? = null,
