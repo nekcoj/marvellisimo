@@ -25,13 +25,17 @@ class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>() {
         val imgPath = renamePathHttps(ComicList.comics[position].thumbnail.path)
         val imgExt = ComicList.comics[position].thumbnail.extension
         val imgComplete = "$imgPath.$imgExt"
-        Log.d("ImagePath: " , imgComplete)
+        Log.d("ImagePath: ", imgComplete)
         Picasso.get().load("$imgComplete").placeholder(R.mipmap.marvel_logo_small).into(holder.view.comic_list_cover_image);
         holder.view.comic_list_item_title.text = comicTitle
+
     }
 
     private fun renamePathHttps(path: String): String {
         return path.replace("http", "https")
     }
 }
-class ComicViewHolder(val view: View): RecyclerView.ViewHolder(view){}
+class ComicViewHolder(val view: View): RecyclerView.ViewHolder(view){
+
+
+}

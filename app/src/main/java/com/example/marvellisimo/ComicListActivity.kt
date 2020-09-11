@@ -1,7 +1,6 @@
 package com.example.marvellisimo
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +16,7 @@ class ComicListActivity: AppCompatActivity() {
         rv_comics.adapter = ComicListAdapter()
 
         actionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.title = "Comics"
         supportActionBar?.setDisplayShowHomeEnabled(true);
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
         supportActionBar?.setDisplayUseLogoEnabled(true);
