@@ -46,10 +46,7 @@ private var runOnce: Boolean = false
             startActivity(intent)
         }
 
-
         image_comics.setOnClickListener {
-            //MarvelRetrofit.getAllComics()
-            Log.d("Image Comics: ", "clicked image!")
             val intent = Intent(this, ComicListActivity::class.java)
             startActivity(intent)
         }
