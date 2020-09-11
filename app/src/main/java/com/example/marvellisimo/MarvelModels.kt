@@ -1,7 +1,5 @@
 package com.example.marvellisimo
 
-import android.media.Image
-
 class MarvelModels {
 }
 data class CharacterDataWrapper(
