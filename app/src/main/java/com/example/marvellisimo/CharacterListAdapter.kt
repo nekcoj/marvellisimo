@@ -24,27 +24,34 @@ class CharacterListAdapter : RecyclerView.Adapter<CustomViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        val charName = charList.characters.get(position).name
+        val charName = charList.characters[position].name
         val imgPath = renamePathHttps(charList.characters[position].thumbnail.path)
-
         val imgExt = charList.characters[position].thumbnail.extension
         val imgComplete = "$imgPath.$imgExt"
-        Log.d("ImagePath: " , imgComplete)
         Picasso.get().load("$imgComplete").placeholder(R.mipmap.marvel_logo_small).into(holder.view.imageView);
-        holder?.view?.textView_characterName?.text = charName.toString()
+        holder?.view?.textView_characterName?.text = charName
+
+        holder?.character = charList.characters[position]
     }
 
-    private fun renamePathHttps(path: String): String {
-        return path.replace("http", "https")
+    companion object{
+        fun renamePathHttps(path: String): String {
+            return path.replace("http", "https")
+        }
     }
 }
 
-class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view){
+class CustomViewHolder(val view: View, var character: Character? = null): RecyclerView.ViewHolder(view){
+    companion object{
+        const val SELECTED_CHARACTER ="SELECTED_CHARACTER"
+
+
+    }
 
     init {
         view.setOnClickListener(){
-            println("Test!!!")
             val intent = Intent(view.context, CharacterView::class.java)
+            intent.putExtra(SELECTED_CHARACTER,character)
             view.context.startActivity(intent)
         }
     }
