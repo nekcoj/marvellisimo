@@ -38,14 +38,15 @@ class CharacterListAdapter : RecyclerView.Adapter<CustomViewHolder>() {
         fun renamePathHttps(path: String): String {
             return path.replace("http", "https")
         }
+        fun getImageLandscape(path: String): String {
+            return path.replace(".jpg", "/portrait_xlarge.jpg")
+        }
     }
 }
 
 class CustomViewHolder(val view: View, var character: Character? = null): RecyclerView.ViewHolder(view){
     companion object{
         const val SELECTED_CHARACTER ="SELECTED_CHARACTER"
-
-
     }
 
     init {

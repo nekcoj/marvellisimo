@@ -1,5 +1,6 @@
 package com.example.marvellisimo
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
+import com.example.marvellisimo.character.CharacterView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_comic_list.view.*
 import java.util.*
@@ -62,6 +64,7 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
         Log.d("ImagePath: ", imgComplete)
         Picasso.get().load("$imgComplete").placeholder(R.mipmap.marvel_logo_small).into(holder.view.comic_list_cover_image);
         holder.view.comic_list_item_title.text = comicTitle
+        holder?.comic = comicFilterList[position]
 
     }
 
@@ -72,6 +75,16 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
 
 
 }
-class ComicViewHolder(val view: View): RecyclerView.ViewHolder(view){
+class ComicViewHolder(val view: View, var comic : Comic? = null): RecyclerView.ViewHolder(view){
+    companion object{
+        const val SELECTED_COMIC ="SELECTED_COMIC"
+    }
 
+    init {
+        view.setOnClickListener(){
+            val intent = Intent(view.context, ComicActivity::class.java)
+            intent.putExtra(SELECTED_COMIC, comic)
+            view.context.startActivity(intent)
+        }
+    }
 }

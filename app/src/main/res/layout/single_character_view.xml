@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#000000">
 
     <TextView
         android:id="@+id/character_name"
         android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:background="#202020"
+        android:layout_height="34dp"
+        android:background="#000000"
         android:paddingTop="10dp"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
@@ -22,11 +23,10 @@
 
     <ImageView
         android:id="@+id/character_img"
-        android:layout_width="413dp"
-        android:layout_height="396dp"
-        android:scaleType="fitXY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_foreground" />
@@ -34,7 +34,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#202020"
+        android:background="#000000"
         android:paddingTop="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,26 +44,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#000000"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/character_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#202020"
+                android:background="#000000"
                 android:paddingLeft="50dp"
                 android:paddingTop="10dp"
                 android:paddingRight="50dp"
-                android:paddingBottom="50dp"
                 android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/link"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#000000"
                 android:clickable="true"
+                android:paddingTop="10dp"
+                android:paddingBottom="20dp"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:textColorLink="#e62429"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

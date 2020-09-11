@@ -3,6 +3,7 @@ package com.example.marvellisimo.character
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.Character
 import com.example.marvellisimo.CharacterListAdapter
@@ -19,12 +20,11 @@ class CharacterView : AppCompatActivity(){
         val selectedCharacter = intent.getSerializableExtra(CustomViewHolder.SELECTED_CHARACTER) as? Character
 
         character_name.text = selectedCharacter?.name.toString()
-        Picasso.get().load(CharacterListAdapter.renamePathHttps(selectedCharacter?.thumbnail?.path.toString()) + "." + selectedCharacter?.thumbnail?.extension).into(
-            character_img
-        )
+        Picasso.get().load(CharacterListAdapter.renamePathHttps(selectedCharacter?.thumbnail?.path.toString()) + "." + selectedCharacter?.thumbnail?.extension).into(character_img)
         character_description.text = selectedCharacter?.description.toString()
         link.movementMethod = LinkMovementMethod.getInstance()
-        val text = "<a href='http://www.google.com'> Google </a>"
+        val text = "<a color:#e62429; href='${selectedCharacter?.urls?.get(0)?.url}'> Want to know more ? </a>"
         link.text = Html.fromHtml(text)
+
     }
 }
