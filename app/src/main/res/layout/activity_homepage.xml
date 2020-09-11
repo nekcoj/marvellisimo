@@ -7,6 +7,18 @@
     android:background="@android:color/background_dark"
     tools:context=".HomepageActivity">
 
+    <Button
+        android:id="@+id/button_check_connection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check my connection"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.929" />
+
     <ImageView
         android:id="@+id/image_comics"
         android:layout_width="152dp"

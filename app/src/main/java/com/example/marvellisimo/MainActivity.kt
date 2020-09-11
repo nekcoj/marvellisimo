@@ -1,16 +1,23 @@
 package com.example.marvellisimo
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.Network
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.Toast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_homepage.*
+import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 
 object charList{
@@ -25,8 +32,10 @@ object Offset{
     var comics: Int = 0
 }
 
+
 class MainActivity : AppCompatActivity() {
-private var runOnce: Boolean = false
+
+    private var runOnce: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -35,6 +44,23 @@ private var runOnce: Boolean = false
         supportActionBar?.setDisplayShowHomeEnabled(true);
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
         supportActionBar?.setDisplayUseLogoEnabled(true);
+
+        var cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            cm.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
+                override fun onAvailable(network: Network) {
+                    super.onAvailable(network)
+                    button_check_connection.setText("Connected to Network")
+                }
+
+                override fun onLost(network: Network) {
+                    super.onLost(network)
+                    Toast.makeText()
+                }
+            })
+        }
+
 
         image_character.setOnClickListener {
             val intent = Intent(this, CharacterListView::class.java)
