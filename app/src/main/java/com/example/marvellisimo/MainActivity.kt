@@ -4,12 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.example.marvellisimo.Model.*
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_homepage.*
 
 
@@ -26,7 +25,9 @@ object Offset{
 }
 
 class MainActivity : AppCompatActivity() {
-private var runOnce: Boolean = false
+    private var runOnce: Boolean = false
+    var realm: Realm? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -47,6 +48,7 @@ private var runOnce: Boolean = false
         }
 
         image_comics.setOnClickListener {
+            saveData()
             val intent = Intent(this, ComicListActivity::class.java)
             startActivity(intent)
         }
@@ -103,6 +105,23 @@ private var runOnce: Boolean = false
             MarvelRetrofit.getAllCharacters()
             MarvelRetrofit.getAllComics()
             runOnce = true
+        }
+    }
+
+    private fun saveData(){
+        ComicList.comics.forEach {comic ->
+            realm = Realm.getDefaultInstance()
+            realm.use { r ->
+                r?.executeTransaction { realm ->
+                   realm.insertOrUpdate(Comicbook().apply {
+                        id = comic.id
+                        title = comic.title
+                        description = comic.description
+                        thumbnail = ThumbnailDTO(comic.thumbnail.path, comic.thumbnail.extension)
+                        urls = UrlDTO(comic.urls[0].type, comic.urls[0].url)
+                    })
+                }
+            }
         }
     }
 }

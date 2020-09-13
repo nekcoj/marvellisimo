@@ -18,20 +18,20 @@ class CharacterListAdapter : RecyclerView.Adapter<CustomViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
-        val layoutInflater = LayoutInflater.from(parent?.context)
+        val layoutInflater = LayoutInflater.from(parent.context)
         val cellForCharacter = layoutInflater.inflate(R.layout.character_view, parent, false)
         return CustomViewHolder(cellForCharacter)
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        val charName = charList.characters.get(position).name
+        val charName = charList.characters[position].name
         val imgPath = renamePathHttps(charList.characters[position].thumbnail.path)
 
         val imgExt = charList.characters[position].thumbnail.extension
         val imgComplete = "$imgPath.$imgExt"
         Log.d("ImagePath: " , imgComplete)
         Picasso.get().load("$imgComplete").placeholder(R.mipmap.marvel_logo_small).into(holder.view.imageView);
-        holder?.view?.textView_characterName?.text = charName.toString()
+        holder.view.textView_characterName.text = charName.toString()
     }
 
     private fun renamePathHttps(path: String): String {
