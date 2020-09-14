@@ -35,9 +35,21 @@ class CharacterListAdapter : RecyclerView.Adapter<CustomViewHolder>() {
 
         if (charList.characters[position].favorite == true){
             holder?.view.favBtn.setImageResource(android.R.drawable.btn_star_big_on)
-        } else{
+        }else{
             holder?.view.favBtn.setImageResource(android.R.drawable.btn_star_big_off)
         }
+
+        holder?.view.favBtn.setOnClickListener(){
+            if (charList.characters[position].favorite == false){
+                holder?.view.favBtn.setImageResource(android.R.drawable.btn_star_big_off)
+                charList.characters[position].favorite = true
+            }else{
+                holder?.view.favBtn.setImageResource(android.R.drawable.btn_star_big_on)
+                charList.characters[position].favorite = false
+            }
+        }
+
+
 
         holder?.character = charList.characters[position]
     }

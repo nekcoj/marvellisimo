@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_comic_list.view.*
+import kotlinx.android.synthetic.main.character_view.view.*
 import java.util.*
 
 open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable {
@@ -89,6 +90,24 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
         Picasso.get().load("$imgComplete").placeholder(R.mipmap.marvel_logo_small).into(holder.view.comic_list_cover_image);
         holder.view.comic_list_item_title.text = comicTitle
         holder?.comic = comicFilterList[position]
+
+        if (comicFilterList[position].favorite == true){
+            holder?.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
+        }else{
+            holder?.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
+        }
+
+        holder?.view.comicFavIcon.setOnClickListener(){
+            if (comicFilterList[position].favorite == false){
+                holder?.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
+                comicFilterList[position].favorite = true
+
+            }else{
+                holder?.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
+                comicFilterList[position].favorite = false
+
+            }
+        }
 
     }
 
