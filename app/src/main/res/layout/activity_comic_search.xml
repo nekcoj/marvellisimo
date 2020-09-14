@@ -4,50 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     tools:context=".ComicListActivity">
 
-    <EditText
-        android:id="@+id/search_comics"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="@string/search"
-        android:inputType="textPersonName"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+
+    <SearchView
+        android:id="@+id/searchView_comics"
+        android:layout_width="0dp"
+        android:layout_height="75dp"
+        android:background="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:autofillHints="" />
-
-    <ImageView
-        android:id="@+id/search_mag_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:contentDescription="@string/search_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/search_comics"
-        app:layout_constraintStart_toEndOf="@+id/search_comics"
-        app:layout_constraintTop_toTopOf="@+id/search_comics"
-        app:srcCompat="@android:drawable/ic_menu_search" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ScrollView
         android:id="@+id/sv_comics_search"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_comics"
+        app:layout_constraintTop_toBottomOf="@+id/searchView_comics"
         app:layout_constraintVertical_bias="0.0">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_comics"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@android:color/black">
 
         </androidx.recyclerview.widget.RecyclerView>
     </ScrollView>

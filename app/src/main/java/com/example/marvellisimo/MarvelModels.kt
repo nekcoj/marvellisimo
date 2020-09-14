@@ -1,6 +1,7 @@
 package com.example.marvellisimo
 
 import android.media.Image
+import java.io.Serializable
 
 class MarvelModels {
 }
@@ -22,7 +23,7 @@ data class CharacterDataContainer(
     val results: Array<Character> //, optional): The list of characters returned by the call.
 )
 
-data class Character(
+data class Character  (
     /*val modified: Date, //, optional): The date the resource was most recently modified.,
     val resourceURI: string, //, optional): The canonical URL identifier for this resource.,
     val urls: Array, //[Url], optional): A set of public web site URLs for the resource.,
@@ -33,8 +34,11 @@ data class Character(
     val thumbnail: ImageDTO, //, optional): The representative image for this character.,
     val id: Int, //, optional): The unique ID of the character resource.,
     val name: String, //, optional): The name of the character.,
-    val description: String //, optional): A short bio or description of the character.,
-)
+    val description: String, //, optional): A short bio or description of the character.,
+    val urls: Array<Url>
+) : Serializable
+
+
 
 data class ComicDataWrapper (
     val data: ComicDataContainer //(ComicDataContainer, optional): The results returned by the call.,
@@ -58,7 +62,8 @@ data class Comic (
     val thumbnail: ImageDTO, //(Image, optional): The representative image for this comic.,
     val title: String, //(string, optional): The canonical title of the comic.,
     val description: String, //(string, optional): The preferred description of the comic.,
-    val id: Int //(int, optional): The unique ID of the comic resource.,
+    val id: Int, //(int, optional): The unique ID of the comic resource.,
+    val urls: Array<Url>//(Array[Url], optional): A set of public web site URLs for the resource.,
     /*
     digitalId (int, optional): The ID of the digital comic representation of this comic. Will be 0 if the comic is not available digitally.,
     issueNumber (double, optional): The number of the issue in the series (will generally be 0 for collection formats).,
@@ -73,7 +78,6 @@ data class Comic (
     pageCount (int, optional): The number of story pages in the comic.,
     textObjects (Array[TextObject], optional): A set of descriptive text blurbs for the comic.,
     resourceURI (string, optional): The canonical URL identifier for this resource.,
-    urls (Array[Url], optional): A set of public web site URLs for the resource.,
     series (SeriesSummary, optional): A summary representation of the series to which this comic belongs.,
     variants (Array[ComicSummary], optional): A list of variant issues for this comic (includes the "original" issue if the current issue is a variant).,
     collections (Array[ComicSummary], optional): A list of collections which include this comic (will generally be empty if the comic's format is a collection).,
@@ -85,9 +89,15 @@ data class Comic (
     characters (CharacterList, optional): A resource list containing the characters which appear in this comic.,
     stories (StoryList, optional): A resource list containing the stories which appear in this comic.,
     events (EventList, optional): A resource list containing the events in which this comic appears.*/
-)
+) : Serializable
 
 data class ImageDTO (
     val path: String,
     val extension: String
-)
+) : Serializable
+
+data class Url (
+    val type: String,
+    val url: String
+) : Serializable
+

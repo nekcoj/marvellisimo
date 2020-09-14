@@ -9,6 +9,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Query
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -75,7 +76,7 @@ object MarvelRetrofit {
     }
 
     @SuppressLint("CheckResult")
-    open fun getAllComics() {
+    fun getAllComics() {
         marvelService.getAllComics(limit = Limit.comics, offset = Offset.comics)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
@@ -93,7 +94,7 @@ object MarvelRetrofit {
     }
 
     @SuppressLint("CheckResult")
-    open fun getAllCharacters(){
+    fun getAllCharacters(){
         marvelService.getAllCharacters(limit = 30, offset = 0)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
@@ -102,10 +103,12 @@ object MarvelRetrofit {
                 else {
                     result.data.results.forEach { character ->
                         if(!charList.characters.contains(character)) {
-                            charList.characters?.add(character)
+                            charList.characters.add(character)
                         }
                         Log.d("__", "characters list size :" + charList.characters?.size.toString())
-                        Log.d("__", character.name.toString())
+                        Log.d("__", character.name + "URL NUMBER -->"+character.urls[0].url.toString())
+
+
                     }
                 }
             }
