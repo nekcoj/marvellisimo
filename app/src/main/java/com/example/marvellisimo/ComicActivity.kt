@@ -24,7 +24,7 @@ class ComicActivity: AppCompatActivity() {
 
         Picasso.get().load(CharacterListAdapter.renamePathHttps(selectedComic?.thumbnail?.path.toString()) + "." + selectedComic?.thumbnail?.extension).into(comicbook_cover_comic_page)
         comic_info_comic_page.text = selectedComic?.title.toString()
-        comic_description_comic_page.text = selectedComic?.description.toString()
+        comic_description_comic_page.text = if (!selectedComic?.description.toString().equals("null")) selectedComic?.description.toString() else "No description available"
 //        comic_description_comic_page.text = selectedComic?,
 //        link.movementMethod = LinkMovementMethod.getInstance()
 //        val text = "<a color:#e62429; href='${selectedCharacter?.urls?.get(0)?.url}'> Want to know more ? </a>"
