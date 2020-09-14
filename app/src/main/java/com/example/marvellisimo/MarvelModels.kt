@@ -1,5 +1,8 @@
 package com.example.marvellisimo
 
+import android.media.Image
+import java.io.Serializable
+
 class MarvelModels {
 }
 data class CharacterDataWrapper(
@@ -20,7 +23,7 @@ data class CharacterDataContainer(
     val results: Array<Character> //, optional): The list of characters returned by the call.
 )
 
-data class Character(
+data class Character  (
     /*val modified: Date, //, optional): The date the resource was most recently modified.,
     val resourceURI: string, //, optional): The canonical URL identifier for this resource.,
     val urls: Array, //[Url], optional): A set of public web site URLs for the resource.,
@@ -31,8 +34,11 @@ data class Character(
     val thumbnail: ImageDTO, //, optional): The representative image for this character.,
     val id: Int, //, optional): The unique ID of the character resource.,
     val name: String, //, optional): The name of the character.,
-    val description: String //, optional): A short bio or description of the character.,
-)
+    val description: String, //, optional): A short bio or description of the character.,
+    val urls: Array<Url>
+) : Serializable
+
+
 
 data class ComicDataWrapper (
     val data: ComicDataContainer //(ComicDataContainer, optional): The results returned by the call.,
@@ -83,14 +89,15 @@ data class Comic (
     characters (CharacterList, optional): A resource list containing the characters which appear in this comic.,
     stories (StoryList, optional): A resource list containing the stories which appear in this comic.,
     events (EventList, optional): A resource list containing the events in which this comic appears.*/
-)
+) : Serializable
 
 data class ImageDTO (
     val path: String,
     val extension: String
-)
+) : Serializable
 
 data class Url (
     val type: String,
     val url: String
-)
+) : Serializable
+

@@ -105,8 +105,10 @@ object MarvelRetrofit {
                         if(!charList.characters.contains(character)) {
                             charList.characters.add(character)
                         }
-                        Log.d("__", "characters list size :" + charList.characters.size.toString())
-                        Log.d("__", character.name.toString())
+                        Log.d("__", "characters list size :" + charList.characters?.size.toString())
+                        Log.d("__", character.name + "URL NUMBER -->"+character.urls[0].url.toString())
+
+
                     }
                 }
             }
