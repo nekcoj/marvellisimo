@@ -35,7 +35,8 @@ data class Character  (
     val id: Int, //, optional): The unique ID of the character resource.,
     val name: String, //, optional): The name of the character.,
     val description: String, //, optional): A short bio or description of the character.,
-    val urls: Array<Url>
+    val urls: Array<Url>,
+    var favorite : Boolean? = true
 ) : Serializable
 
 

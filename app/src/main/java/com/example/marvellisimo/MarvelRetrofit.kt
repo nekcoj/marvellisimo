@@ -102,6 +102,9 @@ object MarvelRetrofit {
                 if (err?.message != null) Log.d("__", "Error getAllCharacters " + err.message)
                 else {
                     result.data.results.forEach { character ->
+                        if (character.id == 1010755 ){
+                            character.favorite = true
+                        }
                         if(!charList.characters.contains(character)) {
                             charList.characters.add(character)
                         }

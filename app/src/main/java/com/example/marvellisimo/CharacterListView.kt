@@ -21,6 +21,7 @@ class CharacterListView : AppCompatActivity(){
         characterList_recyclerView.layoutManager = LinearLayoutManager(this)
         characterList_recyclerView.adapter = CharacterListAdapter()
 
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

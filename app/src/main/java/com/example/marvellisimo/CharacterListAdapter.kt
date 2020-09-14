@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.marvellisimo.character.CharacterView
 import com.squareup.picasso.Picasso
@@ -30,6 +31,13 @@ class CharacterListAdapter : RecyclerView.Adapter<CustomViewHolder>() {
         val imgComplete = "$imgPath.$imgExt"
         Picasso.get().load("$imgComplete").placeholder(R.mipmap.marvel_logo_small).into(holder.view.imageView);
         holder?.view?.textView_characterName?.text = charName
+
+
+        if (charList.characters[position].favorite == true){
+            holder?.view.favBtn.setImageResource(android.R.drawable.btn_star_big_on)
+        } else{
+            holder?.view.favBtn.setImageResource(android.R.drawable.btn_star_big_off)
+        }
 
         holder?.character = charList.characters[position]
     }
