@@ -101,7 +101,8 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
             if (comicFilterList[position].favorite == false){
                 holder?.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
                 comicFilterList[position].favorite = true
-
+                MainActivity.saveFavorite(comicFilterList[position].id)
+                Log.d("_","ID TO FAV ------>>>>> ${comicFilterList[position].id}")
             }else{
                 holder?.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
                 comicFilterList[position].favorite = false

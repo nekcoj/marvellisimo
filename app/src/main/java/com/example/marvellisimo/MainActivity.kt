@@ -24,9 +24,10 @@ object Offset{
     var comics: Int = 0
 }
 
+var realm: Realm? = null
+
 class MainActivity : AppCompatActivity() {
     private var runOnce: Boolean = false
-    var realm: Realm? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -120,6 +121,20 @@ class MainActivity : AppCompatActivity() {
                         thumbnail = ThumbnailDTO(comic.thumbnail.path, comic.thumbnail.extension)
                         urls = UrlDTO(comic.urls[0].type, comic.urls[0].url)
                     })
+                }
+            }
+        }
+    }
+    companion object{
+        fun saveFavorite(comicId: Int){
+            realm = Realm.getDefaultInstance()
+            realm.use { r ->
+                r?.executeTransaction { realm ->
+                    realm.insertOrUpdate(FavouriteComic().apply {
+                        id = comicId
+                    })
+//                val query = realm.where<FavouriteComic>()
+//                query.equalTo("id", comicId)
                 }
             }
         }

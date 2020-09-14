@@ -30,3 +30,8 @@ open class ThumbnailDTO() : RealmObject(){
     var path: String? = null
     var extension: String? = null
 }
+
+open class FavouriteComic: RealmObject() {
+    @PrimaryKey
+    var id: Int? = null
+}
