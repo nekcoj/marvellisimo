@@ -19,6 +19,11 @@ import java.util.*
 open class CharacterListAdapter : RecyclerView.Adapter<CharacterViewHolder>(), Filterable {
     var characterFilterList = mutableListOf<Character>()
     init {
+        if (FavoriteMode.isOn){
+            for (id in MainActivity.getFavoriteList()){
+                MarvelRetrofit.getAllFavCharacter(id)
+            }
+        }
         characterFilterList = charList.characters
     }
 
@@ -52,6 +57,7 @@ open class CharacterListAdapter : RecyclerView.Adapter<CharacterViewHolder>(), F
                                 else {
                                     Log.d("___", "I got a CharacterDataWrapper $result")
                                     result.data.results.forEach { character ->
+
                                         if (!resultList.contains(character)) {
                                             resultList.add(character)
                                             charList.characters.add(character)
@@ -115,7 +121,6 @@ open class CharacterListAdapter : RecyclerView.Adapter<CharacterViewHolder>(), F
 
         holder?.character = characterFilterList[position]
     }
-
     companion object{
         fun renamePathHttps(path: String): String {
             return path.replace("http", "https")

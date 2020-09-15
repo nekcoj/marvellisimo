@@ -22,7 +22,10 @@ object charList{
 object Limit{
     var comics: Int = 10
     var character: Int = 10
+}
 
+object FavoriteMode{
+    var isOn = false
 }
 
 object Offset{
@@ -61,6 +64,10 @@ class MainActivity : AppCompatActivity() {
         text_series.setOnClickListener {
             val intent = Intent(this, ComicListActivity::class.java)
             startActivity(intent)
+        }
+        getCharWitId.setOnClickListener(){
+            MarvelRetrofit.getAllFavCharacter(1009368)
+            Log.d("char","LOGGGGGGGGGGG")
         }
     }
 

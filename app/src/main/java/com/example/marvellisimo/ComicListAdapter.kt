@@ -19,7 +19,12 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
     var comicFilterList = mutableListOf<Comic>()
 
     init {
-        comicFilterList = ComicList.comics
+        if (FavoriteMode.isOn){
+
+//            comicFilterList =
+        }else{
+            comicFilterList = ComicList.comics
+        }
     }
     override fun getItemCount(): Int {
         return comicFilterList.size

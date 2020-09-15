@@ -2,6 +2,7 @@ package com.example.marvellisimo
 
 import io.reactivex.Single
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MarvelService {
@@ -22,4 +23,9 @@ interface MarvelService {
         @Query("limit") limit: Int? = null,
         @Query("offset") offset: Int? = null
     ): Single<ComicDataWrapper>
+
+    @GET("characters/{characterId}")
+    fun getCharacter(
+        @Path("characterId") characterId: Int? = null
+    ): Single<CharacterDataWrapper>
 }

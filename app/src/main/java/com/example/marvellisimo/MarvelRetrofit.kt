@@ -2,6 +2,7 @@ package com.example.marvellisimo
 
 import android.annotation.SuppressLint
 import android.util.Log
+import com.example.marvellisimo.MarvelRetrofit.marvelService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
@@ -81,9 +82,8 @@ object MarvelRetrofit {
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result, err ->
-                if (err?.message != null) Log.d("__", "Error getAllCharacters " + err.message)
+                if (err?.message != null) Log.d("__", "Error getAllComics " + err.message)
                 else {
-                    Log.d("___", "I got a CharacterDataWrapper $result")
                     result.data.results.forEach { comic ->
                         if(!ComicList.comics.contains(comic)){
                             ComicList.comics.add(comic)
@@ -92,6 +92,22 @@ object MarvelRetrofit {
                 }
             }
     }
+
+    @SuppressLint("CheckResult")
+    fun getAllFavCharacter( id : Int) {
+        marvelService.getCharacter(id)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { result, err ->
+                if (err?.message != null) Log.d("__", "Error getAllComics " + err.message)
+                else {
+
+                   Log.d("CHAR","${result.data.results[0].name}")
+                    }
+                }
+            }
+
+
 
 
     @SuppressLint("CheckResult")
@@ -107,14 +123,11 @@ object MarvelRetrofit {
                             charList.characters.add(character)
                         }
 
-
-
                     }
                 }
             }
     }
 }
-
 object ComicList {
     var comics: MutableList<Comic> = mutableListOf()
 }
