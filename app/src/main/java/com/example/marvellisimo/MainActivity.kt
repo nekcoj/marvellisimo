@@ -53,11 +53,6 @@ class MainActivity : AppCompatActivity() {
                     super.onAvailable(network)
                     button_check_connection.setText("Connected to Network")
                 }
-
-                override fun onLost(network: Network) {
-                    super.onLost(network)
-                    Toast.makeText()
-                }
             })
         }
 
