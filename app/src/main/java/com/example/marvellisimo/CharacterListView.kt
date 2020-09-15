@@ -11,16 +11,24 @@ class CharacterListView : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.character_list_view)
-
+        val adapter = CharacterListAdapter()
+        characterList_recyclerView.adapter = adapter
+        characterList_recyclerView.layoutManager = LinearLayoutManager(this)
         actionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.title = "Characters"
         supportActionBar?.setDisplayShowHomeEnabled(true);
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
         supportActionBar?.setDisplayUseLogoEnabled(true);
+        searchView_characters.setOnQueryTextListener(object: android.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
 
-//            Log.d("__","LOG FROM MAIN LOG")
-        characterList_recyclerView.layoutManager = LinearLayoutManager(this)
-        characterList_recyclerView.adapter = CharacterListAdapter()
-
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter.filter(newText)
+                return false
+            }
+        })
 
     }
 

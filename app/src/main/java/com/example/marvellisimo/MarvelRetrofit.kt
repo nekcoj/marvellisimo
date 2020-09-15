@@ -96,7 +96,7 @@ object MarvelRetrofit {
 
     @SuppressLint("CheckResult")
     fun getAllCharacters(){
-        marvelService.getAllCharacters(limit = 30, offset = 0)
+        marvelService.getAllCharacters(limit = Limit.character, offset = 0)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result, err ->
@@ -106,8 +106,7 @@ object MarvelRetrofit {
                         if(!charList.characters.contains(character)) {
                             charList.characters.add(character)
                         }
-                        Log.d("__", "characters list size :" + charList.characters?.size.toString())
-                        Log.d("__", character.name + "URL NUMBER -->"+character.urls[0].url.toString())
+
 
 
                     }

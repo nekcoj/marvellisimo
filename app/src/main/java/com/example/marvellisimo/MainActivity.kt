@@ -21,6 +21,8 @@ object charList{
 
 object Limit{
     var comics: Int = 10
+    var character: Int = 10
+
 }
 
 object Offset{
