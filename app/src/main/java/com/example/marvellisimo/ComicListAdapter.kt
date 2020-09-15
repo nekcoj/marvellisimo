@@ -9,12 +9,10 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import com.example.marvellisimo.character.CharacterView
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_comic_list.view.*
-import kotlinx.android.synthetic.main.character_view.view.*
 import java.util.*
 
 open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable {
@@ -72,7 +70,6 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
                 notifyDataSetChanged()
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicViewHolder {
@@ -86,10 +83,10 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
         val imgPath = renamePathHttps(comicFilterList[position].thumbnail.path)
         val imgExt = comicFilterList[position].thumbnail.extension
         val imgComplete = "$imgPath.$imgExt"
-        Log.d("ImagePath: ", imgComplete)
         Picasso.get().load("$imgComplete").placeholder(R.mipmap.marvel_logo_small).into(holder.view.comic_list_cover_image);
         holder.view.comic_list_item_title.text = comicTitle
         holder?.comic = comicFilterList[position]
+        comicFilterList[position].favorite = MainActivity.getFavoriteList().contains(comicFilterList[position].id)
 
         if (comicFilterList[position].favorite == true){
             holder?.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
@@ -98,25 +95,23 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
         }
 
         holder?.view.comicFavIcon.setOnClickListener(){
-            if (comicFilterList[position].favorite == false){
+            var isFav = comicFilterList[position].favorite
+            if (isFav == true){
                 holder?.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
+                MainActivity.removeFromFavorite(comicFilterList[position].id)
+                comicFilterList[position].favorite = false
+            }
+            if (isFav == false){
+                holder?.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
                 comicFilterList[position].favorite = true
                 MainActivity.saveFavorite(comicFilterList[position].id)
-                Log.d("_","ID TO FAV ------>>>>> ${comicFilterList[position].id}")
-            }else{
-                holder?.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
-                comicFilterList[position].favorite = false
-
             }
         }
-
     }
 
     private fun renamePathHttps(path: String): String {
         return path.replace("http", "https")
     }
-
-
 }
 class ComicViewHolder(val view: View, var comic : Comic? = null): RecyclerView.ViewHolder(view){
     companion object{

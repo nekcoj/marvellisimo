@@ -31,7 +31,7 @@ open class ThumbnailDTO() : RealmObject(){
     var extension: String? = null
 }
 
-open class FavouriteComic: RealmObject() {
+open class FavouriteList: RealmObject() {
     @PrimaryKey
     var id: Int? = null
 }

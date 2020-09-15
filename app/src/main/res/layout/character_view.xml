@@ -27,12 +27,12 @@
         android:text="TextView"
         android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/favBtn"
+        app:layout_constraintEnd_toStartOf="@+id/favIcon"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/favBtn"
+        android:id="@+id/favIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"

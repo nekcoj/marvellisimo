@@ -1,14 +1,13 @@
 package com.example.marvellisimo
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.marvellisimo.character.CharacterView
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_comic_list.view.*
 import kotlinx.android.synthetic.main.character_view.view.*
 
 class CharacterListAdapter : RecyclerView.Adapter<CustomViewHolder>() {
@@ -31,21 +30,25 @@ class CharacterListAdapter : RecyclerView.Adapter<CustomViewHolder>() {
         val imgComplete = "$imgPath.$imgExt"
         Picasso.get().load("$imgComplete").placeholder(R.mipmap.marvel_logo_small).into(holder.view.imageView);
         holder?.view?.textView_characterName?.text = charName
-
+        charList.characters[position].favorite = MainActivity.getFavoriteList().contains(charList.characters[position].id)
 
         if (charList.characters[position].favorite == true){
-            holder?.view.favBtn.setImageResource(android.R.drawable.btn_star_big_on)
+            holder?.view.favIcon.setImageResource(android.R.drawable.btn_star_big_on)
         }else{
-            holder?.view.favBtn.setImageResource(android.R.drawable.btn_star_big_off)
+            holder?.view.favIcon.setImageResource(android.R.drawable.btn_star_big_off)
         }
 
-        holder?.view.favBtn.setOnClickListener(){
-            if (charList.characters[position].favorite == false){
-                holder?.view.favBtn.setImageResource(android.R.drawable.btn_star_big_off)
-                charList.characters[position].favorite = true
-            }else{
-                holder?.view.favBtn.setImageResource(android.R.drawable.btn_star_big_on)
+        holder?.view.favIcon.setOnClickListener(){
+            var isFav = charList.characters[position].favorite
+            if (isFav == true){
+                holder?.view.favIcon.setImageResource(android.R.drawable.btn_star_big_off)
+                MainActivity.removeFromFavorite(charList.characters[position].id)
                 charList.characters[position].favorite = false
+            }
+            if (isFav == false){
+                holder?.view.favIcon.setImageResource(android.R.drawable.btn_star_big_on)
+                charList.characters[position].favorite = true
+                MainActivity.saveFavorite(charList.characters[position].id)
             }
         }
 

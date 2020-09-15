@@ -4,12 +4,15 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.marvellisimo.Model.*
 import io.realm.Realm
+import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_homepage.*
+import kotlin.math.log
 
 
 object charList{
@@ -130,14 +133,38 @@ class MainActivity : AppCompatActivity() {
             realm = Realm.getDefaultInstance()
             realm.use { r ->
                 r?.executeTransaction { realm ->
-                    realm.insertOrUpdate(FavouriteComic().apply {
+                    realm.insertOrUpdate(FavouriteList().apply {
                         id = comicId
                     })
-//                val query = realm.where<FavouriteComic>()
-//                query.equalTo("id", comicId)
                 }
             }
         }
+
+        fun removeFromFavorite(id: Int){
+            realm = Realm.getDefaultInstance()
+            realm.use { r ->
+                r?.executeTransaction { realm ->
+                    val query = realm?.where<FavouriteList>()?.equalTo("id", id)?.findAll()
+                    query?.deleteAllFromRealm()
+                }
+            }
+        }
+
+        fun getFavoriteList():MutableList<Int>{
+            var favIdList : MutableList<Int> = mutableListOf()
+            realm = Realm.getDefaultInstance()
+            realm.use { r ->
+                r?.executeTransaction { realm ->
+                    val query = realm.where<FavouriteList>().findAll()
+                    for (q in query){
+                        favIdList.add(q.id!!)
+                    }
+                }
+            }
+            return favIdList
+        }
     }
+
+
 }
 
