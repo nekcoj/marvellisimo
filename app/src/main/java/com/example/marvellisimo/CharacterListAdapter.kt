@@ -19,13 +19,14 @@ import java.util.*
 open class CharacterListAdapter : RecyclerView.Adapter<CharacterViewHolder>(), Filterable {
     var characterFilterList = mutableListOf<Character>()
     init {
-        if (FavoriteMode.isOn){
-            for (id in MainActivity.getFavoriteList()){
-                MarvelRetrofit.getAllFavCharacter(id)
-            }
+        characterFilterList = if (FavoriteMode.isOn){
+            charList.getAllFavChar(charList.characters)
+        }else{
+            charList.characters
         }
-        characterFilterList = charList.characters
+
     }
+
 
     override fun getItemCount(): Int {
         return characterFilterList.size
@@ -45,27 +46,28 @@ open class CharacterListAdapter : RecyclerView.Adapter<CharacterViewHolder>(), F
                             resultList.add(character)
                         }
                     }
-                    if (resultList.isNotEmpty()) {
+                    if(resultList.size > 3) {
                         resultList
-                    } else {
-                        MarvelRetrofit.marvelService.getAllCharacters(nameStartsWith = constraint.toString())
-                            .subscribeOn(Schedulers.newThread())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe { result, err ->
-                                if (err?.message != null) Log.d(
-                                    "__", "Error getAllCharacters " + err.message)
-                                else {
-                                    Log.d("___", "I got a CharacterDataWrapper $result")
-                                    result.data.results.forEach { character ->
+                     }
+                    else {
+                            MarvelRetrofit.marvelService.getAllCharacters(nameStartsWith = constraint.toString())
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe { result, err ->
+                                    if (err?.message != null) Log.d(
+                                        "__", "Error getAllCharacters " + err.message)
+                                    else {
+                                        Log.d("___", "I got a CharacterDataWrapper $result")
+                                        result.data.results.forEach { character ->
 
-                                        if (!resultList.contains(character)) {
-                                            resultList.add(character)
-                                            charList.characters.add(character)
+                                            if (!resultList.contains(character)) {
+                                                resultList.add(character)
+                                                charList.characters.add(character)
+                                            }
                                         }
                                     }
                                 }
-                            }
-                        resultList
+                            resultList
                     }
                 }
                 val filterResults = FilterResults()

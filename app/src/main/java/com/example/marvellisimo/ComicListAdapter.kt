@@ -19,11 +19,10 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
     var comicFilterList = mutableListOf<Comic>()
 
     init {
-        if (FavoriteMode.isOn){
-
-//            comicFilterList =
+        comicFilterList = if(FavoriteMode.isOn){
+            ComicList.getFavComics(ComicList.comics)
         }else{
-            comicFilterList = ComicList.comics
+            ComicList.comics
         }
     }
     override fun getItemCount(): Int {
@@ -44,7 +43,7 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
                             resultList.add(comic)
                         }
                     }
-                    if(resultList.isNotEmpty()){
+                    if(resultList.size > 3){
                         resultList
                     } else {
                         MarvelRetrofit.marvelService.getAllComics(titleStartsWith = constraint.toString())

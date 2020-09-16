@@ -12,16 +12,27 @@ import com.example.marvellisimo.Model.*
 import io.realm.Realm
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_homepage.*
-import kotlin.math.log
 
 
 object charList{
     var characters: MutableList<Character> = mutableListOf()
+
+    fun getAllFavChar(characterList: MutableList<Character>):MutableList<Character>{
+        var favChars : MutableList<Character> = mutableListOf()
+        if (characterList.size > 0){
+            for (char in characterList){
+                if (char.favorite == true){
+                    favChars.add(char)
+                }
+            }
+        }
+        return favChars
+    }
 }
 
 object Limit{
-    var comics: Int = 10
-    var character: Int = 10
+    var comics: Int = 100
+    var character: Int = 100
 }
 
 object FavoriteMode{
@@ -46,6 +57,15 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
         supportActionBar?.setDisplayUseLogoEnabled(true);
 
+        if(!runOnce) {
+            for (i in MainActivity.getFavoriteList()) {
+                MarvelRetrofit.getAllFav(i)
+            }
+            MarvelRetrofit.getAllCharacters()
+            MarvelRetrofit.getAllComics()
+            runOnce = true
+        }
+
         image_character.setOnClickListener {
             val intent = Intent(this, CharacterListView::class.java)
             startActivity(intent)
@@ -65,10 +85,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ComicListActivity::class.java)
             startActivity(intent)
         }
-        getCharWitId.setOnClickListener(){
-            MarvelRetrofit.getAllFavCharacter(1009368)
-            Log.d("char","LOGGGGGGGGGGG")
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -78,11 +94,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.Favorite -> Toast.makeText(
-                this,
-                "You clicked Favorite",
-                Toast.LENGTH_SHORT
-            ).show()
+            R.id.Favorite -> {
+                Toast.makeText(this,"You clicked Favorite", Toast.LENGTH_SHORT).show()
+                FavoriteMode.isOn = !FavoriteMode.isOn
+                Log.d("Toggle favMode: ", "${FavoriteMode.isOn}")
+            }
             R.id.Sign_in -> Toast.makeText(this, "You clicked Sign in", Toast.LENGTH_SHORT)
                 .show()
             R.id.Characters -> Toast.makeText(
@@ -109,16 +125,6 @@ class MainActivity : AppCompatActivity() {
                 .show()
         }
         return true
-    }
-
-    @SuppressLint("CheckResult")
-    override fun onStart() {
-        super.onStart()
-        if(!runOnce) {
-            MarvelRetrofit.getAllCharacters()
-            MarvelRetrofit.getAllComics()
-            runOnce = true
-        }
     }
 
     private fun saveData(){
@@ -173,7 +179,5 @@ class MainActivity : AppCompatActivity() {
             return favIdList
         }
     }
-
-
 }
 

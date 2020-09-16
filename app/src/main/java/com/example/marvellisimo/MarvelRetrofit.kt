@@ -78,6 +78,7 @@ object MarvelRetrofit {
 
     @SuppressLint("CheckResult")
     fun getAllComics() {
+
         marvelService.getAllComics(limit = Limit.comics, offset = Offset.comics)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
@@ -94,19 +95,40 @@ object MarvelRetrofit {
     }
 
     @SuppressLint("CheckResult")
-    fun getAllFavCharacter( id : Int) {
+    fun getAllFav(id : Int) {
         marvelService.getCharacter(id)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { result, err ->
+                if (err?.message != null) {
+                    Log.d("__", "Error getAllComics " + err.message)
+                    getAllFavComics(id)
+                }
+                else {
+                    result.data.results.forEach { character ->
+                        if(!charList.characters.contains(character)) {
+                            charList.characters.add(character)
+                        }
+                    }
+                }
+            }
+        }
+    @SuppressLint("CheckResult")
+    fun getAllFavComics(id : Int) {
+        marvelService.getComics(id)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result, err ->
                 if (err?.message != null) Log.d("__", "Error getAllComics " + err.message)
                 else {
-
-                   Log.d("CHAR","${result.data.results[0].name}")
+                    result.data.results.forEach { comic ->
+                        if(!ComicList.comics.contains(comic)){
+                            ComicList.comics.add(comic)
+                        }
                     }
                 }
             }
-
+    }
 
 
 
@@ -130,4 +152,15 @@ object MarvelRetrofit {
 }
 object ComicList {
     var comics: MutableList<Comic> = mutableListOf()
+    fun getFavComics(comicList: MutableList<Comic>): MutableList<Comic>{
+        var comics: MutableList<Comic> = mutableListOf()
+        if (comicList.size > 0){
+            for (comic in comicList){
+                if (comic.favorite == true){
+                    comics.add(comic)
+                }
+            }
+        }
+        return comics
+    }
 }
