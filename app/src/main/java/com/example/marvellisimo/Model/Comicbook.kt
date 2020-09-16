@@ -35,3 +35,13 @@ open class FavouriteList: RealmObject() {
     @PrimaryKey
     var id: Int? = null
 }
+
+open class Character: RealmObject(){
+    @PrimaryKey
+    var id: Int? = null
+    var title: String? = null
+    var description: String? = null
+    var thumbnail: ThumbnailDTO? = null
+    var urls: UrlDTO? = null
+    var favorite : Boolean? = true
+}

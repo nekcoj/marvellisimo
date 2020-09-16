@@ -2,14 +2,16 @@ package com.example.marvellisimo
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_comic_search.*
 
 
-class ComicListActivity: AppCompatActivity() {
+class ComicListActivity: MainActivity() {
 override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_search)
@@ -49,6 +51,11 @@ override fun onCreate(savedInstanceState: Bundle?) {
             android.R.id.home -> {
                     onBackPressed()
                 true
+            }
+            R.id.Favorite -> {
+                FavoriteMode.isOn = !FavoriteMode.isOn
+                rv_comics.adapter = ComicListAdapter()
+                return true
             }
             else -> super.onOptionsItemSelected(item)
         }

@@ -11,7 +11,9 @@ import android.widget.Toast
 import com.example.marvellisimo.Model.*
 import io.realm.Realm
 import io.realm.kotlin.where
+import kotlinx.android.synthetic.main.activity_comic_search.*
 import kotlinx.android.synthetic.main.activity_homepage.*
+import kotlinx.android.synthetic.main.character_list_view.*
 
 
 object charList{
@@ -22,7 +24,9 @@ object charList{
         if (characterList.size > 0){
             for (char in characterList){
                 if (char.favorite == true){
-                    favChars.add(char)
+                    if (!favChars.contains(char)){
+                        favChars.add(char)
+                    }
                 }
             }
         }
@@ -31,8 +35,8 @@ object charList{
 }
 
 object Limit{
-    var comics: Int = 100
-    var character: Int = 100
+    var comics: Int = 40
+    var character: Int = 40
 }
 
 object FavoriteMode{
@@ -45,7 +49,7 @@ object Offset{
 
 var realm: Realm? = null
 
-class MainActivity : AppCompatActivity() {
+open class MainActivity : AppCompatActivity() {
     private var runOnce: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,14 +61,15 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
         supportActionBar?.setDisplayUseLogoEnabled(true);
 
-        if(!runOnce) {
-            for (i in MainActivity.getFavoriteList()) {
-                MarvelRetrofit.getAllFav(i)
-            }
-            MarvelRetrofit.getAllCharacters()
-            MarvelRetrofit.getAllComics()
-            runOnce = true
+        for (i in getFavoriteList()) {
+            MarvelRetrofit.getAllFav(i)
         }
+        MarvelRetrofit.getAllCharacters()
+        MarvelRetrofit.getAllComics()
+        runOnce = true
+        if(!runOnce) {
+        }
+
 
         image_character.setOnClickListener {
             val intent = Intent(this, CharacterListView::class.java)
@@ -77,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         image_comics.setOnClickListener {
-            saveData()
+
             val intent = Intent(this, ComicListActivity::class.java)
             startActivity(intent)
         }
@@ -85,6 +90,12 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ComicListActivity::class.java)
             startActivity(intent)
         }
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+//        saveData()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -95,9 +106,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.Favorite -> {
-                Toast.makeText(this,"You clicked Favorite", Toast.LENGTH_SHORT).show()
                 FavoriteMode.isOn = !FavoriteMode.isOn
-                Log.d("Toggle favMode: ", "${FavoriteMode.isOn}")
+
             }
             R.id.Sign_in -> Toast.makeText(this, "You clicked Sign in", Toast.LENGTH_SHORT)
                 .show()
@@ -128,11 +138,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveData(){
+        saveComics()
+        saveCharacters()
+    }
+
+
+    private fun saveComics() {
         ComicList.comics.forEach {comic ->
             realm = Realm.getDefaultInstance()
             realm.use { r ->
                 r?.executeTransaction { realm ->
-                   realm.insertOrUpdate(Comicbook().apply {
+                    realm.insertOrUpdate(Comicbook().apply {
                         id = comic.id
                         title = comic.title
                         description = comic.description
@@ -143,6 +159,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun saveCharacters(){
+        charList.characters.forEach {character ->
+            realm = Realm.getDefaultInstance()
+            realm.use { r ->
+                r?.executeTransaction { realm ->
+                    realm.insertOrUpdate(Character().apply {
+                        id = character.id
+                        title = character.name
+                        description = character.description
+                        thumbnail = ThumbnailDTO(character.thumbnail.path, character.thumbnail.extension)
+                        urls = UrlDTO(character.urls[0].type, character.urls[0].url)
+                    })
+                }
+            }
+        }
+    }
+
     companion object{
         fun saveFavorite(comicId: Int){
             realm = Realm.getDefaultInstance()
@@ -172,7 +206,9 @@ class MainActivity : AppCompatActivity() {
                 r?.executeTransaction { realm ->
                     val query = realm.where<FavouriteList>().findAll()
                     for (q in query){
-                        favIdList.add(q.id!!)
+                        if (!favIdList.contains(q)){
+                            favIdList.add(q.id!!)
+                        }
                     }
                 }
             }

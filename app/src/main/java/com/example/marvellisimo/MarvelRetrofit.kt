@@ -2,7 +2,6 @@ package com.example.marvellisimo
 
 import android.annotation.SuppressLint
 import android.util.Log
-import com.example.marvellisimo.MarvelRetrofit.marvelService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
@@ -10,7 +9,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Query
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -78,6 +76,7 @@ object MarvelRetrofit {
 
     @SuppressLint("CheckResult")
     fun getAllComics() {
+        Log.d("all", "getAllComics()")
 
         marvelService.getAllComics(limit = Limit.comics, offset = Offset.comics)
             .subscribeOn(Schedulers.newThread())
@@ -96,6 +95,7 @@ object MarvelRetrofit {
 
     @SuppressLint("CheckResult")
     fun getAllFav(id : Int) {
+        Log.d("allComics", "getAllFav()")
         marvelService.getCharacter(id)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
@@ -115,6 +115,7 @@ object MarvelRetrofit {
         }
     @SuppressLint("CheckResult")
     fun getAllFavComics(id : Int) {
+        Log.d("allComics", "getAllFavComics()")
         marvelService.getComics(id)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
@@ -134,6 +135,8 @@ object MarvelRetrofit {
 
     @SuppressLint("CheckResult")
     fun getAllCharacters(){
+        Log.d("all", " getAllCharacters()")
+
         marvelService.getAllCharacters(limit = Limit.character, offset = 0)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
@@ -153,14 +156,16 @@ object MarvelRetrofit {
 object ComicList {
     var comics: MutableList<Comic> = mutableListOf()
     fun getFavComics(comicList: MutableList<Comic>): MutableList<Comic>{
-        var comics: MutableList<Comic> = mutableListOf()
+        var favComics: MutableList<Comic> = mutableListOf()
         if (comicList.size > 0){
             for (comic in comicList){
                 if (comic.favorite == true){
-                    comics.add(comic)
+                    if (!favComics.contains(comic)){
+                        favComics.add(comic)
+                    }
                 }
             }
         }
-        return comics
+        return favComics
     }
 }
