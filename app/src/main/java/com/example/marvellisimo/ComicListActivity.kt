@@ -1,33 +1,26 @@
 package com.example.marvellisimo
 
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_comic_search.*
 
 
 class ComicListActivity: MainActivity() {
-override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_search)
+
         val adapter = ComicListAdapter()
         rv_comics.adapter = adapter
-
-        //Delay in showing comic list, might have something to do with when and how we fetch data from Marvel
-        //If you click Comics on the startpage "too soon" after app has started the comic list will not show until something is clicked on the page.
-
         rv_comics.layoutManager = LinearLayoutManager(this)
 
-        actionBar?.setDisplayHomeAsUpEnabled(true);
+        actionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Comics"
-        supportActionBar?.setDisplayShowHomeEnabled(true);
-        supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
-        supportActionBar?.setDisplayUseLogoEnabled(true);
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setLogo(R.mipmap.marvel_logo_small)
+        supportActionBar?.setDisplayUseLogoEnabled(true)
 
         searchView_comics.setOnQueryTextListener(object: android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
