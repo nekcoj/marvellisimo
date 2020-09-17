@@ -2,6 +2,7 @@ package com.example.marvellisimo
 
 import android.annotation.SuppressLint
 import android.util.Log
+import com.example.marvellisimo.data.Service
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
@@ -11,7 +12,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import kotlin.math.log
 
 object MarvelRetrofit {
     private const val LOG = false
@@ -76,16 +76,16 @@ object MarvelRetrofit {
     }
 
     @SuppressLint("CheckResult")
-    fun getAllComics() {
-        marvelService.getAllComics(limit = Limit.comics, offset = Offset.comics)
+    fun getAllComics(search: String? = null) {
+        marvelService.getAllComics(limit = Service.limit, offset = Service.OffsetComics, titleStartsWith = search?.toLowerCase())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result, err ->
                 if (err?.message != null) Log.d("__", "Error getAllComics " + err.message)
                 else {
                     result.data.results.forEach { comic ->
-                        if(!ComicList.checkId(comic.id)){
-                            ComicList.comics.add(comic)
+                        if(!Service.compareComicId(comic.id)){
+                            Service.comicList.add(comic)
                         }
                     }
                 }
@@ -93,16 +93,16 @@ object MarvelRetrofit {
     }
 
     @SuppressLint("CheckResult")
-    fun getAllCharacters(){
-        marvelService.getAllCharacters(limit = Limit.character, offset = 0)
+    fun getAllCharacters(search : String? = null){
+        marvelService.getAllCharacters(limit = Service.limit, offset = Service.OffsetCharacter, nameStartsWith = search?.toLowerCase())
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result, err ->
                 if (err?.message != null) Log.d("__", "Error getAllCharacters " + err.message)
                 else {
                     result.data.results.forEach { character ->
-                        if(!charList.checkId(character.id)) {
-                            charList.characters.add(character)
+                        if(! Service.compareCharacterId(character.id)) {
+                          Service.characterList.add(character)
                             Log.d("_", "Character name:${character.name} , id: ${character.id} add to list -> getAllCharacter()------- Object ---> ${character}")
 
                         }
@@ -113,7 +113,7 @@ object MarvelRetrofit {
     }
 
     fun getAllFavorite(){
-        for(id in MainActivity.getFavoriteIdList()){
+        for(id in RealmData.getFavoriteIdList()){
             Log.d("_", "Fav id : ${id} will fetch")
             if (!getAllFavComics(id)){
                 getAllFavCharacter(id)
@@ -133,17 +133,15 @@ object MarvelRetrofit {
                 }
                 else {
                     result.data.results.forEach { character ->
-                        charList.characters.forEach{char ->
-                        }
-                        if(!charList.checkId(character.id)) {
-                            charList.characters.add(character)
+                        if(!Service.compareCharacterId(character.id)) {
+                            Service.characterList.add(character)
                         }
                     }
                     fetch = true
                 }
             }
         return fetch
-        }
+    }
 
     @SuppressLint("CheckResult")
     fun getAllFavComics(id : Int): Boolean {
@@ -157,8 +155,8 @@ object MarvelRetrofit {
                 }
                 else {
                     result.data.results.forEach { comic ->
-                        if(!ComicList.checkId(comic.id)){
-                            ComicList.comics.add(comic)
+                        if(!Service.compareComicId(comic.id)){
+                            Service.comicList.add(comic)
                         }
                     }
                    fetch = true
@@ -168,34 +166,6 @@ object MarvelRetrofit {
     }
 
 
-
-
-}
-object ComicList {
-    var comics: MutableList<Comic> = mutableListOf()
-    fun getFavComics(comicList: MutableList<Comic>): MutableList<Comic>{
-        var favComics: MutableList<Comic> = mutableListOf()
-        if (comicList.size > 0){
-            for (comic in comicList){
-                if (comic.favorite == true){
-                    if (!favComics.contains(comic)){
-                        favComics.add(comic)
-                    }
-                }
-            }
-        }
-        return favComics
-    }
-
-    fun checkId(id :Int) : Boolean{
-        var isId :Boolean = false
-        comics.forEach{comic ->
-            if (comic.id == id){
-                isId = true
-            }
-        }
-        return isId
-    }
 
 
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.marvellisimo.data.Service
 import kotlinx.android.synthetic.main.activity_comic_search.*
 
 
@@ -15,7 +16,6 @@ class ComicListActivity: MainActivity() {
         val adapter = ComicListAdapter()
         rv_comics.adapter = adapter
         rv_comics.layoutManager = LinearLayoutManager(this)
-
         actionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Comics"
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -36,6 +36,7 @@ class ComicListActivity: MainActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.app_bar_menu, menu)
+        var favMenuItem: MenuItem? = menu?.findItem(R.id.Favorite)
         return true
     }
 
@@ -46,8 +47,13 @@ class ComicListActivity: MainActivity() {
                 true
             }
             R.id.Favorite -> {
-                FavoriteMode.isOn = !FavoriteMode.isOn
+                Service.FavoriteModeOnComic =!Service.FavoriteModeOnComic
                 rv_comics.adapter = ComicListAdapter()
+                if (Service.FavoriteModeOnComic){
+                    item.setIcon(android.R.drawable.btn_star_big_on)
+                }else{
+                    item.setIcon(android.R.drawable.btn_star_big_off)
+                }
                 return true
             }
             else -> super.onOptionsItemSelected(item)

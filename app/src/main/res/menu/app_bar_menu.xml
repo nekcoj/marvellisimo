@@ -3,11 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-    android:id="@+id/Favorite"
-    android:title="Favorite"
-    android:icon="@drawable/ic_favorite"
+        android:id="@+id/Favorite"
+        android:checkable="true"
+        android:icon="@android:drawable/btn_star_big_off"
+        android:title="Favorite"
         android:tooltipText="Show your favorite"
-    app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/Sign_in"

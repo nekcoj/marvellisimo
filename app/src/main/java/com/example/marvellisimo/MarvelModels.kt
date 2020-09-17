@@ -1,6 +1,7 @@
 package com.example.marvellisimo
 
-import android.media.Image
+
+import io.realm.RealmObject
 import java.io.Serializable
 
 class MarvelModels {
@@ -66,6 +67,7 @@ data class Comic (
     val description: String, //(string, optional): The preferred description of the comic.,
     val id: Int, //(int, optional): The unique ID of the comic resource.,
     val urls: Array<Url>//(Array[Url], optional): A set of public web site URLs for the resource.,
+
     /*
     digitalId (int, optional): The ID of the digital comic representation of this comic. Will be 0 if the comic is not available digitally.,
     issueNumber (double, optional): The number of the issue in the series (will generally be 0 for collection formats).,

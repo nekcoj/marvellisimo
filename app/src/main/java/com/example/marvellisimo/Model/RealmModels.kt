@@ -3,7 +3,8 @@ package com.example.marvellisimo.Model
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
-open class Comicbook: RealmObject() {
+
+open class Comic: RealmObject() {
     @PrimaryKey
     var id: Int? = null
     var title: String? = null
@@ -12,13 +13,13 @@ open class Comicbook: RealmObject() {
     var urls: UrlDTO? = null
 }
 
-
 open class UrlDTO(): RealmObject(){
     constructor(type: String, url: String): this(){
         this.type = type
         this.url = url
     }
     var type: String? = null
+    @PrimaryKey
     var url: String? = null
 }
 
@@ -27,6 +28,7 @@ open class ThumbnailDTO() : RealmObject(){
         this.path = path
         this.extension = extension
 }
+    @PrimaryKey
     var path: String? = null
     var extension: String? = null
 }
@@ -39,7 +41,7 @@ open class FavouriteList: RealmObject() {
 open class Character: RealmObject(){
     @PrimaryKey
     var id: Int? = null
-    var title: String? = null
+    var name: String? = null
     var description: String? = null
     var thumbnail: ThumbnailDTO? = null
     var urls: UrlDTO? = null

@@ -58,7 +58,7 @@
                 android:textColor="#FFFFFF" />
 
             <TextView
-                android:id="@+id/link"
+                android:id="@+id/link_character"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#000000"
@@ -68,6 +68,7 @@
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textColorLink="#e62429"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
         </LinearLayout>

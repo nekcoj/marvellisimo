@@ -1,25 +1,20 @@
 package com.example.marvellisimo
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.character_list_view.*
+import com.example.marvellisimo.data.Service
+import kotlinx.android.synthetic.main.activity_character_list_view.*
 
 class CharacterListView : MainActivity(){
-    companion object{
 
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.character_list_view)
+        setContentView(R.layout.activity_character_list_view)
         val adapter = CharacterListAdapter()
         characterList_recyclerView.adapter = adapter
         characterList_recyclerView.layoutManager = LinearLayoutManager(this)
-
         actionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.title = "Characters"
         supportActionBar?.setDisplayShowHomeEnabled(true);
@@ -36,7 +31,6 @@ class CharacterListView : MainActivity(){
                 return false
             }
         })
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -50,8 +44,13 @@ class CharacterListView : MainActivity(){
                 true
             }
             R.id.Favorite -> {
-                FavoriteMode.isOn = !FavoriteMode.isOn
+                Service.FavoriteModeOnCharacter = !Service.FavoriteModeOnCharacter
                 characterList_recyclerView.adapter = CharacterListAdapter()
+                if (Service.FavoriteModeOnCharacter){
+                    item.setIcon(android.R.drawable.btn_star_big_on)
+                }else{
+                    item.setIcon(android.R.drawable.btn_star_big_off)
+                }
                 return true
             }
 

@@ -2,16 +2,14 @@ package com.example.marvellisimo
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
+import com.example.marvellisimo.data.Service
 import com.squareup.picasso.Picasso
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_comic_list.view.*
 import java.util.*
 
@@ -19,10 +17,10 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
     var comicFilterList = mutableListOf<Comic>()
 
     init {
-        comicFilterList = if(FavoriteMode.isOn){
-            ComicList.getFavComics(ComicList.comics)
+        comicFilterList = if(Service.FavoriteModeOnComic){
+            Service.getAllFavoriteComics(Service.comicList)
         }else{
-            ComicList.comics
+            Service.comicList
         }
     }
     override fun getItemCount(): Int {
@@ -35,10 +33,10 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val comicSearch = constraint.toString()
                 comicFilterList = if(comicSearch.isEmpty()){
-                    ComicList.comics
+                    Service.comicList
                 } else {
                     val resultList = mutableListOf<Comic>()
-                    for(comic in ComicList.comics) {
+                    for(comic in Service.comicList) {
                         if(comic.title.toLowerCase(Locale.ROOT).contains(comicSearch.toLowerCase(Locale.ROOT))){
                             resultList.add(comic)
                         }
@@ -46,21 +44,7 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
                     if(resultList.size > 3){
                         resultList
                     } else {
-                        MarvelRetrofit.marvelService.getAllComics(titleStartsWith = constraint.toString())
-                            .subscribeOn(Schedulers.newThread())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe { result, err ->
-                                if (err?.message != null) Log.d("__", "Error getAllCharacters " + err.message)
-                                else {
-                                    Log.d("___", "I got a CharacterDataWrapper $result")
-                                    result.data.results.forEach { comic ->
-                                        if(!resultList.contains(comic)){
-                                            resultList.add(comic)
-                                            ComicList.comics.add(comic)
-                                        }
-                                    }
-                                }
-                            }
+                        MarvelRetrofit.getAllComics(constraint.toString())
                         resultList
                     }
                 }
@@ -87,28 +71,28 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
         val imgPath = renamePathHttps(comicFilterList[position].thumbnail.path)
         val imgExt = comicFilterList[position].thumbnail.extension
         val imgComplete = "$imgPath.$imgExt"
-        Picasso.get().load("$imgComplete").placeholder(R.mipmap.marvel_logo_small).into(holder.view.comic_list_cover_image);
+        Picasso.get().load(imgComplete).placeholder(R.mipmap.marvel_logo_small).into(holder.view.comic_list_cover_image);
         holder.view.comic_list_item_title.text = comicTitle
-        holder?.comic = comicFilterList[position]
-        comicFilterList[position].favorite = MainActivity.getFavoriteIdList().contains(comicFilterList[position].id)
+        holder.comic = comicFilterList[position]
+        comicFilterList[position].favorite = RealmData.getFavoriteIdList().contains(comicFilterList[position].id)
 
         if (comicFilterList[position].favorite == true){
-            holder?.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
+            holder.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
         }else{
-            holder?.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
+            holder.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
         }
 
-        holder?.view.comicFavIcon.setOnClickListener(){
-            var isFav = comicFilterList[position].favorite
+        holder.view.comicFavIcon.setOnClickListener(){
+            val isFav = comicFilterList[position].favorite
             if (isFav == true){
-                holder?.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
-                MainActivity.removeFromFavorite(comicFilterList[position].id)
+                holder.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
+                RealmData.removeFromFavorite(comicFilterList[position].id)
                 comicFilterList[position].favorite = false
             }
             if (isFav == false){
-                holder?.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
+                holder.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
                 comicFilterList[position].favorite = true
-                MainActivity.saveFavorite(comicFilterList[position].id)
+                RealmData.saveFavorite(comicFilterList[position].id)
             }
         }
     }
