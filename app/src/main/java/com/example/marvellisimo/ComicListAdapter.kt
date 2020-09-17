@@ -68,7 +68,7 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
 
     override fun onBindViewHolder(holder: ComicViewHolder, position: Int) {
         val comicTitle = comicFilterList[position].title
-        val imgPath = renamePathHttps(comicFilterList[position].thumbnail.path)
+        val imgPath = renamePathHttps(comicFilterList[position].thumbnail.path!!)
         val imgExt = comicFilterList[position].thumbnail.extension
         val imgComplete = "$imgPath.$imgExt"
         Picasso.get().load(imgComplete).placeholder(R.mipmap.marvel_logo_small).into(holder.view.comic_list_cover_image);

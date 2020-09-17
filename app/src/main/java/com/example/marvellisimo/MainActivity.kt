@@ -61,7 +61,7 @@ open class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.app_bar_menu, menu)
-        var favMenuItem: MenuItem? = menu?.findItem(R.id.Favorite)
+        val favMenuItem: MenuItem? = menu?.findItem(R.id.Favorite)
         favMenuItem?.isVisible = false
         return true
     }

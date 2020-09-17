@@ -1,8 +1,11 @@
 
+import com.example.marvellisimo.ImageDTO
 import com.example.marvellisimo.Model.Comic
+import com.example.marvellisimo.Model.Character
 import com.example.marvellisimo.Model.FavouriteList
 import com.example.marvellisimo.Model.ThumbnailDTO
 import com.example.marvellisimo.Model.UrlDTO
+import com.example.marvellisimo.Url
 import com.example.marvellisimo.data.Service
 import com.example.marvellisimo.realm
 import io.realm.Realm
@@ -19,8 +22,8 @@ class RealmData {
                             id = comic.id
                             title = comic.title
                             description = comic.description
-                            thumbnail = ThumbnailDTO(comic.thumbnail.path, comic.thumbnail.extension)
-                            urls = UrlDTO(comic.urls[0].type, comic.urls[0].url)
+                            thumbnail = ThumbnailDTO(comic.thumbnail.path!!, comic.thumbnail.extension!!)
+                            urls = UrlDTO(comic.urls?.get(0)?.type, comic.urls?.get(0)?.url)
                         })
                     }
                 }
@@ -32,32 +35,41 @@ class RealmData {
                 realm = Realm.getDefaultInstance()
                 realm.use { r ->
                     r?.executeTransaction { realm ->
-                        realm.insertOrUpdate(com.example.marvellisimo.Model.Character().apply {
+                        realm.insertOrUpdate(Character().apply {
                             id = character.id
                             name = character.name
                             description = character.description
-                            thumbnail = ThumbnailDTO(character.thumbnail.path, character.thumbnail.extension)
-                            urls = UrlDTO(character.urls[0].type, character.urls[0].url)
+                            thumbnail = ThumbnailDTO(character.thumbnail.path!!, character.thumbnail.extension!!)
+                            urls = UrlDTO(character.urls?.get(0)?.type, character.urls?.get(0)?.url)
                         })
                     }
                 }
             }
         }
         fun readDataFromRealm(){
-//            readCharactersFromRealm()
+            readCharactersFromRealm()
 //            readComicsFromRealm()
         }
-//        private fun readCharactersFromRealm(){
-//            realm = Realm.getDefaultInstance()
-//            realm.use { r ->
-//                r?.executeTransaction { realm ->
-//                    val query = realm.where<Character>().findAll()
-//                    for (q in query) {
-//                        Service.characterList.add(q )
-//                    }
-//                }
-//            }
-//        }
+        private fun readCharactersFromRealm(){
+            realm = Realm.getDefaultInstance()
+            realm.use { r ->
+                r?.executeTransaction { realm ->
+                    val query = realm.where<Character>().findAll()
+                    for (q in query) {
+                        val url: Url = Url(q?.urls?.type, q?.urls?.url)
+                        val urls = arrayOf(url)
+                        Service.characterList.add(com.example.marvellisimo.Character(
+                            ImageDTO(q.thumbnail?.path, q.thumbnail?.extension),
+                            q?.id,
+                            q?.name,
+                            q?.description,
+                            urls,
+                            q?.favorite
+                        ))
+                    }
+                }
+            }
+        }
 
 //        private fun readComicsFromRealm() {
 //            realm = Realm.getDefaultInstance()

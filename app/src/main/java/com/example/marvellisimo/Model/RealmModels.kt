@@ -14,7 +14,7 @@ open class Comic: RealmObject() {
 }
 
 open class UrlDTO(): RealmObject(){
-    constructor(type: String, url: String): this(){
+    constructor(type: String?, url: String?): this(){
         this.type = type
         this.url = url
     }

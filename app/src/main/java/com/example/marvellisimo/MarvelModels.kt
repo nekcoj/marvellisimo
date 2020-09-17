@@ -33,10 +33,10 @@ data class Character  (
     val events: EventList, //, optional): A resource list of events in which this character appears.,
     val series: SeriesList, //, optional): A resource list of series in which this character appears.*/
     val thumbnail: ImageDTO, //, optional): The representative image for this character.,
-    val id: Int, //, optional): The unique ID of the character resource.,
-    val name: String, //, optional): The name of the character.,
-    val description: String, //, optional): A short bio or description of the character.,
-    val urls: Array<Url>,
+    val id: Int?, //, optional): The unique ID of the character resource.,
+    val name: String?, //, optional): The name of the character.,
+    val description: String?, //, optional): A short bio or description of the character.,
+    val urls: Array<Url>? = null,
     var favorite : Boolean? = true
 ) : Serializable
 
@@ -66,7 +66,7 @@ data class Comic (
     val title: String, //(string, optional): The canonical title of the comic.,
     val description: String, //(string, optional): The preferred description of the comic.,
     val id: Int, //(int, optional): The unique ID of the comic resource.,
-    val urls: Array<Url>//(Array[Url], optional): A set of public web site URLs for the resource.,
+    val urls: Array<Url>? = null//(Array[Url], optional): A set of public web site URLs for the resource.,
 
     /*
     digitalId (int, optional): The ID of the digital comic representation of this comic. Will be 0 if the comic is not available digitally.,
@@ -96,12 +96,12 @@ data class Comic (
 ) : Serializable
 
 data class ImageDTO (
-    val path: String,
-    val extension: String
+    val path: String?,
+    val extension: String?
 ) : Serializable
 
 data class Url (
-    val type: String,
-    val url: String
+    val type: String?,
+    val url: String?
 ) : Serializable
 

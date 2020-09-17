@@ -101,7 +101,7 @@ object MarvelRetrofit {
                 if (err?.message != null) Log.d("__", "Error getAllCharacters " + err.message)
                 else {
                     result.data.results.forEach { character ->
-                        if(! Service.compareCharacterId(character.id)) {
+                        if(! Service.compareCharacterId(character.id!!)) {
                           Service.characterList.add(character)
                             Log.d("_", "Character name:${character.name} , id: ${character.id} add to list -> getAllCharacter()------- Object ---> ${character}")
 
@@ -133,7 +133,7 @@ object MarvelRetrofit {
                 }
                 else {
                     result.data.results.forEach { character ->
-                        if(!Service.compareCharacterId(character.id)) {
+                        if(!Service.compareCharacterId(character.id!!)) {
                             Service.characterList.add(character)
                         }
                     }

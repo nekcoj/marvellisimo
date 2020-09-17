@@ -39,9 +39,7 @@ open class CharacterListAdapter : RecyclerView.Adapter<CharacterViewHolder>(), F
                 } else {
                     val resultList = mutableListOf<Character>()
                     for (character in  Service.characterList) {
-                        if (character.name.toLowerCase(Locale.ROOT)
-                                .contains(characterSearch.toLowerCase(Locale.ROOT))
-                        ) {
+                        if (character.name?.toLowerCase(Locale.ROOT)?.contains(characterSearch.toLowerCase(Locale.ROOT))!!) {
                             resultList.add(character)
                         }
                     }
@@ -74,7 +72,7 @@ open class CharacterListAdapter : RecyclerView.Adapter<CharacterViewHolder>(), F
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
         val charName = characterFilterList[position].name
-        val imgPath = renamePathHttps(characterFilterList[position].thumbnail.path)
+        val imgPath = renamePathHttps(characterFilterList[position].thumbnail.path!!)
         val imgExt = characterFilterList[position].thumbnail.extension
         val imgComplete = "$imgPath.$imgExt"
         Picasso.get().load(imgComplete).placeholder(R.mipmap.marvel_logo_small)
@@ -92,13 +90,13 @@ open class CharacterListAdapter : RecyclerView.Adapter<CharacterViewHolder>(), F
             val isFav = characterFilterList[position].favorite
             if (isFav == true) {
                 holder.view.favIcon.setImageResource(android.R.drawable.btn_star_big_off)
-                RealmData.removeFromFavorite(characterFilterList[position].id)
+                RealmData.removeFromFavorite(characterFilterList[position].id!!)
                 characterFilterList[position].favorite = false
             }
             if (isFav == false) {
                 holder.view.favIcon.setImageResource(android.R.drawable.btn_star_big_on)
                 characterFilterList[position].favorite = true
-                RealmData.saveFavorite(characterFilterList[position].id)
+                RealmData.saveFavorite(characterFilterList[position].id!!)
             }
         }
 
