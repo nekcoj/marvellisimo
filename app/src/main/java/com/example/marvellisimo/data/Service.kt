@@ -35,9 +35,23 @@ class Service {
             }
             return isIdInList
         }
+        //check to see if object should be added to comic/character list. TRUE = Comic, FALSE = Character
+        fun addToList(id: Int, isComic_Character: Boolean): Boolean{
+            var checked: Boolean
+            if(isComic_Character) {
+                comicList.forEach { comic -> if(comic.id == id)
+                    return true
+                }
+            } else {
+                characterList.forEach { character -> if(character.id == id)
+                    return true
+                }
+            }
+            return false
+        }
 
         fun getAllFavoriteComics(comicList: MutableList<Comic>): MutableList<Comic>{
-            var favoriteComics: MutableList<Comic> = mutableListOf()
+            val favoriteComics: MutableList<Comic> = mutableListOf()
             if (comicList.size > 0){
                 for (comic in comicList){
                     if (comic.favorite == true){
