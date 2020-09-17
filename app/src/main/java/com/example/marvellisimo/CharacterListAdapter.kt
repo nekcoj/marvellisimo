@@ -21,12 +21,12 @@ open class CharacterListAdapter : RecyclerView.Adapter<CharacterViewHolder>(), F
     init {
         characterFilterList = if (FavoriteMode.isOn){
             charList.getAllFavChar(charList.characters)
+
         }else{
             charList.characters
         }
 
     }
-
 
     override fun getItemCount(): Int {
         return characterFilterList.size
@@ -97,7 +97,7 @@ open class CharacterListAdapter : RecyclerView.Adapter<CharacterViewHolder>(), F
         val imgComplete = "$imgPath.$imgExt"
         Picasso.get().load("$imgComplete").placeholder(R.mipmap.marvel_logo_small).into(holder.view.imageView);
         holder?.view?.textView_characterName?.text = charName
-        characterFilterList[position].favorite = MainActivity.getFavoriteList().contains(characterFilterList[position].id)
+        characterFilterList[position].favorite = MainActivity.getFavoriteIdList().contains(characterFilterList[position].id)
 
         if (characterFilterList[position].favorite == true){
             holder?.view.favIcon.setImageResource(android.R.drawable.btn_star_big_on)

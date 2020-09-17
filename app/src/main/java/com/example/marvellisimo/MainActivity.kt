@@ -32,7 +32,18 @@ object charList{
         }
         return favChars
     }
-}
+
+    fun checkId(id:Int): Boolean{
+        var isIdInList : Boolean = false
+        characters.forEach{char ->
+            if (char.id == id){
+                isIdInList = true
+            }
+        }
+        return isIdInList
+        }
+    }
+
 
 object Limit{
     var comics: Int = 40
@@ -61,13 +72,11 @@ open class MainActivity : AppCompatActivity() {
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
         supportActionBar?.setDisplayUseLogoEnabled(true);
 
-        for (i in getFavoriteList()) {
-            MarvelRetrofit.getAllFav(i)
-        }
-        MarvelRetrofit.getAllCharacters()
-        MarvelRetrofit.getAllComics()
-        runOnce = true
         if(!runOnce) {
+            MarvelRetrofit.getAllFavorite()
+            MarvelRetrofit.getAllCharacters()
+            MarvelRetrofit.getAllComics()
+            runOnce = true
         }
 
 
@@ -95,7 +104,7 @@ open class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-//        saveData()
+        saveData()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -133,6 +142,10 @@ open class MainActivity : AppCompatActivity() {
             ).show()
             R.id.Log_Out -> Toast.makeText(this, "You clicked log out", Toast.LENGTH_SHORT)
                 .show()
+            R.id.Save_Offline_Data -> {
+                saveData()
+                Toast.makeText(this, "Data saved for offline mode.", Toast.LENGTH_SHORT).show()
+            }
         }
         return true
     }
@@ -199,7 +212,7 @@ open class MainActivity : AppCompatActivity() {
             }
         }
 
-        fun getFavoriteList():MutableList<Int>{
+        fun getFavoriteIdList():MutableList<Int>{
             var favIdList : MutableList<Int> = mutableListOf()
             realm = Realm.getDefaultInstance()
             realm.use { r ->
@@ -215,5 +228,6 @@ open class MainActivity : AppCompatActivity() {
             return favIdList
         }
     }
+
 }
 

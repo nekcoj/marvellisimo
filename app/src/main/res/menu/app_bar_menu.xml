@@ -46,6 +46,11 @@
         app:showAsAction="withText"/>
 
     <item
+        android:id="@+id/Save_Offline_Data"
+        android:title="Save Offline Data"
+        app:showAsAction="withText" />
+
+    <item
         android:id="@+id/Log_Out"
         android:title="Log out"
         app:showAsAction="withText"/>

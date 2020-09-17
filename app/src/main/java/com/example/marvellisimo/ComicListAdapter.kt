@@ -90,7 +90,7 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
         Picasso.get().load("$imgComplete").placeholder(R.mipmap.marvel_logo_small).into(holder.view.comic_list_cover_image);
         holder.view.comic_list_item_title.text = comicTitle
         holder?.comic = comicFilterList[position]
-        comicFilterList[position].favorite = MainActivity.getFavoriteList().contains(comicFilterList[position].id)
+        comicFilterList[position].favorite = MainActivity.getFavoriteIdList().contains(comicFilterList[position].id)
 
         if (comicFilterList[position].favorite == true){
             holder?.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)

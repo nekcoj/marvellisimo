@@ -11,11 +11,12 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import kotlin.math.log
 
 object MarvelRetrofit {
     private const val LOG = false
-    private const val PUBLIC_KEY = "9e31cec40957c0bc8eaa3c9a3256645c"
-    private const val PRIVATE_KEY = "8b4f888188613f05582276cf4e2bd1a30bca16e0"
+    private const val PUBLIC_KEY = "c270132add73d86a82e678586b4010b6"
+    private const val PRIVATE_KEY = "8b2030d913a6f8f2148b5525c5c644db797b4551"
     private const val BASE_URL = "https://gateway.marvel.com/v1/public/"
 
     val marvelService: MarvelService = Retrofit.Builder()
@@ -76,8 +77,6 @@ object MarvelRetrofit {
 
     @SuppressLint("CheckResult")
     fun getAllComics() {
-        Log.d("all", "getAllComics()")
-
         marvelService.getAllComics(limit = Limit.comics, offset = Offset.comics)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
@@ -85,58 +84,16 @@ object MarvelRetrofit {
                 if (err?.message != null) Log.d("__", "Error getAllComics " + err.message)
                 else {
                     result.data.results.forEach { comic ->
-                        if(!ComicList.comics.contains(comic)){
+                        if(!ComicList.checkId(comic.id)){
                             ComicList.comics.add(comic)
                         }
                     }
                 }
             }
     }
-
-    @SuppressLint("CheckResult")
-    fun getAllFav(id : Int) {
-        Log.d("allComics", "getAllFav()")
-        marvelService.getCharacter(id)
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { result, err ->
-                if (err?.message != null) {
-                    Log.d("__", "Error getAllComics " + err.message)
-                    getAllFavComics(id)
-                }
-                else {
-                    result.data.results.forEach { character ->
-                        if(!charList.characters.contains(character)) {
-                            charList.characters.add(character)
-                        }
-                    }
-                }
-            }
-        }
-    @SuppressLint("CheckResult")
-    fun getAllFavComics(id : Int) {
-        Log.d("allComics", "getAllFavComics()")
-        marvelService.getComics(id)
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { result, err ->
-                if (err?.message != null) Log.d("__", "Error getAllComics " + err.message)
-                else {
-                    result.data.results.forEach { comic ->
-                        if(!ComicList.comics.contains(comic)){
-                            ComicList.comics.add(comic)
-                        }
-                    }
-                }
-            }
-    }
-
-
 
     @SuppressLint("CheckResult")
     fun getAllCharacters(){
-        Log.d("all", " getAllCharacters()")
-
         marvelService.getAllCharacters(limit = Limit.character, offset = 0)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
@@ -144,14 +101,75 @@ object MarvelRetrofit {
                 if (err?.message != null) Log.d("__", "Error getAllCharacters " + err.message)
                 else {
                     result.data.results.forEach { character ->
-                        if(!charList.characters.contains(character)) {
+                        if(!charList.checkId(character.id)) {
                             charList.characters.add(character)
+                            Log.d("_", "Character name:${character.name} , id: ${character.id} add to list -> getAllCharacter()------- Object ---> ${character}")
+
                         }
 
                     }
                 }
             }
     }
+
+    fun getAllFavorite(){
+        for(id in MainActivity.getFavoriteIdList()){
+            Log.d("_", "Fav id : ${id} will fetch")
+            if (!getAllFavComics(id)){
+                getAllFavCharacter(id)
+            }
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    fun getAllFavCharacter(id : Int) : Boolean {
+        var fetch: Boolean = false
+        marvelService.getCharacter(id)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { result, err ->
+                if (err?.message != null) {
+                    Log.d("_", "Error getAllFavCharacters " + err.message)
+                }
+                else {
+                    result.data.results.forEach { character ->
+                        charList.characters.forEach{char ->
+                        }
+                        if(!charList.checkId(character.id)) {
+                            charList.characters.add(character)
+                        }
+                    }
+                    fetch = true
+                }
+            }
+        return fetch
+        }
+
+    @SuppressLint("CheckResult")
+    fun getAllFavComics(id : Int): Boolean {
+    var fetch: Boolean = false
+    marvelService.getComics(id)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { result, err ->
+                if (err?.message != null) {
+                    Log.d("__", "Error getAllFavComics " + err.message)
+                }
+                else {
+                    result.data.results.forEach { comic ->
+                        if(!ComicList.checkId(comic.id)){
+                            ComicList.comics.add(comic)
+                        }
+                    }
+                   fetch = true
+                }
+            }
+        return fetch
+    }
+
+
+
+
 }
 object ComicList {
     var comics: MutableList<Comic> = mutableListOf()
@@ -168,4 +186,16 @@ object ComicList {
         }
         return favComics
     }
+
+    fun checkId(id :Int) : Boolean{
+        var isId :Boolean = false
+        comics.forEach{comic ->
+            if (comic.id == id){
+                isId = true
+            }
+        }
+        return isId
+    }
+
+
 }
