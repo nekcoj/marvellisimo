@@ -22,9 +22,7 @@ class ComicListActivity: MainActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_search)
-
-        val model:ComicListAdapter.ComicViewModel by viewModels()
-
+        
         val adapter = ComicListAdapter()
         rv_comics.adapter = adapter
         rv_comics.layoutManager = LinearLayoutManager(this)
