@@ -1,4 +1,5 @@
 
+import android.util.Log
 import com.example.marvellisimo.ImageDTO
 import com.example.marvellisimo.Model.Comic
 import com.example.marvellisimo.Model.Character
@@ -15,6 +16,7 @@ class RealmData {
     companion object{
         fun saveComics() {
             Service.comicList.forEach { comic ->
+                var checkFav = getFavoriteIdList().contains(comic.id)
                 realm = Realm.getDefaultInstance()
                 realm.use { r ->
                     r?.executeTransaction { realm ->
@@ -24,6 +26,7 @@ class RealmData {
                             description = comic.description
                             thumbnail = ThumbnailDTO(comic.thumbnail.path!!, comic.thumbnail.extension!!)
                             urls = UrlDTO(comic.urls?.get(0)?.type, comic.urls?.get(0)?.url)
+                            favorite = checkFav
                         })
                     }
                 }
@@ -32,6 +35,7 @@ class RealmData {
 
         fun saveCharacters(){
             Service.characterList.forEach { character ->
+                var checkFav = getFavoriteIdList().contains(character.id)
                 realm = Realm.getDefaultInstance()
                 realm.use { r ->
                     r?.executeTransaction { realm ->
@@ -41,6 +45,7 @@ class RealmData {
                             description = character.description
                             thumbnail = ThumbnailDTO(character.thumbnail.path!!, character.thumbnail.extension!!)
                             urls = UrlDTO(character.urls?.get(0)?.type, character.urls?.get(0)?.url)
+                            favorite = checkFav
                         })
                     }
                 }
@@ -48,7 +53,7 @@ class RealmData {
         }
         fun readDataFromRealm(){
             readCharactersFromRealm()
-//            readComicsFromRealm()
+            readComicsFromRealm()
         }
 
         private fun readCharactersFromRealm(){
@@ -72,24 +77,33 @@ class RealmData {
             }
         }
 
-//        private fun readComicsFromRealm() {
-//            realm = Realm.getDefaultInstance()
-//            realm.use { r ->
-//                r?.executeTransaction { realm ->
-//                    val query = realm.where<Comic>().findAll()
-//                    for (q in query) {
-//
-//                    }
-//                }
-//            }
-//        }
+        private fun readComicsFromRealm(){
+            realm = Realm.getDefaultInstance()
+            realm.use { r ->
+                r?.executeTransaction { realm ->
+                    val query = realm.where<Comic>().findAll()
+                    for (comic in query) {
+                        val url: Url = Url(comic?.urls?.type, comic?.urls?.url)
+                        val urls = arrayOf(url)
+                        Service.comicList.add(com.example.marvellisimo.Comic(
+                            comic?.favorite,
+                            ImageDTO(comic.thumbnail?.path, comic.thumbnail?.extension),
+                            comic?.title,
+                            comic?.description,
+                            comic?.id,
+                            urls,
+                        ))
+                    }
+                }
+            }
+        }
 
-        fun saveFavorite(comicId: Int){
+        fun saveFavorite(marvelId: Int){
             realm = Realm.getDefaultInstance()
             realm.use { r ->
                 r?.executeTransaction { realm ->
                     realm.insertOrUpdate(FavouriteList().apply {
-                        id = comicId
+                        id = marvelId
                     })
                 }
             }

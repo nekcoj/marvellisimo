@@ -84,7 +84,8 @@ object MarvelRetrofit {
                 if (err?.message != null) Log.d("__", "Error getAllComics " + err.message)
                 else {
                     result.data.results.forEach { comic ->
-                        if(!Service.compareComicId(comic.id)){
+                        if(!Service.compareComicId(comic.id!!)){
+                            comic.favorite = RealmData.getFavoriteIdList().contains(comic.id)
                             Service.comicList.add(comic)
                         }
                     }
@@ -102,9 +103,8 @@ object MarvelRetrofit {
                 else {
                     result.data.results.forEach { character ->
                         if(! Service.compareCharacterId(character.id!!)) {
-                          Service.characterList.add(character)
-                            Log.d("_", "Character name:${character.name} , id: ${character.id} add to list -> getAllCharacter()------- Object ---> ${character}")
-
+                            character.favorite = RealmData.getFavoriteIdList().contains(character.id)
+                            Service.characterList.add(character)
                         }
 
                     }
@@ -155,7 +155,7 @@ object MarvelRetrofit {
                 }
                 else {
                     result.data.results.forEach { comic ->
-                        if(!Service.compareComicId(comic.id)){
+                        if(!Service.compareComicId(comic.id!!)){
                             Service.comicList.add(comic)
                         }
                     }

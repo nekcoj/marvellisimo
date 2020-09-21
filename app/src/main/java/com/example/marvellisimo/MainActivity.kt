@@ -28,9 +28,9 @@ open class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayUseLogoEnabled(true)
         if(!runOnce) {
             readDataFromRealm()
-            //getAllFavorite()
-            //getAllCharacters()
-            //getAllComics()
+            getAllFavorite()
+            getAllCharacters()
+            getAllComics()
             runOnce = true
         }
         image_character.setOnClickListener {

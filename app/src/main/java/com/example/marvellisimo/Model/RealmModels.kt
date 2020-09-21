@@ -11,6 +11,7 @@ open class Comic: RealmObject() {
     var description: String? = null
     var thumbnail: ThumbnailDTO? = null
     var urls: UrlDTO? = null
+    var favorite : Boolean? = null
 }
 
 open class UrlDTO(): RealmObject(){
@@ -45,5 +46,5 @@ open class Character: RealmObject(){
     var description: String? = null
     var thumbnail: ThumbnailDTO? = null
     var urls: UrlDTO? = null
-    var favorite : Boolean? = true
+    var favorite : Boolean? = null
 }

@@ -1,4 +1,5 @@
 package com.example.marvellisimo.data
+import android.view.MenuItem
 import com.example.marvellisimo.Character
 import com.example.marvellisimo.Comic
 
@@ -74,6 +75,21 @@ class Service {
             return isId
         }
 
+        fun checkIfFavoriteToggled(menu: MenuItem?, comicOrCharacter: String?) {
+            if (comicOrCharacter == "comic"){
+                if (Service.FavoriteModeOnComic) {
+                    menu?.setIcon(android.R.drawable.btn_star_big_on)
+                } else {
+                    menu?.setIcon(android.R.drawable.btn_star_big_off)
+                }
+            } else if(comicOrCharacter == "character") {
+                if (Service.FavoriteModeOnCharacter) {
+                    menu?.setIcon(android.R.drawable.btn_star_big_on)
+                } else {
+                    menu?.setIcon(android.R.drawable.btn_star_big_off)
+                }
+            }
+        }
     }
 }
 

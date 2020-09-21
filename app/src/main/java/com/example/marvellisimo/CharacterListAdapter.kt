@@ -71,14 +71,11 @@ open class CharacterListAdapter : RecyclerView.Adapter<CharacterViewHolder>(), F
     }
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
-        val charName = characterFilterList[position].name
-        val imgPath = renamePathHttps(characterFilterList[position].thumbnail.path!!)
-        val imgExt = characterFilterList[position].thumbnail.extension
-        val imgComplete = "$imgPath.$imgExt"
-        Picasso.get().load(imgComplete).placeholder(R.mipmap.marvel_logo_small)
-            .into(holder.view.imageView);
-        holder.view.textView_characterName?.text = charName
-        characterFilterList[position].favorite = RealmData.getFavoriteIdList().contains(characterFilterList[position].id)
+        val imgComplete = renamePathHttps(characterFilterList[position].thumbnail.path!! +"."+ characterFilterList[position].thumbnail.extension)
+        Picasso.get().load(imgComplete).placeholder(R.mipmap.marvel_logo_small).into(holder.view.imageView);
+        holder.view.textView_characterName?.text = characterFilterList[position].name
+
+        //characterFilterList[position].favorite = RealmData.getFavoriteIdList().contains(characterFilterList[position].id)
 
         if (characterFilterList[position].favorite == true) {
             holder.view.favIcon.setImageResource(android.R.drawable.btn_star_big_on)

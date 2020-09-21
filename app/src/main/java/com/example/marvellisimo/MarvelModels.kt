@@ -63,9 +63,9 @@ data class ComicDataContainer (
 data class Comic (
     var favorite : Boolean? = false,
     val thumbnail: ImageDTO, //(Image, optional): The representative image for this comic.,
-    val title: String, //(string, optional): The canonical title of the comic.,
-    val description: String, //(string, optional): The preferred description of the comic.,
-    val id: Int, //(int, optional): The unique ID of the comic resource.,
+    val title: String?, //(string, optional): The canonical title of the comic.,
+    val description: String?, //(string, optional): The preferred description of the comic.,
+    val id: Int?, //(int, optional): The unique ID of the comic resource.,
     val urls: Array<Url>? = null//(Array[Url], optional): A set of public web site URLs for the resource.,
 
     /*
