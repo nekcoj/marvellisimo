@@ -56,37 +56,21 @@ class RealmData {
             realm.use { r ->
                 r?.executeTransaction { realm ->
                     val query = realm.where<Character>().findAll()
-                    var character : com.example.marvellisimo.Character? = null
-                    for (q in query) {
-                        character?.name = q.name.toString()
-                        character?.id = q.id!!
-                    }
-                    if (character != null) {
-                        Service.characterList.add(character)
+                    for (character in query) {
+                        val url: Url = Url(character?.urls?.type, character?.urls?.url)
+                        val urls = arrayOf(url)
+                        Service.characterList.add(com.example.marvellisimo.Character(
+                            ImageDTO(character.thumbnail?.path, character.thumbnail?.extension),
+                            character?.id,
+                            character?.name,
+                            character?.description,
+                            urls,
+                            character?.favorite
+                        ))
                     }
                 }
             }
         }
-//        private fun readCharactersFromRealm(){
-//            realm = Realm.getDefaultInstance()
-//            realm.use { r ->
-//                r?.executeTransaction { realm ->
-//                    val query = realm.where<Character>().findAll()
-//                    for (q in query) {
-//                        val url: Url = Url(q?.urls?.type, q?.urls?.url)
-//                        val urls = arrayOf(url)
-//                        Service.characterList.add(com.example.marvellisimo.Character(
-//                            ImageDTO(q.thumbnail?.path, q.thumbnail?.extension),
-//                            q?.id,
-//                            q?.name,
-//                            q?.description,
-//                            urls,
-//                            q?.favorite
-//                        ))
-//                    }
-//                }
-//            }
-//        }
 
 //        private fun readComicsFromRealm() {
 //            realm = Realm.getDefaultInstance()
