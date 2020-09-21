@@ -1,3 +1,4 @@
+package com.example.marvellisimo.data
 
 import android.util.Log
 import com.example.marvellisimo.ImageDTO
@@ -7,7 +8,6 @@ import com.example.marvellisimo.Model.FavouriteList
 import com.example.marvellisimo.Model.ThumbnailDTO
 import com.example.marvellisimo.Model.UrlDTO
 import com.example.marvellisimo.Url
-import com.example.marvellisimo.data.Service
 import com.example.marvellisimo.realm
 import io.realm.Realm
 import io.realm.kotlin.where
@@ -24,11 +24,31 @@ class RealmData {
                             id = comic.id
                             title = comic.title
                             description = comic.description
-                            thumbnail = ThumbnailDTO(comic.thumbnail.path!!, comic.thumbnail.extension!!)
-                            urls = UrlDTO(comic.urls?.get(0)?.type, comic.urls?.get(0)?.url)
+                            thumbnail = ThumbnailDTO(comic.thumbnail?.path, comic.thumbnail?.extension)
+                            urls = UrlDTO(comic.urls?.type, comic.urls?.url)
                             favorite = checkFav
                         })
                     }
+                }
+            }
+        }
+
+        fun saveComic(comic: Comic) {
+            var checkFav = getFavoriteIdList().contains(comic.id)
+            var thumbnailNewComic = ThumbnailDTO(comic.thumbnail?.path, comic.thumbnail?.extension)
+            var urlNewComic = UrlDTO(comic.urls?.type, comic.urls?.url)
+            Log.d("__saveComic", "${comic.id}: ${comic.title}")
+            realm = Realm.getDefaultInstance()
+            realm.use {
+                it?.executeTransaction { r ->
+                    r.insertOrUpdate(Comic().apply {
+                        id = comic.id
+                        title = comic.title
+                        description = comic.description
+                        thumbnail = thumbnailNewComic
+                        urls = urlNewComic
+                        favorite = checkFav
+                    })
                 }
             }
         }
@@ -83,15 +103,13 @@ class RealmData {
                 r?.executeTransaction { realm ->
                     val query = realm.where<Comic>().findAll()
                     for (comic in query) {
-                        val url: Url = Url(comic?.urls?.type, comic?.urls?.url)
-                        val urls = arrayOf(url)
-                        Service.comicList.add(com.example.marvellisimo.Comic(
-                            comic?.favorite,
-                            ImageDTO(comic.thumbnail?.path, comic.thumbnail?.extension),
+                        Service.comicList.add(Comic(
+                            comic?.id,
                             comic?.title,
                             comic?.description,
-                            comic?.id,
-                            urls,
+                            ThumbnailDTO(comic.thumbnail?.path, comic.thumbnail?.extension),
+                            UrlDTO(comic.urls?.type, comic.urls?.url),
+                            comic?.favorite
                         ))
                     }
                 }

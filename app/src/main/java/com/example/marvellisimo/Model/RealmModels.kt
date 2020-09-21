@@ -2,17 +2,17 @@ package com.example.marvellisimo.Model
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import java.io.Serializable
 
-
-open class Comic: RealmObject() {
+open class Comic(
     @PrimaryKey
-    var id: Int? = null
-    var title: String? = null
-    var description: String? = null
-    var thumbnail: ThumbnailDTO? = null
-    var urls: UrlDTO? = null
+    var id: Int? = null,
+    var title: String? = null,
+    var description: String? = null,
+    var thumbnail: ThumbnailDTO? = null,
+    var urls: UrlDTO? = null,
     var favorite : Boolean? = null
-}
+): RealmObject(), Serializable
 
 open class UrlDTO(): RealmObject(){
     constructor(type: String?, url: String?): this(){
@@ -25,7 +25,7 @@ open class UrlDTO(): RealmObject(){
 }
 
 open class ThumbnailDTO() : RealmObject(){
-    constructor(path: String, extension: String) : this() {
+    constructor(path: String?, extension: String?) : this() {
         this.path = path
         this.extension = extension
 }

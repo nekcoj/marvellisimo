@@ -2,6 +2,8 @@ package com.example.marvellisimo
 
 import android.annotation.SuppressLint
 import android.util.Log
+import com.example.marvellisimo.Model.Comic
+import com.example.marvellisimo.data.RealmData
 import com.example.marvellisimo.data.Service
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -86,7 +88,9 @@ object MarvelRetrofit {
                     result.data.results.forEach { comic ->
                         if(!Service.compareComicId(comic.id!!)){
                             comic.favorite = RealmData.getFavoriteIdList().contains(comic.id)
-                            Service.comicList.add(comic)
+                            var comicToAdd: Comic = Service.convertFromMarvelDataToRealmData(comic)
+                            Log.d("__getAllComics", "${comicToAdd.id} : ${comicToAdd.title}")
+                            RealmData.saveComic(comicToAdd)
                         }
                     }
                 }
@@ -156,7 +160,8 @@ object MarvelRetrofit {
                 else {
                     result.data.results.forEach { comic ->
                         if(!Service.compareComicId(comic.id!!)){
-                            Service.comicList.add(comic)
+                            val comicToAdd = Service.convertFromMarvelDataToRealmData(comic)
+                            RealmData.saveComic(comicToAdd)
                         }
                     }
                    fetch = true

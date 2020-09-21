@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
+import com.example.marvellisimo.Model.Comic
+import com.example.marvellisimo.data.RealmData
 import com.example.marvellisimo.data.Service
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_comic_list.view.*
@@ -67,12 +69,12 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
     }
 
     override fun onBindViewHolder(holder: ComicViewHolder, position: Int) {
-        val imgComplete = renamePathHttps(comicFilterList[position].thumbnail.path!! +"."+ comicFilterList[position].thumbnail.extension)
+        val imgComplete = renamePathHttps(comicFilterList[position].thumbnail?.path +"."+ comicFilterList[position].thumbnail?.extension)
         Picasso.get().load(imgComplete).placeholder(R.mipmap.marvel_logo_small).into(holder.view.comic_list_cover_image);
         holder.view.comic_list_item_title.text = comicFilterList[position].title
 
         holder.comic = comicFilterList[position]
-        //comicFilterList[position].favorite = RealmData.getFavoriteIdList().contains(comicFilterList[position].id)
+        //comicFilterList[position].favorite = com.example.marvellisimo.data.RealmData.getFavoriteIdList().contains(comicFilterList[position].id)
 
         if (comicFilterList[position].favorite == true){
             holder.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
@@ -85,13 +87,13 @@ open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable
             /*val isFav = comicFilterList[position].favorite
             if (isFav == true){
                 holder.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
-                RealmData.removeFromFavorite(comicFilterList[position].id!!)
+                com.example.marvellisimo.data.RealmData.removeFromFavorite(comicFilterList[position].id!!)
                 comicFilterList[position].favorite = false
             }
             if (isFav == false){
                 holder.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
                 comicFilterList[position].favorite = true
-                RealmData.saveFavorite(comicFilterList[position].id!!)
+                com.example.marvellisimo.data.RealmData.saveFavorite(comicFilterList[position].id!!)
             }*/
         }
     }

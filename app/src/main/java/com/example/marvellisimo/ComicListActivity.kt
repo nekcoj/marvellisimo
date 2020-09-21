@@ -3,14 +3,13 @@ package com.example.marvellisimo
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.marvellisimo.Model.Comic
 import com.example.marvellisimo.data.Service
 import com.example.marvellisimo.data.Service.Companion.checkIfFavoriteToggled
 import io.realm.Realm
-import io.realm.RealmChangeListener
 import io.realm.RealmResults
+import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_comic_search.*
 
 
@@ -19,10 +18,16 @@ class ComicListActivity: MainActivity() {
         val COMIC = "comic"
     }
 
+    lateinit var realm: Realm
+    var results: RealmResults<Comic>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_search)
-        
+        realm = Realm.getDefaultInstance()
+        results = realm.where<Comic>().findAllAsync()
+
+
         val adapter = ComicListAdapter()
         rv_comics.adapter = adapter
         rv_comics.layoutManager = LinearLayoutManager(this)
@@ -65,6 +70,10 @@ class ComicListActivity: MainActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }
 

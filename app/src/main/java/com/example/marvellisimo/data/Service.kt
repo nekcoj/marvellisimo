@@ -1,7 +1,10 @@
 package com.example.marvellisimo.data
+import android.util.Log
 import android.view.MenuItem
 import com.example.marvellisimo.Character
-import com.example.marvellisimo.Comic
+import com.example.marvellisimo.Model.Comic
+import com.example.marvellisimo.Model.ThumbnailDTO
+import com.example.marvellisimo.Model.UrlDTO
 
 class Service {
 
@@ -11,7 +14,7 @@ class Service {
         var FavoriteModeOnCharacter = false
         var OffsetComics :Int = 0
         var OffsetCharacter :Int = 0
-        var comicList: MutableList<Comic> = mutableListOf()
+        var comicList: MutableList<com.example.marvellisimo.Model.Comic> = mutableListOf()
         var characterList: MutableList<Character> = mutableListOf()
         fun getAllFavoriteCharacters(characterList: MutableList<Character>):MutableList<Character>{
             val favoriteCharacters : MutableList<Character> = mutableListOf()
@@ -77,18 +80,30 @@ class Service {
 
         fun checkIfFavoriteToggled(menu: MenuItem?, comicOrCharacter: String?) {
             if (comicOrCharacter == "comic"){
-                if (Service.FavoriteModeOnComic) {
+                if (FavoriteModeOnComic) {
                     menu?.setIcon(android.R.drawable.btn_star_big_on)
                 } else {
                     menu?.setIcon(android.R.drawable.btn_star_big_off)
                 }
             } else if(comicOrCharacter == "character") {
-                if (Service.FavoriteModeOnCharacter) {
+                if (FavoriteModeOnCharacter) {
                     menu?.setIcon(android.R.drawable.btn_star_big_on)
                 } else {
                     menu?.setIcon(android.R.drawable.btn_star_big_off)
                 }
             }
+        }
+
+        fun convertFromMarvelDataToRealmData(comic: com.example.marvellisimo.Comic): Comic {
+            var comicId = comic.id
+            var comicTitle = comic.title
+            Log.d("__convertFromMtoRData", "$comicId : $comicTitle")
+            val thumbnail = ThumbnailDTO(comic.thumbnail.path.toString(), comic.thumbnail.extension.toString())
+            val urls = UrlDTO(comic.urls?.get(0)?.type.toString(), comic.urls?.get(0)?.url.toString())
+            Log.d("__convertFromMtoRData", "${comic.id}")
+            val newComic: Comic = Comic(comic.id, comic.title.toString(), comic.description.toString(), thumbnail, urls, comic.favorite)
+            Log.d("__newComic", "${newComic.toString()}")
+            return newComic
         }
     }
 }

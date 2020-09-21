@@ -1,6 +1,6 @@
 package com.example.marvellisimo
 
-import RealmData.Companion.readDataFromRealm
+import com.example.marvellisimo.data.RealmData.Companion.readDataFromRealm
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.MarvelRetrofit.getAllCharacters
 import com.example.marvellisimo.MarvelRetrofit.getAllComics
 import com.example.marvellisimo.MarvelRetrofit.getAllFavorite
+import com.example.marvellisimo.data.RealmData
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_homepage.*
 
@@ -56,7 +57,7 @@ open class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        saveData()
+        //saveData()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
