@@ -2,12 +2,10 @@ package com.example.marvellisimo
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.marvellisimo.data.Service
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_register.*
 
@@ -17,6 +15,11 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        actionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.title = "Register"
+        supportActionBar?.setDisplayShowHomeEnabled(true);
+        supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
+        supportActionBar?.setDisplayUseLogoEnabled(true);
 
         register_button.setOnClickListener {
             registerUser()
@@ -35,7 +38,6 @@ class RegisterActivity : AppCompatActivity() {
         favMenuItem?.isVisible = false
         return true
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
@@ -45,6 +47,7 @@ class RegisterActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
     private fun registerUser(){
         val email = register_email.text.toString()
         val password = register_password.text.toString()

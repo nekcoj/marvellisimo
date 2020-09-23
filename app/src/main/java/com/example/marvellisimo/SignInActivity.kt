@@ -15,6 +15,11 @@ class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
+        actionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.title = "Sign in"
+        supportActionBar?.setDisplayShowHomeEnabled(true);
+        supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
+        supportActionBar?.setDisplayUseLogoEnabled(true);
 
 
 
@@ -45,6 +50,7 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
+
     private fun signInUser(){
         val email = sign_in_email.text.toString()
         val password = sign_in_password.text.toString()
@@ -62,7 +68,6 @@ class SignInActivity : AppCompatActivity() {
 
             }
             .addOnFailureListener {
-                Log.d("Register", "Sign in failed")
                 Toast.makeText(this, "Sign in failed. Please enter valid email/password", Toast.LENGTH_SHORT).show()
 
             }
