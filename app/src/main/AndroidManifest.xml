@@ -44,5 +44,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CharacterListView" />
         </activity>
+        <activity android:name=".SignInActivity">
+        </activity>
+        <activity android:name=".RegisterActivity">
+        </activity>
     </application>
 </manifest>
