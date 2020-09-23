@@ -5,4 +5,6 @@
     <string name="comic_info_title">The Rise of Ultraman</string>
     <string name="search">Search...</string>
     <string name="search_icon">Search Icon</string>
+    <string name="search_comics">Search comics...</string>
+    <string name="search_button">Search Button</string>
 </resources>

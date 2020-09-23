@@ -1,9 +1,12 @@
 package com.example.marvellisimo.Model
 
+import android.os.Parcelable
+import io.realm.RealmModel
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
-import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 open class Comic(
     @PrimaryKey
     var id: Int? = null,
@@ -12,27 +15,21 @@ open class Comic(
     var thumbnail: ThumbnailDTO? = null,
     var urls: UrlDTO? = null,
     var favorite : Boolean? = null
-): RealmObject(), Serializable
+): RealmObject(), Parcelable, RealmModel
 
-open class UrlDTO(): RealmObject(){
-    constructor(type: String?, url: String?): this(){
-        this.type = type
-        this.url = url
-    }
-    var type: String? = null
+@Parcelize
+open class UrlDTO(
+    var type: String? = null,
     @PrimaryKey
-    var url: String? = null
-}
+    var url: String? = null,
+): RealmObject(), Parcelable, RealmModel
 
-open class ThumbnailDTO() : RealmObject(){
-    constructor(path: String?, extension: String?) : this() {
-        this.path = path
-        this.extension = extension
-}
+@Parcelize
+open class ThumbnailDTO(
     @PrimaryKey
-    var path: String? = null
+    var path: String? = null,
     var extension: String? = null
-}
+) : RealmObject(), Parcelable, RealmModel
 
 open class FavouriteList: RealmObject() {
     @PrimaryKey

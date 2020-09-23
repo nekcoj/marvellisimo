@@ -1,20 +1,23 @@
 package com.example.marvellisimo.data
-import android.util.Log
+
+import android.annotation.SuppressLint
 import android.view.MenuItem
-import com.example.marvellisimo.Character
+import androidx.recyclerview.widget.RecyclerView
+import com.example.marvellisimo.*
 import com.example.marvellisimo.Model.Comic
 import com.example.marvellisimo.Model.ThumbnailDTO
 import com.example.marvellisimo.Model.UrlDTO
+import io.realm.Realm
+import io.realm.RealmResults
 
 class Service {
 
     companion object{
-        var limit: Int = 20
+        var limit: Int = 100
         var FavoriteModeOnComic = false
         var FavoriteModeOnCharacter = false
         var OffsetComics :Int = 0
         var OffsetCharacter :Int = 0
-        var comicList: MutableList<com.example.marvellisimo.Model.Comic> = mutableListOf()
         var characterList: MutableList<Character> = mutableListOf()
         fun getAllFavoriteCharacters(characterList: MutableList<Character>):MutableList<Character>{
             val favoriteCharacters : MutableList<Character> = mutableListOf()
@@ -39,44 +42,6 @@ class Service {
             }
             return isIdInList
         }
-        //check to see if object should be added to comic/character list. TRUE = Comic, FALSE = Character
-        fun addToList(id: Int, isComic_Character: Boolean): Boolean{
-            var checked: Boolean
-            if(isComic_Character) {
-                comicList.forEach { comic -> if(comic.id == id)
-                    return true
-                }
-            } else {
-                characterList.forEach { character -> if(character.id == id)
-                    return true
-                }
-            }
-            return false
-        }
-
-        fun getAllFavoriteComics(comicList: MutableList<Comic>): MutableList<Comic>{
-            val favoriteComics: MutableList<Comic> = mutableListOf()
-            if (comicList.size > 0){
-                for (comic in comicList){
-                    if (comic.favorite == true){
-                        if (!favoriteComics.contains(comic)){
-                            favoriteComics.add(comic)
-                        }
-                    }
-                }
-            }
-            return favoriteComics
-        }
-
-        fun compareComicId(id :Int) : Boolean{
-            var isId :Boolean = false
-            comicList.forEach{ comic ->
-                if (comic.id == id){
-                    isId = true
-                }
-            }
-            return isId
-        }
 
         fun checkIfFavoriteToggled(menu: MenuItem?, comicOrCharacter: String?) {
             if (comicOrCharacter == "comic"){
@@ -95,15 +60,32 @@ class Service {
         }
 
         fun convertFromMarvelDataToRealmData(comic: com.example.marvellisimo.Comic): Comic {
-            var comicId = comic.id
-            var comicTitle = comic.title
-            Log.d("__convertFromMtoRData", "$comicId : $comicTitle")
             val thumbnail = ThumbnailDTO(comic.thumbnail.path.toString(), comic.thumbnail.extension.toString())
             val urls = UrlDTO(comic.urls?.get(0)?.type.toString(), comic.urls?.get(0)?.url.toString())
-            Log.d("__convertFromMtoRData", "${comic.id}")
             val newComic: Comic = Comic(comic.id, comic.title.toString(), comic.description.toString(), thumbnail, urls, comic.favorite)
-            Log.d("__newComic", "${newComic.toString()}")
             return newComic
+        }
+
+        fun renamePathHttps(path: String): String {
+            return path.replace("http", "https")
+        }
+
+        fun changeFavoriteStatus(id: Int?) {
+            realm = Realm.getDefaultInstance()
+            realm.use { r ->
+                r?.executeTransactionAsync { realm ->
+                    realm.where(Comic::class.java).equalTo("id", id).findFirst()?.apply {
+                        favorite = !favorite!!
+                    }
+                }
+            }
+        }
+
+        @SuppressLint("CheckResult")
+        fun subscribeToRealm(realmResults: RealmResults<Comic>?, rv: RecyclerView){
+            realmResults?.asFlowable()?.subscribe {
+                rv.adapter = ComicListAdapter(it)
+            }
         }
     }
 }
