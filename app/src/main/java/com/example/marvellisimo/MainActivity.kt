@@ -6,10 +6,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.marvellisimo.MarvelRetrofit.getAllCharacters
-import com.example.marvellisimo.MarvelRetrofit.getAllComics
-import com.example.marvellisimo.Model.Character
-import com.example.marvellisimo.Model.Comic
+import com.example.marvellisimo.marvel.MarvelRetrofit.getAllCharacters
+import com.example.marvellisimo.marvel.MarvelRetrofit.getAllComics
+import com.example.marvellisimo.model.Character
+import com.example.marvellisimo.model.Comic
+import com.example.marvellisimo.activity.CharacterListView
+import com.example.marvellisimo.activity.ComicListActivity
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_homepage.*
 
@@ -26,14 +28,14 @@ open class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small)
         supportActionBar?.setDisplayUseLogoEnabled(true)
-        if(!runOnce) {
+        if (!runOnce) {
             realm = Realm.getDefaultInstance()
             val realmResultsComics = realm?.where(Comic::class.java)?.findAllAsync()!!
-                if(realmResultsComics.isEmpty()){
-                    getAllComics()
-                }
+            if (realmResultsComics.isEmpty()) {
+                getAllComics()
+            }
             val realmResultsCharacters = realm?.where(Character::class.java)?.findAllAsync()!!
-            if(realmResultsCharacters.isEmpty()){
+            if (realmResultsCharacters.isEmpty()) {
                 getAllCharacters()
             }
             runOnce = true
@@ -70,25 +72,16 @@ open class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.Sign_in -> {
-                signIn()
-                Toast.makeText(this, "You clicked Sign in", Toast.LENGTH_SHORT)
-                .show()
+                val intent = Intent(this, SignInActivity::class.java)
+                startActivity(intent)
             }
-            R.id.Characters -> Toast.makeText(
-                this,
-                "You clicked Search characters",
-                Toast.LENGTH_SHORT
-            ).show()
-            R.id.Comics -> Toast.makeText(
-                this,
-                "You clicked Search comics",
-                Toast.LENGTH_SHORT
-            ).show()
+
             R.id.My_Contacts -> Toast.makeText(
                 this,
                 "You clicked show contacts",
                 Toast.LENGTH_SHORT
             ).show()
+
             R.id.Add_Contact -> Toast.makeText(
                 this,
                 "You clicked add contacts",

@@ -1,10 +1,11 @@
-package com.example.marvellisimo
+package com.example.marvellisimo.marvel
 
 import android.annotation.SuppressLint
 import android.util.Log
-import com.example.marvellisimo.Model.Comic
+import com.example.marvellisimo.model.Comic
 import com.example.marvellisimo.data.RealmData
 import com.example.marvellisimo.data.Service
+import com.example.marvellisimo.model.Character
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
@@ -88,7 +89,7 @@ object MarvelRetrofit {
                 else {
                     result.data.results.forEach { comic ->
                         comic.favorite = RealmData.getFavoriteIdList().contains(comic.id)
-                        val comicToAdd: Comic = Service.convertFromMarvelDataToRealmData(comic)
+                        val comicToAdd: Comic = Service.convertComicFromMarvelDataToRealmData(comic)
                         RealmData.saveComic(comicToAdd)
                     }
                 }
@@ -97,17 +98,16 @@ object MarvelRetrofit {
 
     @SuppressLint("CheckResult")
     fun getAllCharacters(search : String? = null){
-        marvelService.getAllCharacters(limit = Service.limit, offset = Service.OffsetCharacter, nameStartsWith = search?.toLowerCase())
+        marvelService.getAllCharacters(limit = Service.limit, offset = Service.OffsetCharacter, nameStartsWith = search?.toLowerCase(Locale.ROOT))
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result, err ->
                 if (err?.message != null) Log.d("__", "Error getAllCharacters " + err.message)
                 else {
                     result.data.results.forEach { character ->
-                        if(! Service.compareCharacterId(character.id!!)) {
-                            character.favorite = RealmData.getFavoriteIdList().contains(character.id)
-                            Service.characterList.add(character)
-                        }
+                        character.favorite = RealmData.getFavoriteIdList().contains(character.id)
+                        val characterToAdd : Character = Service.convertCharacterFromMarvelDataToRealmData(character)
+                        RealmData.saveCharacter(characterToAdd)
 
                     }
                 }

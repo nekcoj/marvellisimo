@@ -17,21 +17,6 @@
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/Search_by"
-        android:title="@string/search_by"
-        app:showAsAction="withText"/>
-
-    <item
-        android:id="@+id/Characters"
-        android:title="@string/characters"
-        app:showAsAction="withText"/>
-
-    <item
-        android:id="@+id/Comics"
-        android:title="@string/comics"
-        app:showAsAction="withText"/>
-
-    <item
         android:id="@+id/Contacts"
         android:title="@string/contacts"
         app:showAsAction="withText"/>

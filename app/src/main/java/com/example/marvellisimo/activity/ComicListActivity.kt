@@ -1,10 +1,13 @@
-package com.example.marvellisimo
+package com.example.marvellisimo.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import com.example.marvellisimo.Model.Comic
+import com.example.marvellisimo.MainActivity
+import com.example.marvellisimo.marvel.MarvelRetrofit
+import com.example.marvellisimo.model.Comic
+import com.example.marvellisimo.R
 import com.example.marvellisimo.data.RealmData
 import com.example.marvellisimo.data.Service
 import com.example.marvellisimo.data.Service.Companion.FavoriteModeOnComic
@@ -28,7 +31,7 @@ class ComicListActivity: MainActivity() {
         realm = Realm.getDefaultInstance()
 
         realmResults = realm.where(Comic::class.java).findAllAsync()
-        Service.subscribeToRealm(realmResults, rv_comics)
+        Service.subscribeToComicRealm(realmResults, rv_comics)
 
         actionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Comics"
@@ -44,7 +47,7 @@ class ComicListActivity: MainActivity() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null) {
                     val searchResults = RealmData.searchComic(newText)
-                    Service.subscribeToRealm(searchResults, rv_comics)
+                    Service.subscribeToComicRealm(searchResults, rv_comics)
                 }
                 return false
             }
@@ -74,7 +77,7 @@ class ComicListActivity: MainActivity() {
                     realm.where(Comic::class.java).findAllAsync()
                 }
 
-                Service.subscribeToRealm(realmResults, rv_comics)
+                Service.subscribeToComicRealm(realmResults, rv_comics)
                 checkIfFavoriteToggled(item, COMIC)
                 return true
             }

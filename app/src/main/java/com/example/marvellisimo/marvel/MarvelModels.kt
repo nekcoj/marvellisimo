@@ -1,7 +1,6 @@
-package com.example.marvellisimo
+package com.example.marvellisimo.marvel
 
 
-import io.realm.RealmObject
 import java.io.Serializable
 
 class MarvelModels {

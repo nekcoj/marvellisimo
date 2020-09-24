@@ -1,4 +1,4 @@
-package com.example.marvellisimo.Model
+package com.example.marvellisimo.model
 
 import android.os.Parcelable
 import io.realm.RealmModel
@@ -36,12 +36,13 @@ open class FavouriteList: RealmObject() {
     var id: Int? = null
 }
 
-open class Character: RealmObject(){
+@Parcelize
+open class Character(
     @PrimaryKey
-    var id: Int? = null
-    var name: String? = null
-    var description: String? = null
-    var thumbnail: ThumbnailDTO? = null
-    var urls: UrlDTO? = null
+    var id: Int? = null,
+    var name: String? = null,
+    var description: String? = null,
+    var thumbnail: ThumbnailDTO? = null,
+    var urls: UrlDTO? = null,
     var favorite : Boolean? = null
-}
+): RealmObject(), Parcelable, RealmModel

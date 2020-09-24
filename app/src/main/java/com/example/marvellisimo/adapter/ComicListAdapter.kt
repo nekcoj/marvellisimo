@@ -1,14 +1,16 @@
-package com.example.marvellisimo
+package com.example.marvellisimo.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.marvellisimo.CharacterListAdapter.Companion.renamePathHttps
-import com.example.marvellisimo.Model.Comic
+import com.example.marvellisimo.activity.ComicActivity
+import com.example.marvellisimo.model.Comic
+import com.example.marvellisimo.R
 import com.example.marvellisimo.data.RealmData
 import com.example.marvellisimo.data.Service
+import com.example.marvellisimo.data.Service.Companion.renamePathHttps
 import com.squareup.picasso.Picasso
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_comic_list.view.*
@@ -47,7 +49,7 @@ class ComicViewHolder(val view: View, var comic: Comic? = null): RecyclerView.Vi
         const val SELECTED_COMIC ="SELECTED_COMIC"
     }
     fun bindItems(comic: Comic?){
-        val imgComplete = renamePathHttps(comic?.thumbnail?.path + "." + comic?.thumbnail?.extension)
+        val imgComplete= renamePathHttps(comic?.thumbnail?.path + "." + comic?.thumbnail?.extension)
         view.comic_list_item_title.text = comic?.title
         Picasso.get().load(imgComplete).placeholder(R.mipmap.marvel_logo_small).into(view.comic_list_cover_image);
 
@@ -61,14 +63,14 @@ class ComicViewHolder(val view: View, var comic: Comic? = null): RecyclerView.Vi
             val isFav = comic.favorite
             if (isFav == true){
                 view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
-                Service.changeFavoriteStatus(comic.id)
+                Service.changeComicFavoriteStatus(comic.id)
                 RealmData.removeFromFavorite(comic.id!!)
                 RealmData.saveComic(comic)
             }
             if (isFav == false){
                 view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
 
-                Service.changeFavoriteStatus(comic.id)
+                Service.changeComicFavoriteStatus(comic.id)
                 RealmData.saveFavorite(comic.id!!)
                 RealmData.saveComic(comic)
             }
