@@ -1,4 +1,4 @@
-package com.example.marvellisimo
+package com.example.marvellisimo.activity
 
 import android.os.Bundle
 import android.text.Html
@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.data.Service
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_comic.*
-import com.example.marvellisimo.Model.Comic
+import com.example.marvellisimo.model.Comic
+import com.example.marvellisimo.R
+import com.example.marvellisimo.adapter.ComicViewHolder
 
 class ComicActivity: AppCompatActivity() {
 
@@ -42,3 +44,16 @@ class ComicActivity: AppCompatActivity() {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -7,7 +7,7 @@
     android:background="@color/colorPrimaryDark">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/character_adapter_img"
         android:layout_width="76dp"
         android:layout_height="86dp"
         android:layout_marginStart="32dp"
@@ -19,7 +19,7 @@
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <TextView
-        android:id="@+id/textView_characterName"
+        android:id="@+id/characterName_adapter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -27,12 +27,12 @@
         android:text="TextView"
         android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/favIcon"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintEnd_toStartOf="@+id/character_favIcon_adapter"
+        app:layout_constraintStart_toEndOf="@+id/character_adapter_img"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/favIcon"
+        android:id="@+id/character_favIcon_adapter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"

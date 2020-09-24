@@ -1,12 +1,10 @@
 package com.example.marvellisimo.data
 
-import com.example.marvellisimo.ImageDTO
-import com.example.marvellisimo.Model.Comic
-import com.example.marvellisimo.Model.Character
-import com.example.marvellisimo.Model.FavouriteList
-import com.example.marvellisimo.Model.ThumbnailDTO
-import com.example.marvellisimo.Model.UrlDTO
-import com.example.marvellisimo.Url
+import com.example.marvellisimo.model.Comic
+import com.example.marvellisimo.model.Character
+import com.example.marvellisimo.model.FavouriteList
+import com.example.marvellisimo.model.ThumbnailDTO
+import com.example.marvellisimo.model.UrlDTO
 import com.example.marvellisimo.realm
 import io.realm.Realm
 import io.realm.RealmResults
@@ -33,52 +31,35 @@ class RealmData {
             }
         }
 
-        fun saveCharacters(){
-            Service.characterList.forEach { character ->
-                val checkFav = getFavoriteIdList().contains(character.id)
-                realm = Realm.getDefaultInstance()
-                realm.use { r ->
-                    r?.executeTransaction { realm ->
-                        realm.insertOrUpdate(Character().apply {
-                            id = character.id
-                            name = character.name
-                            description = character.description
-                            thumbnail = ThumbnailDTO(character.thumbnail.path!!, character.thumbnail.extension!!)
-                            urls = UrlDTO(character.urls?.get(0)?.type, character.urls?.get(0)?.url)
-                            favorite = checkFav
-                        })
-                    }
+        fun saveCharacter(character : Character){
+            val checkFav = getFavoriteIdList().contains(character.id)
+            val thumbnailNewCharacter = ThumbnailDTO(character.thumbnail?.path, character.thumbnail?.extension)
+            val urlNewCharacter = UrlDTO(character.urls?.type, character.urls?.url)
+            realm = Realm.getDefaultInstance()
+            realm.use {r ->
+                r?.executeTransaction { realm ->
+                    realm.insertOrUpdate(Character().apply {
+                        id = character.id
+                        name = character.name
+                        description = character.description
+                        thumbnail = thumbnailNewCharacter
+                        urls = urlNewCharacter
+                        favorite = checkFav
+                    })
                 }
             }
-        }
-        fun readDataFromRealm(){
-            readCharactersFromRealm()
         }
 
-        private fun readCharactersFromRealm(){
-            realm = Realm.getDefaultInstance()
-            realm.use { r ->
-                r?.executeTransaction { realm ->
-                    val query = realm.where<Character>().findAll()
-                    for (character in query) {
-                        val url: Url = Url(character?.urls?.type, character?.urls?.url)
-                        val urls = arrayOf(url)
-                        Service.characterList.add(com.example.marvellisimo.Character(
-                            ImageDTO(character.thumbnail?.path, character.thumbnail?.extension),
-                            character?.id,
-                            character?.name,
-                            character?.description,
-                            urls,
-                            character?.favorite
-                        ))
-                    }
-                }
-            }
-        }
 
         fun searchComic(searchString: String): RealmResults<Comic>? {
             realm = Realm.getDefaultInstance()
             val query = realm?.where(Comic::class.java)?.contains("title", searchString)?.findAllAsync()
+            return query
+        }
+
+        fun searchCharacter(searchString: String): RealmResults<Character>? {
+            realm = Realm.getDefaultInstance()
+            val query = realm?.where(Character::class.java)?.contains("name", searchString)?.findAllAsync()
             return query
         }
 
@@ -122,6 +103,12 @@ class RealmData {
         fun favoriteComics(): RealmResults<Comic>? {
             realm = Realm.getDefaultInstance()
             val query = realm?.where(Comic::class.java)?.equalTo("favorite", true)?.findAll()
+            return query
+        }
+
+        fun favoriteCharacters(): RealmResults<Character>? {
+            realm = Realm.getDefaultInstance()
+            val query = realm?.where(Character::class.java)?.equalTo("favorite", true)?.findAll()
             return query
         }
     }

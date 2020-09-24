@@ -22,26 +22,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ComicActivity">
+        <activity android:name=".activity.ComicActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
 
-        <activity android:name=".CharacterListView" android:launchMode="singleTop">
+        <activity android:name=".activity.CharacterListView" android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".ComicListActivity">
+        <activity android:name=".activity.ComicListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".character.CharacterView">
+        <activity android:name=".activity.CharacterActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CharacterListView" />
+                android:value=".activity.CharacterListView" />
         </activity>
         <activity android:name=".SignInActivity">
             <meta-data
