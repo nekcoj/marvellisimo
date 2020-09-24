@@ -71,16 +71,6 @@ open class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.Sign_in -> Toast.makeText(this, "You clicked Sign in", Toast.LENGTH_SHORT)
                 .show()
-            R.id.Characters -> Toast.makeText(
-                this,
-                "You clicked Search characters",
-                Toast.LENGTH_SHORT
-            ).show()
-            R.id.Comics -> Toast.makeText(
-                this,
-                "You clicked Search comics",
-                Toast.LENGTH_SHORT
-            ).show()
             R.id.My_Contacts -> Toast.makeText(
                 this,
                 "You clicked show contacts",
