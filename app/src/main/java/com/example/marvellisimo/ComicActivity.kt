@@ -5,9 +5,10 @@ import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.example.marvellisimo.data.Service
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_comic.*
-import kotlinx.android.synthetic.main.activity_single_character_view.*
+import com.example.marvellisimo.Model.Comic
 
 class ComicActivity: AppCompatActivity() {
 
@@ -20,13 +21,13 @@ class ComicActivity: AppCompatActivity() {
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
         supportActionBar?.setDisplayUseLogoEnabled(true);
 
-        val selectedComic = intent.getSerializableExtra(ComicViewHolder.SELECTED_COMIC) as? Comic
+        val comic: Comic = intent.getParcelableExtra<Comic>(ComicViewHolder.SELECTED_COMIC) as Comic
 
-        Picasso.get().load(CharacterListAdapter.renamePathHttps(selectedComic?.thumbnail?.path.toString()) + "." + selectedComic?.thumbnail?.extension).into(comicbook_cover_comic_page)
-        comic_info_comic_page.text = selectedComic?.title.toString()
-        comic_description_comic_page.text = if (!selectedComic?.description.toString().equals("null")) selectedComic?.description.toString() else "No description available"
+        Picasso.get().load(Service.renamePathHttps(comic.thumbnail?.path!!) + "." + comic.thumbnail?.extension).into(comicbook_cover_comic_page)
+        comic_info_comic_page.text = comic.title
+        comic_description_comic_page.text = if (!comic.description.equals("null")) comic.description else "No description available"
         link_comic.movementMethod = LinkMovementMethod.getInstance()
-        val text = "<a color:#e62429; href='${selectedComic?.urls?.get(0)?.url}'> Want to know more ? </a>"
+        val text = "<a color:#e62429; href='${comic.urls?.url}'> Want to know more ? </a>"
         link_comic.text = Html.fromHtml(text)
 
     }

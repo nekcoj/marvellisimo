@@ -8,7 +8,7 @@ class MarvelApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         Realm.init(this)
-        var config = RealmConfiguration.Builder().name("ComicBookData.realm").build()
+        var config = RealmConfiguration.Builder().name("MarvelData.realm").build()
         Realm.setDefaultConfiguration(config)
     }
 }

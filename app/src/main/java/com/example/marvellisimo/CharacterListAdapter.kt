@@ -9,6 +9,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.marvellisimo.character.CharacterView
+import com.example.marvellisimo.data.RealmData
 import com.example.marvellisimo.data.Service
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_character_view.view.*
@@ -75,7 +76,7 @@ open class CharacterListAdapter : RecyclerView.Adapter<CharacterViewHolder>(), F
         Picasso.get().load(imgComplete).placeholder(R.mipmap.marvel_logo_small).into(holder.view.imageView);
         holder.view.textView_characterName?.text = characterFilterList[position].name
 
-        //characterFilterList[position].favorite = RealmData.getFavoriteIdList().contains(characterFilterList[position].id)
+        //characterFilterList[position].favorite = com.example.marvellisimo.data.RealmData.getFavoriteIdList().contains(characterFilterList[position].id)
 
         if (characterFilterList[position].favorite == true) {
             holder.view.favIcon.setImageResource(android.R.drawable.btn_star_big_on)

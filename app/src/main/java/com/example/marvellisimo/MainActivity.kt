@@ -1,6 +1,5 @@
 package com.example.marvellisimo
 
-import RealmData.Companion.readDataFromRealm
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -9,7 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.MarvelRetrofit.getAllCharacters
 import com.example.marvellisimo.MarvelRetrofit.getAllComics
-import com.example.marvellisimo.MarvelRetrofit.getAllFavorite
+import com.example.marvellisimo.Model.Character
+import com.example.marvellisimo.Model.Comic
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_homepage.*
 
@@ -27,12 +27,18 @@ open class MainActivity : AppCompatActivity() {
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small)
         supportActionBar?.setDisplayUseLogoEnabled(true)
         if(!runOnce) {
-            readDataFromRealm()
-            getAllFavorite()
-            getAllCharacters()
-            getAllComics()
+            realm = Realm.getDefaultInstance()
+            val realmResultsComics = realm?.where(Comic::class.java)?.findAllAsync()!!
+                if(realmResultsComics.isEmpty()){
+                    getAllComics()
+                }
+            val realmResultsCharacters = realm?.where(Character::class.java)?.findAllAsync()!!
+            if(realmResultsCharacters.isEmpty()){
+                getAllCharacters()
+            }
             runOnce = true
         }
+
         image_character.setOnClickListener {
             val intent = Intent(this, CharacterListView::class.java)
             startActivity(intent)
@@ -52,11 +58,6 @@ open class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ComicListActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        saveData()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -93,24 +94,10 @@ open class MainActivity : AppCompatActivity() {
                 "You clicked add contacts",
                 Toast.LENGTH_SHORT
             ).show()
-            R.id.Save_Offline_Data -> {
-                saveData()
-                Toast.makeText(this, "Data saved for offline mode.", Toast.LENGTH_SHORT).show()
-            }
             R.id.Log_Out -> Toast.makeText(this, "You clicked log out", Toast.LENGTH_SHORT)
                 .show()
         }
         return true
-    }
-
-    private fun saveData(){
-        RealmData.saveComics()
-        RealmData.saveCharacters()
-    }
-
-    private fun signIn(){
-        val intent = Intent(this, SignInActivity::class.java)
-        startActivity(intent)
     }
 }
 

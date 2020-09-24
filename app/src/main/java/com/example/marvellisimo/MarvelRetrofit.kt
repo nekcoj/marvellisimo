@@ -2,6 +2,8 @@ package com.example.marvellisimo
 
 import android.annotation.SuppressLint
 import android.util.Log
+import com.example.marvellisimo.Model.Comic
+import com.example.marvellisimo.data.RealmData
 import com.example.marvellisimo.data.Service
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -12,6 +14,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.util.*
 
 object MarvelRetrofit {
     private const val LOG = false
@@ -77,17 +80,16 @@ object MarvelRetrofit {
 
     @SuppressLint("CheckResult")
     fun getAllComics(search: String? = null) {
-        marvelService.getAllComics(limit = Service.limit, offset = Service.OffsetComics, titleStartsWith = search?.toLowerCase())
+        marvelService.getAllComics(limit = Service.limit, offset = Service.OffsetComics, titleStartsWith = search?.toLowerCase(Locale.ROOT))
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result, err ->
                 if (err?.message != null) Log.d("__", "Error getAllComics " + err.message)
                 else {
                     result.data.results.forEach { comic ->
-                        if(!Service.compareComicId(comic.id!!)){
-                            comic.favorite = RealmData.getFavoriteIdList().contains(comic.id)
-                            Service.comicList.add(comic)
-                        }
+                        comic.favorite = RealmData.getFavoriteIdList().contains(comic.id)
+                        val comicToAdd: Comic = Service.convertFromMarvelDataToRealmData(comic)
+                        RealmData.saveComic(comicToAdd)
                     }
                 }
             }
@@ -111,61 +113,4 @@ object MarvelRetrofit {
                 }
             }
     }
-
-    fun getAllFavorite(){
-        for(id in RealmData.getFavoriteIdList()){
-            Log.d("_", "Fav id : ${id} will fetch")
-            if (!getAllFavComics(id)){
-                getAllFavCharacter(id)
-            }
-        }
-    }
-
-    @SuppressLint("CheckResult")
-    fun getAllFavCharacter(id : Int) : Boolean {
-        var fetch: Boolean = false
-        marvelService.getCharacter(id)
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { result, err ->
-                if (err?.message != null) {
-                    Log.d("_", "Error getAllFavCharacters " + err.message)
-                }
-                else {
-                    result.data.results.forEach { character ->
-                        if(!Service.compareCharacterId(character.id!!)) {
-                            Service.characterList.add(character)
-                        }
-                    }
-                    fetch = true
-                }
-            }
-        return fetch
-    }
-
-    @SuppressLint("CheckResult")
-    fun getAllFavComics(id : Int): Boolean {
-    var fetch: Boolean = false
-    marvelService.getComics(id)
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { result, err ->
-                if (err?.message != null) {
-                    Log.d("__", "Error getAllFavComics " + err.message)
-                }
-                else {
-                    result.data.results.forEach { comic ->
-                        if(!Service.compareComicId(comic.id!!)){
-                            Service.comicList.add(comic)
-                        }
-                    }
-                   fetch = true
-                }
-            }
-        return fetch
-    }
-
-
-
-
 }

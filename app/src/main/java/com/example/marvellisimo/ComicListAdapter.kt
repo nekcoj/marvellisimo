@@ -1,129 +1,77 @@
 package com.example.marvellisimo
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
+import com.example.marvellisimo.CharacterListAdapter.Companion.renamePathHttps
+import com.example.marvellisimo.Model.Comic
+import com.example.marvellisimo.data.RealmData
 import com.example.marvellisimo.data.Service
 import com.squareup.picasso.Picasso
+import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_comic_list.view.*
-import java.util.*
 
-open class ComicListAdapter: RecyclerView.Adapter<ComicViewHolder>(), Filterable {
-    var comicFilterList = mutableListOf<Comic>()
+open class ComicListAdapter(comic: RealmResults<Comic>?): RecyclerView.Adapter<ComicViewHolder>() {
 
-    init {
-        comicFilterList = if(Service.FavoriteModeOnComic){
-            Service.getAllFavoriteComics(Service.comicList)
-        }else{
-            Service.comicList
-        }
+    var comicFilterList: RealmResults<Comic>? = if(Service.FavoriteModeOnComic){
+        RealmData.favoriteComics()
+    }else{
+        comic
     }
+
     override fun getItemCount(): Int {
-        return comicFilterList.size
-    }
-
-    override fun getFilter(): Filter {
-        return object : Filter(){
-            @SuppressLint("CheckResult")
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val comicSearch = constraint.toString()
-                comicFilterList = if(comicSearch.isEmpty()){
-                    Service.comicList
-                } else {
-                    val resultList = mutableListOf<Comic>()
-                    for(comic in Service.comicList) {
-                        if(comic.title?.toLowerCase(Locale.ROOT)?.contains(comicSearch.toLowerCase(Locale.ROOT))!!){
-                            resultList.add(comic)
-                        }
-                    }
-                    if(resultList.size > 3){
-                        resultList
-                    } else {
-                        MarvelRetrofit.getAllComics(constraint.toString())
-                        resultList
-                    }
-                }
-                val filterResults = FilterResults()
-                filterResults.values = comicFilterList
-                return filterResults
-            }
-            @Suppress("UNCHECKED_CAST")
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                comicFilterList = results?.values as MutableList<Comic>
-                notifyDataSetChanged()
-            }
-        }
+        return comicFilterList?.size!!
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val cellForComic = layoutInflater.inflate(R.layout.activity_comic_list, parent, false)
-        return ComicViewHolder(cellForComic)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.activity_comic_list, parent,false)
+        return ComicViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ComicViewHolder, position: Int) {
-        val imgComplete = renamePathHttps(comicFilterList[position].thumbnail.path!! +"."+ comicFilterList[position].thumbnail.extension)
-        Picasso.get().load(imgComplete).placeholder(R.mipmap.marvel_logo_small).into(holder.view.comic_list_cover_image);
-        holder.view.comic_list_item_title.text = comicFilterList[position].title
+        holder.bindItems(comicFilterList?.get(position))
 
-        holder.comic = comicFilterList[position]
-        //comicFilterList[position].favorite = RealmData.getFavoriteIdList().contains(comicFilterList[position].id)
-
-        if (comicFilterList[position].favorite == true){
-            holder.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
-        }else{
-            holder.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
-        }
-
-        holder.view.comicFavIcon.setOnClickListener(){
-            toggleFavorite(holder, position)
-            /*val isFav = comicFilterList[position].favorite
-            if (isFav == true){
-                holder.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
-                RealmData.removeFromFavorite(comicFilterList[position].id!!)
-                comicFilterList[position].favorite = false
-            }
-            if (isFav == false){
-                holder.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
-                comicFilterList[position].favorite = true
-                RealmData.saveFavorite(comicFilterList[position].id!!)
-            }*/
-        }
-    }
-
-    private fun renamePathHttps(path: String): String {
-        return path.replace("http", "https")
-    }
-
-    private fun toggleFavorite(holder: ComicViewHolder, position: Int){
-        val isFav = comicFilterList[position].favorite
-        if (isFav == true){
-            holder.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
-            RealmData.removeFromFavorite(comicFilterList[position].id!!)
-            comicFilterList[position].favorite = false
-        }
-        if (isFav == false){
-            holder.view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
-            comicFilterList[position].favorite = true
-            RealmData.saveFavorite(comicFilterList[position].id!!)
+        holder.itemView.setOnClickListener(){
+            val comic = comicFilterList?.get(position)
+            val intent = Intent(holder.itemView.context, ComicActivity::class.java)
+            intent.putExtra(ComicViewHolder.SELECTED_COMIC, comic)
+            holder.itemView.context.startActivity(intent)
         }
     }
 }
-class ComicViewHolder(val view: View, var comic : Comic? = null): RecyclerView.ViewHolder(view){
+
+class ComicViewHolder(val view: View, var comic: Comic? = null): RecyclerView.ViewHolder(view){
     companion object{
         const val SELECTED_COMIC ="SELECTED_COMIC"
     }
+    fun bindItems(comic: Comic?){
+        val imgComplete = renamePathHttps(comic?.thumbnail?.path + "." + comic?.thumbnail?.extension)
+        view.comic_list_item_title.text = comic?.title
+        Picasso.get().load(imgComplete).placeholder(R.mipmap.marvel_logo_small).into(view.comic_list_cover_image);
 
-    init {
-        view.setOnClickListener(){
-            val intent = Intent(view.context, ComicActivity::class.java)
-            intent.putExtra(SELECTED_COMIC, comic)
-            view.context.startActivity(intent)
+        if(comic?.favorite!!){
+            view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
+        } else {
+            view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
+        }
+
+        view.comicFavIcon.setOnClickListener(){
+            val isFav = comic.favorite
+            if (isFav == true){
+                view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
+                Service.changeFavoriteStatus(comic.id)
+                RealmData.removeFromFavorite(comic.id!!)
+                RealmData.saveComic(comic)
+            }
+            if (isFav == false){
+                view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
+
+                Service.changeFavoriteStatus(comic.id)
+                RealmData.saveFavorite(comic.id!!)
+                RealmData.saveComic(comic)
+            }
         }
     }
 }

@@ -1,44 +1,51 @@
 package com.example.marvellisimo
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.marvellisimo.Model.Comic
+import com.example.marvellisimo.data.RealmData
 import com.example.marvellisimo.data.Service
+import com.example.marvellisimo.data.Service.Companion.FavoriteModeOnComic
 import com.example.marvellisimo.data.Service.Companion.checkIfFavoriteToggled
-import io.realm.Realm
-import io.realm.RealmChangeListener
-import io.realm.RealmResults
+import io.realm.*
 import kotlinx.android.synthetic.main.activity_comic_search.*
 
 
 class ComicListActivity: MainActivity() {
     companion object {
         val COMIC = "comic"
+        lateinit var realmResults: RealmResults<Comic>
     }
 
+    private lateinit var realm: Realm
+
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_search)
-        
-        val adapter = ComicListAdapter()
-        rv_comics.adapter = adapter
-        rv_comics.layoutManager = LinearLayoutManager(this)
+        realm = Realm.getDefaultInstance()
+
+        realmResults = realm.where(Comic::class.java).findAllAsync()
+        Service.subscribeToRealm(realmResults, rv_comics)
+
         actionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Comics"
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small)
         supportActionBar?.setDisplayUseLogoEnabled(true)
 
-        searchView_comics.setOnQueryTextListener(object: android.widget.SearchView.OnQueryTextListener {
+        searchView_comics.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                MarvelRetrofit.getAllComics(query)
                 return false
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
-                adapter.filter.filter(newText)
+                if (newText != null) {
+                    val searchResults = RealmData.searchComic(newText)
+                    Service.subscribeToRealm(searchResults, rv_comics)
+                }
                 return false
             }
         })
@@ -54,17 +61,29 @@ class ComicListActivity: MainActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                    onBackPressed()
+                onBackPressed()
                 true
             }
             R.id.Favorite -> {
-                Service.FavoriteModeOnComic = !Service.FavoriteModeOnComic
-                rv_comics.adapter = ComicListAdapter()
+                FavoriteModeOnComic = !FavoriteModeOnComic
+                realm = Realm.getDefaultInstance()
+
+                realmResults = if (FavoriteModeOnComic){
+                    realm.where(Comic::class.java)?.equalTo("favorite", true)?.findAll()!!
+                } else {
+                    realm.where(Comic::class.java).findAllAsync()
+                }
+
+                Service.subscribeToRealm(realmResults, rv_comics)
                 checkIfFavoriteToggled(item, COMIC)
                 return true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
-}
 
+    override fun onDestroy() {
+        super.onDestroy()
+        realm.close()
+    }
+}
