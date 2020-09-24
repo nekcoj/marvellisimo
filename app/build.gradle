@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileOptions {
@@ -23,6 +24,7 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -52,6 +54,9 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.8.1'
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
     implementation "androidx.activity:activity-ktx:1.1.0"
+    implementation 'com.google.firebase:firebase-analytics:17.5.0'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.firebase:firebase-auth:19.4.0'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

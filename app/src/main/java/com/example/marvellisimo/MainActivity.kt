@@ -69,8 +69,11 @@ open class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.Sign_in -> Toast.makeText(this, "You clicked Sign in", Toast.LENGTH_SHORT)
+            R.id.Sign_in -> {
+                signIn()
+                Toast.makeText(this, "You clicked Sign in", Toast.LENGTH_SHORT)
                 .show()
+            }
             R.id.Characters -> Toast.makeText(
                 this,
                 "You clicked Search characters",

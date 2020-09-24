@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "628377363785",
+    "firebase_url": "https://marvellisimo-3ff87.firebaseio.com",
+    "project_id": "marvellisimo-3ff87",
+    "storage_bucket": "marvellisimo-3ff87.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:628377363785:android:161871c236ea674e5a6698",
+        "android_client_info": {
+          "package_name": "com.example.marvellisimo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "628377363785-fm4k43ia5qfrbvbi0tialt7bpg9l2ij0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCr78h4OcymVQprxdXfULJrqKu-Q7z7WkI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "628377363785-fm4k43ia5qfrbvbi0tialt7bpg9l2ij0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
