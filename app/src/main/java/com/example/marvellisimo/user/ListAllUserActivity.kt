@@ -1,6 +1,7 @@
 package com.example.marvellisimo.user
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -78,6 +79,13 @@ class ListAllUserActivity : AppCompatActivity() {
                     var status = it.child("status").getValue(String::class.java)
                     if (user != null && it.key != FirebaseAuth.getInstance().uid)
                         adapter.add(UserItem(User(uid!!, username!!, status!!)))
+                }
+
+                adapter.setOnItemClickListener { item, view ->
+                    val userItem = item as UserItem
+                    val intent = Intent(view.context, UserChat::class.java)
+                    intent.putExtra("USER", userItem.user)
+                    startActivity(intent)
                 }
                 recycleview_listAllUser.adapter = adapter
                 adapter.notifyDataSetChanged()
