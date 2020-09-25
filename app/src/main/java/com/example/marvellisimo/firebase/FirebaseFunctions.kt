@@ -10,8 +10,6 @@ import com.google.firebase.auth.FirebaseAuth
 
 class FirebaseFunctions {
     companion object {
-        lateinit var user: UserModel
-
         /*fun makeUserOnline() {
             var query = FirebaseFirestore.getInstance().collection("users").document(user.userId ?: "")
             user.apply {
@@ -27,9 +25,3 @@ class FirebaseFunctions {
         }
     }
 }
-
-class UserModel(
-    var userId: String? = null,
-    var online: Boolean = false,
-    var last_active: Int
-)

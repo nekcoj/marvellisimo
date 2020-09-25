@@ -15,16 +15,9 @@ import com.example.marvellisimo.marvel.MarvelRetrofit.getAllCharacters
 import com.example.marvellisimo.marvel.MarvelRetrofit.getAllComics
 import com.example.marvellisimo.model.Character
 import com.example.marvellisimo.model.Comic
-import com.example.marvellisimo.activity.CharacterListView
-import com.example.marvellisimo.activity.ComicListActivity
 import com.example.marvellisimo.user.ListAllUserActivity
-import com.google.firebase.auth.EmailAuthProvider
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_homepage.*
-import kotlinx.android.synthetic.main.activity_sign_in.*
-
 
 var realm: Realm? = null
 private var runOnce: Boolean = false

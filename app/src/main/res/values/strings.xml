@@ -21,4 +21,7 @@
     <string name="dont_have_an_account_register_here">Dont have an account? Register here!</string>
     <string name="cancel">Cancel</string>
     <string name="register">Register</string>
+    <string name="username">Username</string>
+    <string name="already_got_a_account_sign_in_here">Already got a account? Sign in here!</string>
+
 </resources>
