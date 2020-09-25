@@ -16,6 +16,7 @@ import com.example.marvellisimo.marvel.MarvelRetrofit.getAllComics
 import com.example.marvellisimo.model.Character
 import com.example.marvellisimo.model.Comic
 import com.example.marvellisimo.user.ListAllUserActivity
+import com.google.firebase.auth.FirebaseAuth
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_homepage.*
 
@@ -105,6 +106,12 @@ open class MainActivity : AppCompatActivity() {
             }
         }
             return true
+    }
+
+    override fun onDestroy() {
+        FirebaseAuth.getInstance().signOut()
+        finish()
+        super.onDestroy()
     }
 }
 

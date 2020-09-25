@@ -6,22 +6,35 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
-    android:background="@drawable/rounded_search_bar">
+    android:background="@drawable/rounded_search_bar"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
 
     <TextView
         android:id="@+id/username_textView"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="32dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_search_bar"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:textColor="@color/marvelRed"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintEnd_toStartOf="@+id/online_status"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.48000002" />
+
+    <TextView
+        android:id="@+id/online_status"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/status_indicator_offline"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@+id/username_textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/username_textView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

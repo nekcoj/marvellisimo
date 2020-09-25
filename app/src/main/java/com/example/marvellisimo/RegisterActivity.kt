@@ -75,8 +75,8 @@ class RegisterActivity : AppCompatActivity() {
     private fun saveUserToFirebaseDatabase() {
         val uId = FirebaseAuth.getInstance().uid?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uId")
-
-        val user = User(uId,register_username.text.toString() )
+        val status = "online"
+        val user = User(uId, register_username.text.toString(), status)
         ref.setValue(user)
     }
 

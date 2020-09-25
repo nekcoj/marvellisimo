@@ -23,5 +23,6 @@
     <string name="register">Register</string>
     <string name="username">Username</string>
     <string name="already_got_a_account_sign_in_here">Already got a account? Sign in here!</string>
+    <string name="online_status">Online_status</string>
 
 </resources>
