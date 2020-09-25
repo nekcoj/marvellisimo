@@ -68,10 +68,10 @@ open class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.app_bar_menu, menu)
-        val favMenuItem: MenuItem? = menu?.findItem(R.id.Favorite)
-        favMenuItem?.isVisible = false
         _menu = menu!!
         toggleNavbarItemsIfAuth(_menu)
+        val favMenuItem: MenuItem? = menu?.findItem(R.id.Favorite)
+        favMenuItem?.isVisible = false
         return true
     }
 
@@ -109,7 +109,7 @@ open class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        FirebaseAuth.getInstance().signOut()
+        logoutUser()
         finish()
         super.onDestroy()
     }

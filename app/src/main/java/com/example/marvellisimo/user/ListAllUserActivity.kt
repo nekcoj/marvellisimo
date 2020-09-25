@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.activity_register.view.*
 import kotlinx.android.synthetic.main.activity_user_row.view.*
 
 class ListAllUserActivity : AppCompatActivity() {
-
     var user: FirebaseUser? = null
     var db: FirebaseDatabase? = null
     var usersListRef: DatabaseReference? = null
@@ -46,6 +45,7 @@ class ListAllUserActivity : AppCompatActivity() {
         fetchUsers()
     }
 
+
     private fun addToUserList(user: FirebaseUser?) {
         usersListRef!!.child("${user!!.uid}/status").setValue("online")
         onlineStatus = db!!.getReference("users/" + user.uid + "/status")
@@ -60,14 +60,14 @@ class ListAllUserActivity : AppCompatActivity() {
                     onlineStatus!!.setValue("offline")
                 }
             }
+
             override fun onCancelled(error: DatabaseError) {}
         })
     }
 
-    private fun fetchUsers(){
+    private fun fetchUsers() {
         val ref = FirebaseDatabase.getInstance().getReference("/users")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
-
+        userListValueEventListener = ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 val adapter = GroupAdapter<ViewHolder>()
                 p0.children.forEach {
@@ -83,13 +83,12 @@ class ListAllUserActivity : AppCompatActivity() {
                 adapter.notifyDataSetChanged()
             }
 
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
+            override fun onCancelled(p0: DatabaseError) {}
         })
+        usersListRef!!.addValueEventListener(userListValueEventListener!!)
     }
 }
+
 class UserItem(val user: User): Item<ViewHolder>(){
     @SuppressLint("ResourceAsColor")
     override fun bind(viewHolder: ViewHolder, position: Int){
