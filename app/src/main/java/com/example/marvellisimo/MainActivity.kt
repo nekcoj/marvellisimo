@@ -12,8 +12,13 @@ import com.example.marvellisimo.model.Character
 import com.example.marvellisimo.model.Comic
 import com.example.marvellisimo.activity.CharacterListView
 import com.example.marvellisimo.activity.ComicListActivity
+import com.example.marvellisimo.user.ListAllUserActivity
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_homepage.*
+import kotlinx.android.synthetic.main.activity_sign_in.*
 
 
 var realm: Realm? = null
@@ -76,21 +81,28 @@ open class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
-            R.id.My_Contacts -> Toast.makeText(
-                this,
-                "You clicked show contacts",
-                Toast.LENGTH_SHORT
-            ).show()
+            R.id.My_Contacts -> {
+                val intent = Intent(this, ListAllUserActivity::class.java)
+                startActivity(intent)
+                Toast.makeText(
+                    this,
+                    "You clicked show contacts",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
 
             R.id.Add_Contact -> Toast.makeText(
                 this,
                 "You clicked add contacts",
                 Toast.LENGTH_SHORT
             ).show()
-            R.id.Log_Out -> Toast.makeText(this, "You clicked log out", Toast.LENGTH_SHORT)
-                .show()
+            R.id.Log_Out -> {
+                FirebaseAuth.getInstance().signOut()
+                Toast.makeText(this, "You clicked log out", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
-        return true
+            return true
     }
 }
 

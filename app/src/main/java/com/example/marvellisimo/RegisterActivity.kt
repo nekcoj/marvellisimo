@@ -6,7 +6,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.marvellisimo.user.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_register.*
 
 
@@ -52,7 +54,7 @@ class RegisterActivity : AppCompatActivity() {
         val email = register_email.text.toString()
         val password = register_password.text.toString()
 
-        if (email.isEmpty() || password.isEmpty()) {
+        if (email.isEmpty() || password.isEmpty()){
             Toast.makeText(this, "Please enter valid email/password", Toast.LENGTH_SHORT).show()
             return
         }
@@ -60,7 +62,9 @@ class RegisterActivity : AppCompatActivity() {
             .addOnCompleteListener {
                 if (!it.isSuccessful) return@addOnCompleteListener
 
-
+                saveUserToFirebaseDatabase()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
                 Toast.makeText(this, "Register successful", Toast.LENGTH_SHORT).show()
 
             }
@@ -70,4 +74,13 @@ class RegisterActivity : AppCompatActivity() {
             }
 
     }
+    private fun saveUserToFirebaseDatabase() {
+        val uId = FirebaseAuth.getInstance().uid?: ""
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uId")
+
+
+        val user = User(uId,register_username.text.toString() )
+        ref.setValue(user)
+    }
+
 }
