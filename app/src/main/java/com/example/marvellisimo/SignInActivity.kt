@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.data.Service
-import com.example.marvellisimo.firebase.FirebaseFunctions.Companion.user
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
@@ -61,6 +60,8 @@ class SignInActivity : AppCompatActivity() {
             .addOnCompleteListener {
                 if (!it.isSuccessful) return@addOnCompleteListener
                 Service.toggleNavbarItemsIfAuth(Service._menu)
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
                 Toast.makeText(this, "Sign in successful", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener {

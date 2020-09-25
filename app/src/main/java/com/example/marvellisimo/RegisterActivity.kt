@@ -59,6 +59,8 @@ class RegisterActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (!it.isSuccessful) return@addOnCompleteListener
+                val intent = Intent(this, SignInActivity::class.java)
+                startActivity(intent)
                 Toast.makeText(this, "Register successful", Toast.LENGTH_SHORT).show()
 
             }

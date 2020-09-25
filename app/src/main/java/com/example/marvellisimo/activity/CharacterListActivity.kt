@@ -59,6 +59,7 @@ class CharacterListView : MainActivity(){
         menuInflater.inflate(R.menu.app_bar_menu, menu)
         var favMenuItem: MenuItem? = menu?.findItem(R.id.Favorite)
         checkIfFavoriteToggled(favMenuItem, CHARACTER)
+        Service._menu = menu!!
         toggleNavbarItemsIfAuth(menu)
         return true
     }

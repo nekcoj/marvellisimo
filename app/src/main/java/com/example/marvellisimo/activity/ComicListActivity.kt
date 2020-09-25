@@ -11,6 +11,7 @@ import com.example.marvellisimo.R
 import com.example.marvellisimo.data.RealmData
 import com.example.marvellisimo.data.Service
 import com.example.marvellisimo.data.Service.Companion.FavoriteModeOnComic
+import com.example.marvellisimo.data.Service.Companion._menu
 import com.example.marvellisimo.data.Service.Companion.checkIfFavoriteToggled
 import com.example.marvellisimo.data.Service.Companion.toggleNavbarItemsIfAuth
 import io.realm.*
@@ -59,7 +60,8 @@ class ComicListActivity: MainActivity() {
         menuInflater.inflate(R.menu.app_bar_menu, menu)
         var favMenuItem: MenuItem? = menu?.findItem(R.id.Favorite)
         checkIfFavoriteToggled(favMenuItem, COMIC)
-        toggleNavbarItemsIfAuth(menu)
+        _menu = menu!!
+        toggleNavbarItemsIfAuth(_menu)
         return true
     }
 

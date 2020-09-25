@@ -1,9 +1,12 @@
 package com.example.marvellisimo.firebase
 
-import android.view.Menu
-import com.example.marvellisimo.data.Service
+import android.content.Intent
+import androidx.core.content.ContextCompat.startActivity
+import com.example.marvellisimo.MainActivity
+import com.example.marvellisimo.data.Service.Companion._menu
 import com.example.marvellisimo.data.Service.Companion.toggleNavbarItemsIfAuth
 import com.google.firebase.auth.FirebaseAuth
+
 
 class FirebaseFunctions {
     companion object {
@@ -18,10 +21,9 @@ class FirebaseFunctions {
             query.set(user)
         }*/
 
-        fun logoutUser(){
-            var fbAuth = FirebaseAuth.getInstance()
-            fbAuth.signOut()
-            toggleNavbarItemsIfAuth(Service._menu)
+        fun logoutUser() {
+            FirebaseAuth.getInstance().signOut()
+            toggleNavbarItemsIfAuth(_menu)
         }
     }
 }
