@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.data.Service
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
 class SignInActivity : AppCompatActivity() {
@@ -47,7 +48,7 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
-    private fun signInUser(){
+    private fun signInUser() {
         val email = sign_in_email.text.toString()
         val password = sign_in_password.text.toString()
 
@@ -65,7 +66,13 @@ class SignInActivity : AppCompatActivity() {
                 Toast.makeText(this, "Sign in successful", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Sign in failed. Please enter valid email/password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Sign in failed. Please enter valid email/password",
+                    Toast.LENGTH_SHORT
+                ).show()
+
             }
     }
 }
+
