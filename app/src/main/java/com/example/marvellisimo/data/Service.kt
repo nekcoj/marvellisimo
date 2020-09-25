@@ -1,6 +1,7 @@
 package com.example.marvellisimo.data
 
 import android.annotation.SuppressLint
+import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.RecyclerView
 import com.example.marvellisimo.*
@@ -10,6 +11,7 @@ import com.example.marvellisimo.model.ThumbnailDTO
 import com.example.marvellisimo.model.UrlDTO
 import com.example.marvellisimo.adapter.ComicListAdapter
 import com.example.marvellisimo.model.Character
+import com.google.firebase.auth.FirebaseAuth
 import io.realm.Realm
 import io.realm.RealmResults
 
@@ -21,7 +23,7 @@ class Service {
         var FavoriteModeOnCharacter = false
         var OffsetComics :Int = 0
         var OffsetCharacter :Int = 0
-
+        lateinit var _menu: Menu
         fun checkIfFavoriteToggled(menu: MenuItem?, comicOrCharacter: String?) {
             if (comicOrCharacter == "comic"){
                 if (FavoriteModeOnComic) {
@@ -89,6 +91,24 @@ class Service {
         fun subscribeToCharacterRealm(realmResults: RealmResults<Character>?, rv: RecyclerView){
             realmResults?.asFlowable()?.subscribe {
                 rv.adapter = CharacterListAdapter(it)
+            }
+        }
+
+        fun toggleNavbarItemsIfAuth(menu: Menu?) {
+            if(FirebaseAuth.getInstance().uid != null) {
+                val signedIn: MenuItem? = menu?.findItem(R.id.Sign_in)
+                val signedInMenu: MenuItem? = menu?.findItem(R.id.Sign_in_text)
+                signedIn?.isVisible = false
+                signedInMenu?.isVisible = false
+            } else {
+                val contacts: MenuItem? = menu?.findItem(R.id.Contacts)
+                val myContacts: MenuItem? = menu?.findItem(R.id.My_Contacts)
+                val addContacts: MenuItem? = menu?.findItem(R.id.Add_Contact)
+                val logout: MenuItem? = menu?.findItem(R.id.Log_Out)
+                contacts?.isVisible = true
+                myContacts?.isVisible = true
+                addContacts?.isVisible = true
+                logout?.isVisible = true
             }
         }
     }

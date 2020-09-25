@@ -10,6 +10,7 @@ import com.example.marvellisimo.data.RealmData
 import com.example.marvellisimo.data.Service
 import com.example.marvellisimo.data.Service.Companion.FavoriteModeOnCharacter
 import com.example.marvellisimo.data.Service.Companion.checkIfFavoriteToggled
+import com.example.marvellisimo.data.Service.Companion.toggleNavbarItemsIfAuth
 import com.example.marvellisimo.marvel.MarvelRetrofit
 import com.example.marvellisimo.model.Character
 import io.realm.Realm
@@ -58,6 +59,7 @@ class CharacterListView : MainActivity(){
         menuInflater.inflate(R.menu.app_bar_menu, menu)
         var favMenuItem: MenuItem? = menu?.findItem(R.id.Favorite)
         checkIfFavoriteToggled(favMenuItem, CHARACTER)
+        toggleNavbarItemsIfAuth(menu)
         return true
     }
 
@@ -71,7 +73,7 @@ class CharacterListView : MainActivity(){
                 FavoriteModeOnCharacter = !FavoriteModeOnCharacter
                 realm = Realm.getDefaultInstance()
 
-                realmResults = if (Service.FavoriteModeOnCharacter){
+                realmResults = if (FavoriteModeOnCharacter){
                     realm.where(Character::class.java)?.equalTo("favorite", true)?.findAll()!!
                 } else {
                     realm.where(Character::class.java).findAllAsync()

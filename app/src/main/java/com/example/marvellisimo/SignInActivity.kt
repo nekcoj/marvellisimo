@@ -2,12 +2,12 @@ package com.example.marvellisimo
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.data.Service
+import com.example.marvellisimo.firebase.FirebaseFunctions.Companion.user
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
@@ -21,8 +21,6 @@ class SignInActivity : AppCompatActivity() {
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
         supportActionBar?.setDisplayUseLogoEnabled(true);
 
-
-
         sign_in_button.setOnClickListener {
             signInUser()
         }
@@ -31,7 +29,6 @@ class SignInActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -40,6 +37,7 @@ class SignInActivity : AppCompatActivity() {
         favMenuItem?.isVisible = false
         return true
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
@@ -49,7 +47,6 @@ class SignInActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 
     private fun signInUser(){
         val email = sign_in_email.text.toString()
@@ -63,13 +60,11 @@ class SignInActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (!it.isSuccessful) return@addOnCompleteListener
-
+                Service.toggleNavbarItemsIfAuth(Service._menu)
                 Toast.makeText(this, "Sign in successful", Toast.LENGTH_SHORT).show()
-
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Sign in failed. Please enter valid email/password", Toast.LENGTH_SHORT).show()
-
             }
     }
 }

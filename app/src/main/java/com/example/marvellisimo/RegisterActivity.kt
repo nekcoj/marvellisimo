@@ -23,14 +23,13 @@ class RegisterActivity : AppCompatActivity() {
 
         register_button.setOnClickListener {
             registerUser()
-
-        }
-            send_to_sign_in.setOnClickListener {
-                val intent = Intent(this, SignInActivity::class.java)
-                startActivity(intent)
-            }
         }
 
+        send_to_sign_in.setOnClickListener {
+            val intent = Intent(this, SignInActivity::class.java)
+            startActivity(intent)
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.app_bar_menu, menu)
@@ -38,6 +37,7 @@ class RegisterActivity : AppCompatActivity() {
         favMenuItem?.isVisible = false
         return true
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
@@ -59,15 +59,11 @@ class RegisterActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (!it.isSuccessful) return@addOnCompleteListener
-
-
                 Toast.makeText(this, "Register successful", Toast.LENGTH_SHORT).show()
 
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Register failed. Please enter valid email/password", Toast.LENGTH_SHORT).show()
-
             }
-
     }
 }

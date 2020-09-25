@@ -6,12 +6,15 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.marvellisimo.activity.CharacterListView
+import com.example.marvellisimo.activity.ComicListActivity
+import com.example.marvellisimo.data.Service
+import com.example.marvellisimo.data.Service.Companion.toggleNavbarItemsIfAuth
+import com.example.marvellisimo.firebase.FirebaseFunctions.Companion.logoutUser
 import com.example.marvellisimo.marvel.MarvelRetrofit.getAllCharacters
 import com.example.marvellisimo.marvel.MarvelRetrofit.getAllComics
 import com.example.marvellisimo.model.Character
 import com.example.marvellisimo.model.Comic
-import com.example.marvellisimo.activity.CharacterListView
-import com.example.marvellisimo.activity.ComicListActivity
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_homepage.*
 
@@ -66,6 +69,8 @@ open class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.app_bar_menu, menu)
         val favMenuItem: MenuItem? = menu?.findItem(R.id.Favorite)
         favMenuItem?.isVisible = false
+        toggleNavbarItemsIfAuth(menu)
+        Service._menu = menu!!
         return true
     }
 
@@ -75,7 +80,10 @@ open class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, SignInActivity::class.java)
                 startActivity(intent)
             }
-
+            R.id.Sign_in_text -> {
+                val intent = Intent(this, SignInActivity::class.java)
+                startActivity(intent)
+            }
             R.id.My_Contacts -> Toast.makeText(
                 this,
                 "You clicked show contacts",
@@ -87,8 +95,10 @@ open class MainActivity : AppCompatActivity() {
                 "You clicked add contacts",
                 Toast.LENGTH_SHORT
             ).show()
-            R.id.Log_Out -> Toast.makeText(this, "You clicked log out", Toast.LENGTH_SHORT)
-                .show()
+            R.id.Log_Out -> {
+                logoutUser()
+                Toast.makeText(this, "You clicked log out", Toast.LENGTH_SHORT).show()
+            }
         }
         return true
     }

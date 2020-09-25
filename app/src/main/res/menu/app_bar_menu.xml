@@ -17,6 +17,12 @@
         app:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/Sign_in_text"
+        android:title="@string/sign_in"
+        android:icon="@drawable/ic_sign_in"
+        app:showAsAction="withText"/>
+
+    <item
         android:id="@+id/Contacts"
         android:title="@string/contacts"
         app:showAsAction="withText"/>
