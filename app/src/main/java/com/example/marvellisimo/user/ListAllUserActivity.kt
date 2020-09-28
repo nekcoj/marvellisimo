@@ -195,6 +195,7 @@ class UserItem(val user: User): Item<GroupieViewHolder>(){
             viewHolder.itemView.share_button.isVisible = true
             viewHolder.itemView.share_button.setOnClickListener(){
                 ListAllUserActivity.shareMarvel(user)
+                viewHolder.itemView.share_button.isVisible = false
             }
         }
 

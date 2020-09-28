@@ -41,10 +41,6 @@ class UserChat: AppCompatActivity() {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val sharedObject = snapshot.getValue(SharedMarvel::class.java)
                 if (sharedObject != null) {
-                    Log.d("__chatForUser", user.uId)
-                    Log.d("__myUID", FirebaseAuth.getInstance().uid.toString())
-                    Log.d("__fromID", sharedObject.fromId)
-                    Log.d("__toId", sharedObject.toId)
                     if (sharedObject.fromId == FirebaseAuth.getInstance().uid.toString() && sharedObject.toId == user.uId) {
                         adapter.add(ShareFrom(sharedObject, user))
                     } else if(sharedObject.fromId == user.uId && sharedObject.toId == FirebaseAuth.getInstance().uid) {
