@@ -16,5 +16,6 @@
     <string name="enter_message">Enter message</string>
     <string name="show_users">Show users</string>
     <string name="share_icon_black">share icon black</string>
+    <string name="shared_info">shared info</string>
 
 </resources>
