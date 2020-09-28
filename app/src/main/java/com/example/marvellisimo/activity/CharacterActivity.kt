@@ -64,7 +64,7 @@ class CharacterActivity : AppCompatActivity(){
             }
             R.id.share_icon->{
                 val intent = Intent(this, ListAllUserActivity::class.java)
-                intent.putExtra("SHARED_CHARACTER",selectedCharacter)
+                intent.putExtra("SHARED_CHARACTER", selectedCharacter)
                 startActivity(intent)
             }
             R.id.Sign_in -> {

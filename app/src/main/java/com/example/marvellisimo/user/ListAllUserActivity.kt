@@ -37,7 +37,19 @@ class ListAllUserActivity : AppCompatActivity() {
             val toId = user.uId
             if(fromId == null || toId == null) return
             val ref = FirebaseDatabase.getInstance().getReference("/messages").push()
-            val chatMessage = SharedMarvel(ref.key!!, fromId, toId, System.currentTimeMillis() / 1000 ,)
+            var chatMessage: SharedMarvel = SharedMarvel()
+            if(sharedObject?.javaClass?.simpleName.toString() == "Character") {
+                val character = sharedObject as Character
+                val thumbnail = character.thumbnail?.path + "." + character.thumbnail?.extension
+                val url = character.urls?.url
+                chatMessage = SharedMarvel(ref.key!!, fromId, toId, character.description!!, character.favorite!!, character.name!!, "", thumbnail, url!!, System.currentTimeMillis() / 1000, character.id!!)
+            } else if (sharedObject?.equals(Comic::class.java)!!){
+                val comic = sharedObject as Comic
+                val thumbnail = comic.thumbnail?.path + "." + comic.thumbnail?.extension
+                val url = comic.urls?.url
+                chatMessage = SharedMarvel(ref.key!!, fromId, toId, comic.description!!, comic.favorite!!, "", comic.title!!, thumbnail, url!!, System.currentTimeMillis() / 1000, comic.id!!)
+            }
+
             ref.setValue(chatMessage)
                 .addOnSuccessListener {
                     Log.d("sharedMarvell", "Saved our chat message: ${ref.key}")
@@ -67,9 +79,7 @@ class ListAllUserActivity : AppCompatActivity() {
         sharedObject = null
 
         if (intent.hasExtra("SHARED_CHARACTER")){
-            sharedObject = intent.getParcelableExtra<Character>("SHARED_CHARACTER")!! as Character
-            sharedObject.toString().contains("name")
-
+            sharedObject = intent.getParcelableExtra<Character>("SHARED_CHARACTER")!!
         } else if (intent.hasExtra("SHARED_COMIC")){
             sharedObject = intent.getParcelableExtra<Comic>("SHARED_COMIC")!!
         }

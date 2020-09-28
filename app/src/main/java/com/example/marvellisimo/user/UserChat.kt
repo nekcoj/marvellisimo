@@ -34,7 +34,7 @@ class UserChat: AppCompatActivity() {
 
         val user= intent.getParcelableExtra<User>("USER")
         supportActionBar?.title = user?.username
-
+        listenForMessages()
     }
 
     private fun listenForMessages(){
@@ -43,21 +43,16 @@ class UserChat: AppCompatActivity() {
         ref.addChildEventListener(object: ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val sharedObject = snapshot.getValue(SharedMarvel::class.java)
-                if(sharedObject != null){
-                    Log.d("sharedMarvel", sharedObject.toString())
-
-                    if(sharedObject.fromId == FirebaseAuth.getInstance().uid) {
-                        if (sharedObject.sharedObject.toString().contains("name"))
-
-                        adapter.add(ShareCharacter(sharedObject))
-                    }
-                    else {
-                        adapter.add(ShareComic(sharedObject.text))
+                if (sharedObject != null) {
+                    if (sharedObject.fromId == FirebaseAuth.getInstance().uid) {
+                        if (sharedObject.title == "") {
+                            adapter.add(ShareCharacter(sharedObject))
+                        } else {
+                            adapter.add(ShareComic(sharedObject))
+                        }
                     }
                 }
-
             }
-
             override fun onCancelled(error: DatabaseError) {
 
             }
@@ -77,9 +72,9 @@ class UserChat: AppCompatActivity() {
     }
 }
 
-class ShareCharacter(val character: Character): Item<ViewHolder>(){
+class ShareCharacter(val character: SharedMarvel): Item<ViewHolder>(){
     override fun bind(viewHolder: ViewHolder, position: Int) {
-        val imgComplete = Service.renamePathHttps(character.thumbnail?.path + "." + character.thumbnail?.extension)
+        val imgComplete = Service.renamePathHttps(character.thumbnail)
         Picasso.get().load(imgComplete).placeholder(R.mipmap.marvel_logo_small).into(viewHolder.itemView.character_adapter_img)
         viewHolder.itemView.characterName_adapter.text = character.name
         viewHolder.itemView.character_favIcon_adapter.isVisible = false
@@ -91,9 +86,9 @@ class ShareCharacter(val character: Character): Item<ViewHolder>(){
     }
 }
 
-class ShareComic(val comic: Comic): Item<ViewHolder>(){
+class ShareComic(val comic: SharedMarvel): Item<ViewHolder>(){
     override fun bind(viewHolder: ViewHolder, position: Int) {
-        val imgComplete = Service.renamePathHttps(comic.thumbnail?.path + "." + comic.thumbnail?.extension)
+        val imgComplete = Service.renamePathHttps(comic.thumbnail)
         Picasso.get().load(imgComplete).placeholder(R.mipmap.marvel_logo_small).into(viewHolder.itemView.comic_list_cover_image)
         viewHolder.itemView.comic_list_item_title.text = comic.title
         viewHolder.itemView.comicFavIcon.isVisible = false
@@ -101,6 +96,6 @@ class ShareComic(val comic: Comic): Item<ViewHolder>(){
 
 
     override fun getLayout(): Int {
-        return R.layout.activity_character_view
+        return R.layout.activity_comic_list
     }
 }
