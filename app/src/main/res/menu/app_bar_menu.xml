@@ -9,6 +9,11 @@
         android:title="@string/favorite"
         android:tooltipText="Show your favorite"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/share_icon"
+        android:icon="@android:drawable/ic_menu_share"
+        app:showAsAction="ifRoom"
+        android:title="Share" />
 
     <item
         android:id="@+id/Sign_in"
@@ -21,7 +26,6 @@
         android:icon="@drawable/ic_sign_in"
         android:title="@string/sign_in"
         app:showAsAction="withText" />
-
 
     <item
         android:id="@+id/Show_all_users"

@@ -17,11 +17,14 @@ import com.example.marvellisimo.data.Service.Companion.renamePathHttps
 import com.example.marvellisimo.firebase.FirebaseFunctions
 import com.example.marvellisimo.model.Character
 import com.example.marvellisimo.user.ListAllUserActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_single_character_view.*
 
 
 class CharacterActivity : AppCompatActivity(){
+    lateinit var selectedCharacter : Character
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_single_character_view)
@@ -31,7 +34,7 @@ class CharacterActivity : AppCompatActivity(){
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
         supportActionBar?.setDisplayUseLogoEnabled(true);
 
-        val selectedCharacter = intent.getParcelableExtra(SELECTED_CHARACTER) as? Character
+        selectedCharacter = (intent.getParcelableExtra(SELECTED_CHARACTER) as? Character)!!
         character_name.text = selectedCharacter?.name
         Picasso.get().load(renamePathHttps(selectedCharacter?.thumbnail?.path!!) + "." + selectedCharacter.thumbnail?.extension).into(character_img)
         character_description.text = if (!selectedCharacter.description.equals("")) selectedCharacter.description else "No description available"
@@ -47,6 +50,10 @@ class CharacterActivity : AppCompatActivity(){
         Service.toggleNavbarItemsIfAuth(Service._menu)
         val favMenuItem: MenuItem? = menu?.findItem(R.id.Favorite)
         favMenuItem?.isVisible = false
+        val share : MenuItem? = menu.findItem(R.id.share_icon)
+        if(FirebaseAuth.getInstance().uid != null) {
+            share?.isVisible = true
+        }
         return true
     }
 
@@ -54,6 +61,11 @@ class CharacterActivity : AppCompatActivity(){
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
+            }
+            R.id.share_icon->{
+                val intent = Intent(this, ListAllUserActivity::class.java)
+                intent.putExtra("SHARED_CHARACTER",selectedCharacter)
+                startActivity(intent)
             }
             R.id.Sign_in -> {
                 val intent = Intent(this, SignInActivity::class.java)

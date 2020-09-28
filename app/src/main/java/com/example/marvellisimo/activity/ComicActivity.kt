@@ -18,6 +18,7 @@ import com.example.marvellisimo.SignInActivity
 import com.example.marvellisimo.adapter.ComicViewHolder
 import com.example.marvellisimo.firebase.FirebaseFunctions
 import com.example.marvellisimo.user.ListAllUserActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class ComicActivity: AppCompatActivity() {
 
@@ -47,6 +48,10 @@ class ComicActivity: AppCompatActivity() {
         Service.toggleNavbarItemsIfAuth(Service._menu)
         val favMenuItem: MenuItem? = menu?.findItem(R.id.Favorite)
         favMenuItem?.isVisible = false
+        val share : MenuItem? = menu.findItem(R.id.share_icon)
+        if(FirebaseAuth.getInstance().uid != null) {
+            share?.isVisible = true
+        }
         return true
     }
 
@@ -54,6 +59,10 @@ class ComicActivity: AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
+            }
+            R.id.share_icon->{
+                val intent = Intent(this, ListAllUserActivity::class.java)
+                startActivity(intent)
             }
             R.id.Sign_in -> {
                 val intent = Intent(this, SignInActivity::class.java)
@@ -68,7 +77,7 @@ class ComicActivity: AppCompatActivity() {
                 startActivity(intent)
                 Toast.makeText(
                     this,
-                    "You clicked show contacts",
+                    "You clicked show all users",
                     Toast.LENGTH_SHORT
                 ).show()
             }

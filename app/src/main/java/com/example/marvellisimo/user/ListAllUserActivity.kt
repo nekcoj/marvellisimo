@@ -8,27 +8,52 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.example.marvellisimo.MainActivity
 import com.example.marvellisimo.R
 import com.example.marvellisimo.SignInActivity
+import com.example.marvellisimo.adapter.ComicViewHolder
 import com.example.marvellisimo.data.Service
 import com.example.marvellisimo.firebase.FirebaseFunctions
+import com.example.marvellisimo.firebase.SharedMarvel
+import com.example.marvellisimo.model.Character
+import com.example.marvellisimo.model.Comic
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
+import io.realm.rx.ObjectChange
 import kotlinx.android.synthetic.main.activity_list_all_user.*
 import kotlinx.android.synthetic.main.activity_user_row.view.*
 
 class ListAllUserActivity : AppCompatActivity() {
+    companion object{
+        var sharedObject : Any? = null
+
+        fun shareMarvel( user : User, ){
+            val fromId = FirebaseAuth.getInstance().uid
+            val toId = user.uId
+            if(fromId == null || toId == null) return
+            val ref = FirebaseDatabase.getInstance().getReference("/messages").push()
+            val chatMessage = SharedMarvel(ref.key!!, fromId, toId, System.currentTimeMillis() / 1000 ,)
+            ref.setValue(chatMessage)
+                .addOnSuccessListener {
+                    Log.d("sharedMarvell", "Saved our chat message: ${ref.key}")
+                }
+                .addOnFailureListener(){
+                    Log.d("sharedMarvell", "Fail to send !! ")
+                }
+        }
+    }
     var user: FirebaseUser? = null
     var db: FirebaseDatabase? = null
     var usersListRef: DatabaseReference? = null
     var onlineStatus: DatabaseReference? = null
     var connectedRef: DatabaseReference? = null
     var userListValueEventListener: ValueEventListener? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +64,18 @@ class ListAllUserActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true);
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
         supportActionBar?.setDisplayUseLogoEnabled(true);
+        sharedObject = null
+
+        if (intent.hasExtra("SHARED_CHARACTER")){
+            sharedObject = intent.getParcelableExtra<Character>("SHARED_CHARACTER")!! as Character
+            sharedObject.toString().contains("name")
+
+        } else if (intent.hasExtra("SHARED_COMIC")){
+            sharedObject = intent.getParcelableExtra<Comic>("SHARED_COMIC")!!
+        }
+
+
+
 
         db = FirebaseDatabase.getInstance()
         usersListRef = db!!.getReference("users")
@@ -106,6 +143,7 @@ class ListAllUserActivity : AppCompatActivity() {
         return true
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -124,7 +162,7 @@ class ListAllUserActivity : AppCompatActivity() {
                 startActivity(intent)
                 Toast.makeText(
                     this,
-                    "You clicked show contacts",
+                    "You clicked show all users",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -136,6 +174,7 @@ class ListAllUserActivity : AppCompatActivity() {
         }
         return true
     }
+
 }
 
 class UserItem(val user: User): Item<ViewHolder>(){
@@ -144,6 +183,13 @@ class UserItem(val user: User): Item<ViewHolder>(){
         viewHolder.itemView.username_textView.text = user.username
         if(user.status == "online")
             viewHolder.itemView.online_status.setBackgroundResource(R.drawable.status_indicator_online)
+        if (ListAllUserActivity.sharedObject != null){
+            viewHolder.itemView.share_button.isVisible = true
+            viewHolder.itemView.share_button.setOnClickListener(){
+                ListAllUserActivity.shareMarvel(user)
+            }
+        }
+
     }
 
     override fun getLayout(): Int {

@@ -97,18 +97,21 @@ class Service {
         fun toggleNavbarItemsIfAuth(menu: Menu?) {
             val signedIn: MenuItem? = menu?.findItem(R.id.Sign_in)
             val signedInMenu: MenuItem? = menu?.findItem(R.id.Sign_in_text)
-            val myContacts: MenuItem? = menu?.findItem(R.id.Show_all_users)
+            val showAllUsers: MenuItem? = menu?.findItem(R.id.Show_all_users)
             val logout: MenuItem? = menu?.findItem(R.id.Log_Out)
+            val share : MenuItem? = menu?.findItem(R.id.share_icon)
             if(FirebaseAuth.getInstance().uid != null) {
                 signedIn?.isVisible = false
                 signedInMenu?.isVisible = false
-                myContacts?.isVisible = true
+                showAllUsers?.isVisible = true
                 logout?.isVisible = true
+                share?.isVisible = false
             } else {
                 signedIn?.isVisible = true
                 signedInMenu?.isVisible = true
-                myContacts?.isVisible = false
+                showAllUsers?.isVisible = false
                 logout?.isVisible = false
+                share?.isVisible = false
             }
         }
     }

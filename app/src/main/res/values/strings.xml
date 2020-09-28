@@ -15,5 +15,6 @@
     <string name="already_got_a_account_sign_in_here">Already got a account? Sign in here!</string>
     <string name="enter_message">Enter message</string>
     <string name="show_users">Show users</string>
+    <string name="share_icon_black">share icon black</string>
 
 </resources>
