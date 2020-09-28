@@ -12,7 +12,6 @@ import androidx.core.view.isVisible
 import com.example.marvellisimo.MainActivity
 import com.example.marvellisimo.R
 import com.example.marvellisimo.SignInActivity
-import com.example.marvellisimo.adapter.ComicViewHolder
 import com.example.marvellisimo.data.Service
 import com.example.marvellisimo.firebase.FirebaseFunctions
 import com.example.marvellisimo.firebase.SharedMarvel
@@ -22,9 +21,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
-import com.xwray.groupie.ViewHolder
-import io.realm.rx.ObjectChange
 import kotlinx.android.synthetic.main.activity_list_all_user.*
 import kotlinx.android.synthetic.main.activity_user_row.view.*
 
@@ -118,7 +116,7 @@ class ListAllUserActivity : AppCompatActivity() {
         val ref = FirebaseDatabase.getInstance().getReference("/users")
         userListValueEventListener = ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
-                val adapter = GroupAdapter<ViewHolder>()
+                val adapter = GroupAdapter<GroupieViewHolder>()
                 p0.children.forEach {
                     Log.d("user", it.toString())
                     val user = it.getValue(User::class.java)
@@ -187,9 +185,9 @@ class ListAllUserActivity : AppCompatActivity() {
 
 }
 
-class UserItem(val user: User): Item<ViewHolder>(){
+class UserItem(val user: User): Item<GroupieViewHolder>(){
     @SuppressLint("ResourceAsColor")
-    override fun bind(viewHolder: ViewHolder, position: Int){
+    override fun bind(viewHolder: GroupieViewHolder, position: Int){
         viewHolder.itemView.username_textView.text = user.username
         if(user.status == "online")
             viewHolder.itemView.online_status.setBackgroundResource(R.drawable.status_indicator_online)
