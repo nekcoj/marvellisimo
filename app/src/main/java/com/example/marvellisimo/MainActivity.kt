@@ -16,7 +16,6 @@ import com.example.marvellisimo.marvel.MarvelRetrofit.getAllComics
 import com.example.marvellisimo.model.Character
 import com.example.marvellisimo.model.Comic
 import com.example.marvellisimo.user.ListAllUserActivity
-import com.google.firebase.auth.FirebaseAuth
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_homepage.*
 
@@ -70,7 +69,7 @@ open class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.app_bar_menu, menu)
         _menu = menu!!
         toggleNavbarItemsIfAuth(_menu)
-        val favMenuItem: MenuItem? = menu?.findItem(R.id.Favorite)
+        val favMenuItem: MenuItem? = menu.findItem(R.id.Favorite)
         favMenuItem?.isVisible = false
         return true
     }
@@ -85,7 +84,7 @@ open class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, SignInActivity::class.java)
                 startActivity(intent)
             }
-            R.id.My_Contacts -> {
+            R.id.Show_all_users -> {
                 val intent = Intent(this, ListAllUserActivity::class.java)
                 startActivity(intent)
                 Toast.makeText(
@@ -94,11 +93,6 @@ open class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            R.id.Add_Contact -> Toast.makeText(
-                this,
-                "You clicked add contacts",
-                Toast.LENGTH_SHORT
-            ).show()
             R.id.Log_Out -> {
                 logoutUser()
                 startActivity(Intent(this, MainActivity::class.java))
@@ -108,10 +102,10 @@ open class MainActivity : AppCompatActivity() {
             return true
     }
 
-    override fun onDestroy() {
-        logoutUser()
-        finish()
-        super.onDestroy()
-    }
+//    override fun onDestroy() {
+//        logoutUser()
+//        finish()
+//        super.onDestroy()
+//    }
 }
 

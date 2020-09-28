@@ -3,27 +3,17 @@
     <string name="comicbook_cover">Comicbook Cover</string>
     <string name="comic_description">In darkness there lurks Kaiju – terrifying and unfathomable monsters. Between Kaiju and the rest of us stands the United Science Patrol! But who are these enigmatic defenders, and how do they perform their miracles? Shin Hayata and Kiki Fuji have spent half a lifetime trying to find out – and their quest is about to drive them toward a decades-old dark secret and put them on a collision course with a mysterious warrior from beyond the stars! Kyle Higgins (Mighty Morphin Power Rangers), Mat Groom (Self/Made) and Francesco Manna (AVENGERS) reimagine the classic origin of a pop culture icon as THE RISE OF ULTRAMAN begins!</string>
     <string name="comic_info_title">The Rise of Ultraman</string>
-    <string name="search">Search…</string>
-    <string name="search_icon">Search Icon</string>
-    <string name="search_comics">Search comics…</string>
-    <string name="search_button">Search Button</string>
     <string name="sign_in">Sign in</string>
     <string name="favorite">Toggle Favorite</string>
     <string name="log_out">Log out</string>
     <string name="add_contact">\t\tAdd contact</string>
-    <string name="my_contacts">\t\tMy contacts</string>
     <string name="contacts">Contacts:</string>
-    <string name="comics">\t\tComics</string>
-    <string name="characters">\t\tCharacters</string>
-    <string name="search_by">Search by:</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="dont_have_an_account_register_here">Dont have an account? Register here!</string>
-    <string name="cancel">Cancel</string>
     <string name="register">Register</string>
     <string name="username">Username</string>
     <string name="already_got_a_account_sign_in_here">Already got a account? Sign in here!</string>
-    <string name="online_status">Online_status</string>
     <string name="enter_message">Enter message</string>
+    <string name="show_users">Show users</string>
 
 </resources>

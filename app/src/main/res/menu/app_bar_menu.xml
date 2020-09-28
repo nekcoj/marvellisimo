@@ -12,38 +12,27 @@
 
     <item
         android:id="@+id/Sign_in"
-        android:title="@string/sign_in"
         android:icon="@drawable/ic_sign_in"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/sign_in"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/Sign_in_text"
-        android:title="@string/sign_in"
         android:icon="@drawable/ic_sign_in"
-        app:showAsAction="withText"/>
+        android:title="@string/sign_in"
+        app:showAsAction="withText" />
+
 
     <item
-        android:id="@+id/Contacts"
-        android:title="@string/contacts"
-        app:showAsAction="withText"/>
+        android:id="@+id/Show_all_users"
+        android:title="@string/show_users"
+        app:showAsAction="withText" />
 
-    <item
-        android:id="@+id/My_Contacts"
-        android:title="@string/my_contacts"
-        app:showAsAction="withText"/>
-
-    <item
-        android:id="@+id/Add_Contact"
-        android:title="@string/add_contact"
-        app:showAsAction="withText"/>
 
     <item
         android:id="@+id/Log_Out"
         android:title="@string/log_out"
-        app:showAsAction="withText"/>
-
-
-
+        app:showAsAction="withText" />
 
 
 </menu>

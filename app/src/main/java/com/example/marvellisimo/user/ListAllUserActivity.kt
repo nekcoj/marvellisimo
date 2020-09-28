@@ -2,22 +2,24 @@ package com.example.marvellisimo.user
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
+import com.example.marvellisimo.MainActivity
 import com.example.marvellisimo.R
+import com.example.marvellisimo.SignInActivity
+import com.example.marvellisimo.data.Service
+import com.example.marvellisimo.firebase.FirebaseFunctions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_list_all_user.*
-import kotlinx.android.synthetic.main.activity_register.view.*
 import kotlinx.android.synthetic.main.activity_user_row.view.*
 
 class ListAllUserActivity : AppCompatActivity() {
@@ -42,7 +44,6 @@ class ListAllUserActivity : AppCompatActivity() {
         usersListRef = db!!.getReference("users")
         user = FirebaseAuth.getInstance().currentUser
         addToUserList(user)
-
         fetchUsers()
     }
 
@@ -94,6 +95,46 @@ class ListAllUserActivity : AppCompatActivity() {
             override fun onCancelled(p0: DatabaseError) {}
         })
         usersListRef!!.addValueEventListener(userListValueEventListener!!)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.app_bar_menu, menu)
+        Service._menu = menu!!
+        Service.toggleNavbarItemsIfAuth(Service._menu)
+        val favMenuItem: MenuItem? = menu?.findItem(R.id.Favorite)
+        favMenuItem?.isVisible = false
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+            }
+            R.id.Sign_in -> {
+                val intent = Intent(this, SignInActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.Sign_in_text -> {
+                val intent = Intent(this, SignInActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.Show_all_users -> {
+                val intent = Intent(this, ListAllUserActivity::class.java)
+                startActivity(intent)
+                Toast.makeText(
+                    this,
+                    "You clicked show contacts",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            R.id.Log_Out -> {
+                FirebaseFunctions.logoutUser()
+                startActivity(Intent(this, MainActivity::class.java))
+                Toast.makeText(this, "You clicked log out", Toast.LENGTH_SHORT).show()
+            }
+        }
+        return true
     }
 }
 
