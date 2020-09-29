@@ -33,8 +33,9 @@ open class MainActivity : AppCompatActivity() {
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small)
         supportActionBar?.setDisplayUseLogoEnabled(true)
         val mp: MediaPlayer = MediaPlayer.create(this, R.raw.test1)
-        mp.isLooping = true
+        mp.isLooping = false
         mp.start()
+
         if (!runOnce) {
             realm = Realm.getDefaultInstance()
             val realmResultsComics = realm?.where(Comic::class.java)?.findAllAsync()!!
