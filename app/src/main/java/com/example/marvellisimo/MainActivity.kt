@@ -1,6 +1,7 @@
 package com.example.marvellisimo
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -31,6 +32,9 @@ open class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small)
         supportActionBar?.setDisplayUseLogoEnabled(true)
+        val mp: MediaPlayer = MediaPlayer.create(this, R.raw.test1)
+        mp.isLooping = true
+        mp.start()
         if (!runOnce) {
             realm = Realm.getDefaultInstance()
             val realmResultsComics = realm?.where(Comic::class.java)?.findAllAsync()!!
