@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
+    android:background="@drawable/marvelbg"
     tools:context=".activity.ComicListActivity">
 
 
@@ -12,10 +12,10 @@
         android:id="@+id/searchView_comics"
         android:layout_width="0dp"
         android:layout_height="75dp"
-        android:background="@android:color/black"
+        android:background="#E6000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/sv_comics_search"
@@ -32,8 +32,7 @@
             android:id="@+id/rv_comics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:background="@android:color/black">
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
         </androidx.recyclerview.widget.RecyclerView>
     </ScrollView>

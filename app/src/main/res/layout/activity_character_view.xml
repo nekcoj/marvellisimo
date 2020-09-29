@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryDark">
+    android:layout_margin="4dp"
+    android:background="#E6000000">
 
     <ImageView
         android:id="@+id/character_adapter_img"
-        android:layout_width="76dp"
-        android:layout_height="86dp"
-        android:layout_marginStart="32dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.023"
@@ -23,7 +26,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:background="@color/colorPrimaryDark"
         android:text="TextView"
         android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"

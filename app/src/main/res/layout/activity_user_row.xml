@@ -45,11 +45,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:contentDescription="@string/share_icon_black"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/username_textView"
         app:layout_constraintEnd_toStartOf="@+id/online_status"
         app:layout_constraintTop_toTopOf="@+id/username_textView"
         app:srcCompat="?attr/actionModeShareDrawable"
-        app:tint="@android:color/black"
-        android:visibility="invisible"
-        />
+        app:tint="@android:color/white" />
 </androidx.constraintlayout.widget.ConstraintLayout>
