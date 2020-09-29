@@ -43,7 +43,7 @@ class RegisterActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                finish()
+                onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -79,5 +79,4 @@ class RegisterActivity : AppCompatActivity() {
         val user = User(uId, register_username.text.toString(), status)
         ref.setValue(user)
     }
-
 }

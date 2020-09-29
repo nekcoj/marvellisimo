@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.activity.CharacterListView
 import com.example.marvellisimo.activity.ComicListActivity
-import com.example.marvellisimo.data.Service.Companion._menu
+import com.example.marvellisimo.data.Service.Companion.menu_
 import com.example.marvellisimo.data.Service.Companion.toggleNavbarItemsIfAuth
 import com.example.marvellisimo.firebase.FirebaseFunctions.Companion.logoutUser
 import com.example.marvellisimo.marvel.MarvelRetrofit.getAllCharacters
@@ -67,8 +67,8 @@ open class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.app_bar_menu, menu)
-        _menu = menu!!
-        toggleNavbarItemsIfAuth(_menu)
+        menu_ = menu!!
+        toggleNavbarItemsIfAuth(menu_)
         val favMenuItem: MenuItem? = menu.findItem(R.id.Favorite)
         favMenuItem?.isVisible = false
         return true
@@ -87,16 +87,10 @@ open class MainActivity : AppCompatActivity() {
             R.id.Show_all_users -> {
                 val intent = Intent(this, ListAllUserActivity::class.java)
                 startActivity(intent)
-                Toast.makeText(
-                    this,
-                    "You clicked show contacts",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
             R.id.Log_Out -> {
                 logoutUser()
                 startActivity(Intent(this, MainActivity::class.java))
-                Toast.makeText(this, "You clicked log out", Toast.LENGTH_SHORT).show()
             }
         }
             return true

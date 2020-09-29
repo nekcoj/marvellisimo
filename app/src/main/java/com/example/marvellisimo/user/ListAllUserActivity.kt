@@ -64,7 +64,6 @@ class ListAllUserActivity : AppCompatActivity() {
     var connectedRef: DatabaseReference? = null
     var userListValueEventListener: ValueEventListener? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_all_user)
@@ -88,7 +87,6 @@ class ListAllUserActivity : AppCompatActivity() {
         addToUserList(user)
         fetchUsers()
     }
-
 
     private fun addToUserList(user: FirebaseUser?) {
         usersListRef!!.child("${user!!.uid}/status").setValue("online")
@@ -141,13 +139,12 @@ class ListAllUserActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.app_bar_menu, menu)
-        Service._menu = menu!!
-        Service.toggleNavbarItemsIfAuth(Service._menu)
+        Service.menu_ = menu!!
+        Service.toggleNavbarItemsIfAuth(Service.menu_)
         val favMenuItem: MenuItem? = menu.findItem(R.id.Favorite)
         favMenuItem?.isVisible = false
         return true
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -195,7 +192,6 @@ class UserItem(val user: User): Item<GroupieViewHolder>(){
                 viewHolder.itemView.share_button.isVisible = false
             }
         }
-
     }
 
     override fun getLayout(): Int {

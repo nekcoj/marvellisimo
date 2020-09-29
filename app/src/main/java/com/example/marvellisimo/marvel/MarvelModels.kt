@@ -1,6 +1,5 @@
 package com.example.marvellisimo.marvel
 
-
 import java.io.Serializable
 
 class MarvelModels {

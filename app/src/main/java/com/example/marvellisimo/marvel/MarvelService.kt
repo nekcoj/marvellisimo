@@ -1,7 +1,5 @@
 package com.example.marvellisimo.marvel
 
-import com.example.marvellisimo.marvel.CharacterDataWrapper
-import com.example.marvellisimo.marvel.ComicDataWrapper
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path

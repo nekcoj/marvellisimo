@@ -50,7 +50,6 @@ class RealmData {
             }
         }
 
-
         fun searchComic(searchString: String): RealmResults<Comic>? {
             realm = Realm.getDefaultInstance()
             val query = realm?.where(Comic::class.java)?.contains("title", searchString)?.findAllAsync()
@@ -85,7 +84,7 @@ class RealmData {
         }
 
         fun getFavoriteIdList():MutableList<Int>{
-            var favIdList : MutableList<Int> = mutableListOf()
+            val favIdList : MutableList<Int> = mutableListOf()
             realm = Realm.getDefaultInstance()
             realm.use { r ->
                 r?.executeTransaction { realm ->

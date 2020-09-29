@@ -23,7 +23,7 @@ class Service {
         var FavoriteModeOnCharacter = false
         var OffsetComics :Int = 0
         var OffsetCharacter :Int = 0
-        lateinit var _menu: Menu
+        lateinit var menu_: Menu
         fun checkIfFavoriteToggled(menu: MenuItem?, comicOrCharacter: String?) {
             if (comicOrCharacter == "comic"){
                 if (FavoriteModeOnComic) {
@@ -43,14 +43,14 @@ class Service {
         fun convertComicFromMarvelDataToRealmData(comic: com.example.marvellisimo.marvel.Comic): Comic {
             val thumbnail = ThumbnailDTO(comic.thumbnail.path.toString(), comic.thumbnail.extension.toString())
             val urls = UrlDTO(comic.urls?.get(0)?.type.toString(), comic.urls?.get(0)?.url.toString())
-            val newComic: Comic = Comic(comic.id, comic.title.toString(), comic.description.toString(), thumbnail, urls, comic.favorite)
+            val newComic = Comic(comic.id, comic.title.toString(), comic.description.toString(), thumbnail, urls, comic.favorite)
             return newComic
         }
 
         fun convertCharacterFromMarvelDataToRealmData(character: com.example.marvellisimo.marvel.Character): Character {
             val thumbnail = ThumbnailDTO(character.thumbnail.path.toString(), character.thumbnail.extension.toString())
             val urls = UrlDTO(character.urls?.get(0)?.type.toString(), character.urls?.get(0)?.url.toString())
-            val newCharacter: Character = Character(character.id, character.name.toString(), character.description.toString(), thumbnail, urls, character.favorite)
+            val newCharacter = Character(character.id, character.name.toString(), character.description.toString(), thumbnail, urls, character.favorite)
             return newCharacter
         }
 

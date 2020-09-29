@@ -3,7 +3,6 @@ package com.example.marvellisimo.user
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.R
 import com.example.marvellisimo.activity.ComicActivity
@@ -83,7 +82,6 @@ class ShareFrom(val shared: SharedMarvel): Item<GroupieViewHolder>(){
         viewHolder.itemView.shared_sent_to.text = "Shared by me"
     }
 
-
     override fun getLayout(): Int {
         return R.layout.shared_to
     }
@@ -98,7 +96,6 @@ class ShareTo(val shared: SharedMarvel): Item<GroupieViewHolder>(){
         viewHolder.itemView.shared_title_name_from.text = nameOrTitle
         viewHolder.itemView.shared_sent_from.text = "Shared by ${UserChat.user.username}"
     }
-
 
     override fun getLayout(): Int {
         return R.layout.shared_from

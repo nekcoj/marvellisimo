@@ -7,9 +7,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.data.Service
-import com.example.marvellisimo.user.ListAllUserActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
@@ -43,7 +41,7 @@ class SignInActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                finish()
+                onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -62,7 +60,7 @@ class SignInActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (!it.isSuccessful) return@addOnCompleteListener
-                Service.toggleNavbarItemsIfAuth(Service._menu)
+                Service.toggleNavbarItemsIfAuth(Service.menu_)
                 FirebaseDatabase.getInstance()
                     .getReference("users")
                     .child("${FirebaseAuth.getInstance().uid}/status")

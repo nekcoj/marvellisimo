@@ -46,8 +46,8 @@ class CharacterActivity : AppCompatActivity(){
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.app_bar_menu, menu)
-        Service._menu = menu!!
-        Service.toggleNavbarItemsIfAuth(Service._menu)
+        Service.menu_ = menu!!
+        Service.toggleNavbarItemsIfAuth(Service.menu_)
         val favMenuItem: MenuItem? = menu?.findItem(R.id.Favorite)
         favMenuItem?.isVisible = false
         val share : MenuItem? = menu.findItem(R.id.share_icon)
@@ -78,16 +78,10 @@ class CharacterActivity : AppCompatActivity(){
             R.id.Show_all_users -> {
                 val intent = Intent(this, ListAllUserActivity::class.java)
                 startActivity(intent)
-                Toast.makeText(
-                    this,
-                    "You clicked show contacts",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
             R.id.Log_Out -> {
                 FirebaseFunctions.logoutUser()
                 startActivity(Intent(this, MainActivity::class.java))
-                Toast.makeText(this, "You clicked log out", Toast.LENGTH_SHORT).show()
             }
         }
         return true
