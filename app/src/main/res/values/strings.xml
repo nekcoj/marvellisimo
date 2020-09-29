@@ -17,5 +17,8 @@
     <string name="show_users">Show users</string>
     <string name="share_icon_black">share icon black</string>
     <string name="shared_info">shared info</string>
+    <string name="shared_to">Shared by me</string>
+    <string name="show_all_characters">Show all characters</string>
+    <string name="show_all_comics">Show all comics</string>
 
 </resources>
