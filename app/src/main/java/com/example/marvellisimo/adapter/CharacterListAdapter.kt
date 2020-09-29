@@ -60,21 +60,21 @@ open class CharacterListAdapter( character: RealmResults<Character>?) :
                 .into(view.character_adapter_img);
 
             if (character?.favorite!!) {
-                view.character_favIcon_adapter.setImageResource(android.R.drawable.btn_star_big_on)
+                view.character_favIcon_adapter.setImageResource(R.mipmap.arc_icon_on2)
             } else {
-                view.character_favIcon_adapter.setImageResource(android.R.drawable.btn_star_big_off)
+                view.character_favIcon_adapter.setImageResource(R.mipmap.arc_icon_off)
             }
 
             view.character_favIcon_adapter.setOnClickListener() {
                 val isFav = character.favorite
                 if (isFav == true) {
-                    view.character_favIcon_adapter.setImageResource(android.R.drawable.btn_star_big_off)
+                    view.character_favIcon_adapter.setImageResource(R.mipmap.arc_icon_off)
                     Service.changeCharacterFavoriteStatus(character.id)
                     RealmData.removeFromFavorite(character.id!!)
                     RealmData.saveCharacter(character)
                 }
                 if (isFav == false) {
-                    view.character_favIcon_adapter.setImageResource(android.R.drawable.btn_star_big_on)
+                    view.character_favIcon_adapter.setImageResource(R.mipmap.arc_icon_on2)
 
                     Service.changeCharacterFavoriteStatus(character.id)
                     RealmData.saveFavorite(character.id!!)

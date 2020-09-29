@@ -27,15 +27,15 @@ class Service {
         fun checkIfFavoriteToggled(menu: MenuItem?, comicOrCharacter: String?) {
             if (comicOrCharacter == "comic"){
                 if (FavoriteModeOnComic) {
-                    menu?.setIcon(android.R.drawable.btn_star_big_on)
+                    menu?.setIcon(R.mipmap.arc_icon_on2)
                 } else {
-                    menu?.setIcon(android.R.drawable.btn_star_big_off)
+                    menu?.setIcon(R.mipmap.arc_icon_off)
                 }
             } else if(comicOrCharacter == "character") {
                 if (FavoriteModeOnCharacter) {
-                    menu?.setIcon(android.R.drawable.btn_star_big_on)
+                    menu?.setIcon(R.mipmap.arc_icon_on2)
                 } else {
-                    menu?.setIcon(android.R.drawable.btn_star_big_off)
+                    menu?.setIcon(R.mipmap.arc_icon_off)
                 }
             }
         }

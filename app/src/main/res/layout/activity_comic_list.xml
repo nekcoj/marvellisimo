@@ -46,6 +46,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/comic_list_item_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/comic_list_item_title"
-        app:srcCompat="@android:drawable/btn_star_big_off" />
+        app:srcCompat="@mipmap/arc_icon_off" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

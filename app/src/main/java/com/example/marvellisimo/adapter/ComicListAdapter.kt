@@ -54,21 +54,21 @@ class ComicViewHolder(val view: View, var comic: Comic? = null): RecyclerView.Vi
         Picasso.get().load(imgComplete).placeholder(R.mipmap.marvel_logo_small).into(view.comic_list_cover_image);
 
         if(comic?.favorite!!){
-            view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
+            view.comicFavIcon.setImageResource(R.mipmap.arc_icon_on2)
         } else {
-            view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
+            view.comicFavIcon.setImageResource(R.mipmap.arc_icon_off)
         }
 
         view.comicFavIcon.setOnClickListener(){
             val isFav = comic.favorite
             if (isFav == true){
-                view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_off)
+                view.comicFavIcon.setImageResource(R.mipmap.arc_icon_off)
                 Service.changeComicFavoriteStatus(comic.id)
                 RealmData.removeFromFavorite(comic.id!!)
                 RealmData.saveComic(comic)
             }
             if (isFav == false){
-                view.comicFavIcon.setImageResource(android.R.drawable.btn_star_big_on)
+                view.comicFavIcon.setImageResource(R.mipmap.arc_icon_on2)
 
                 Service.changeComicFavoriteStatus(comic.id)
                 RealmData.saveFavorite(comic.id!!)
