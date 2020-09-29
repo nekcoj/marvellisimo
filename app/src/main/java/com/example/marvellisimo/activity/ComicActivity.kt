@@ -17,11 +17,13 @@ import com.example.marvellisimo.R
 import com.example.marvellisimo.SignInActivity
 import com.example.marvellisimo.adapter.ComicViewHolder
 import com.example.marvellisimo.firebase.FirebaseFunctions
+import com.example.marvellisimo.firebase.SharedMarvel
 import com.example.marvellisimo.user.ListAllUserActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class ComicActivity: AppCompatActivity() {
-
+    private lateinit var shared: SharedMarvel
+    lateinit var selectedComic : Comic
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic)
@@ -30,16 +32,25 @@ class ComicActivity: AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true);
         supportActionBar?.setLogo(R.mipmap.marvel_logo_small);
         supportActionBar?.setDisplayUseLogoEnabled(true);
-
-        val comic: Comic = intent.getParcelableExtra<Comic>(ComicViewHolder.SELECTED_COMIC) as Comic
-
-        Picasso.get().load(Service.renamePathHttps(comic.thumbnail?.path!!) + "." + comic.thumbnail?.extension).into(comicbook_cover_comic_page)
-        comic_info_comic_page.text = comic.title
-        comic_description_comic_page.text = if (!comic.description.equals("null")) comic.description else "No description available"
-        link_comic.movementMethod = LinkMovementMethod.getInstance()
-        val text = "<a color:#e62429; href='${comic.urls?.url}'> Want to know more ? </a>"
-        link_comic.text = Html.fromHtml(text)
-
+        val comic: Comic
+        if(intent.hasExtra("SHARED_ITEM")){
+            shared = intent.getParcelableExtra<SharedMarvel>("SHARED_ITEM")!!
+            Picasso.get().load(Service.renamePathHttps(shared.thumbnail)).into(comicbook_cover_comic_page)
+            comic_info_comic_page.text = if(shared.name != "") shared.name else shared.title
+            comic_description_comic_page.text = if (shared.description != "") shared.description else "No description available"
+            link_comic.movementMethod = LinkMovementMethod.getInstance()
+            val text = "<a color:#e62429; href='${shared.url}'> Want to know more ? </a>"
+            link_comic.text = Html.fromHtml(text)
+        }
+        if(intent.hasExtra(ComicViewHolder.SELECTED_COMIC)) {
+            selectedComic = (intent.getParcelableExtra<Comic>(ComicViewHolder.SELECTED_COMIC) as? Comic)!!
+            Picasso.get().load(Service.renamePathHttps(selectedComic.thumbnail?.path!!) + "." + selectedComic.thumbnail?.extension).into(comicbook_cover_comic_page)
+            comic_info_comic_page.text = selectedComic.title
+            comic_description_comic_page.text = if (!selectedComic.description.equals("null")) selectedComic.description else "No description available"
+            link_comic.movementMethod = LinkMovementMethod.getInstance()
+            val text = "<a color:#e62429; href='${selectedComic.urls?.url}'> Want to know more ? </a>"
+            link_comic.text = Html.fromHtml(text)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -49,7 +60,7 @@ class ComicActivity: AppCompatActivity() {
         val favMenuItem: MenuItem? = menu?.findItem(R.id.Favorite)
         favMenuItem?.isVisible = false
         val share : MenuItem? = menu.findItem(R.id.share_icon)
-        if(FirebaseAuth.getInstance().uid != null) {
+        if(FirebaseAuth.getInstance().uid != null && !intent.hasExtra("SHARED_ITEM")) {
             share?.isVisible = true
         }
         return true
@@ -62,6 +73,7 @@ class ComicActivity: AppCompatActivity() {
             }
             R.id.share_icon->{
                 val intent = Intent(this, ListAllUserActivity::class.java)
+                intent.putExtra("SHARED_COMIC", selectedComic)
                 startActivity(intent)
             }
             R.id.Sign_in -> {

@@ -1,10 +1,12 @@
 package com.example.marvellisimo.user
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.R
+import com.example.marvellisimo.activity.ComicActivity
 import com.example.marvellisimo.data.Service
 import com.example.marvellisimo.firebase.SharedMarvel
 import com.google.firebase.auth.FirebaseAuth
@@ -21,7 +23,9 @@ import kotlinx.android.synthetic.main.shared_from.view.*
 import kotlinx.android.synthetic.main.shared_to.view.*
 
 class UserChat: AppCompatActivity() {
-    lateinit var user: User
+    companion object {
+        lateinit var user: User
+    }
     val adapter = GroupAdapter<GroupieViewHolder>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,33 +46,34 @@ class UserChat: AppCompatActivity() {
                 val sharedObject = snapshot.getValue(SharedMarvel::class.java)
                 if (sharedObject != null) {
                     if (sharedObject.fromId == FirebaseAuth.getInstance().uid.toString() && sharedObject.toId == user.uId) {
-                        adapter.add(ShareFrom(sharedObject, user))
+                        adapter.add(ShareFrom(sharedObject))
                     } else if(sharedObject.fromId == user.uId && sharedObject.toId == FirebaseAuth.getInstance().uid) {
-                        adapter.add(ShareTo(sharedObject, user))
+                        adapter.add(ShareTo(sharedObject))
                     }
-
+                    adapter.setOnItemClickListener { item, view ->
+                        if(item.javaClass.simpleName == "ShareFrom"){
+                            item as ShareFrom
+                            val intent = Intent(view.context, ComicActivity::class.java)
+                            intent.putExtra("SHARED_ITEM", item.shared)
+                            startActivity(intent)
+                        } else {
+                            item as ShareTo
+                            val intent = Intent(view.context, ComicActivity::class.java)
+                            intent.putExtra("SHARED_ITEM", item.shared)
+                            startActivity(intent)
+                        }
+                    }
                 }
             }
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-
-            }
-
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-
-            }
-
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-
-            }
+            override fun onCancelled(error: DatabaseError) {}
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onChildRemoved(snapshot: DataSnapshot) {}
         })
     }
 }
 
-class ShareFrom(val shared: SharedMarvel, val user: User): Item<GroupieViewHolder>(){
+class ShareFrom(val shared: SharedMarvel): Item<GroupieViewHolder>(){
     @SuppressLint("SetTextI18n")
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         val nameOrTitle = if(shared.name != "") shared.name else shared.title
@@ -76,7 +81,6 @@ class ShareFrom(val shared: SharedMarvel, val user: User): Item<GroupieViewHolde
         Picasso.get().load(imgComplete).placeholder(R.mipmap.marvel_logo_small).into(viewHolder.itemView.shared_image)
         viewHolder.itemView.shared_title_name.text = nameOrTitle
         viewHolder.itemView.shared_sent_to.text = "Shared by me"
-
     }
 
 
@@ -85,14 +89,14 @@ class ShareFrom(val shared: SharedMarvel, val user: User): Item<GroupieViewHolde
     }
 }
 
-class ShareTo(val shared: SharedMarvel, val user: User): Item<GroupieViewHolder>(){
+class ShareTo(val shared: SharedMarvel): Item<GroupieViewHolder>(){
     @SuppressLint("SetTextI18n")
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         val nameOrTitle = if(shared.title != "") shared.title else shared.name
         val imgComplete = Service.renamePathHttps(shared.thumbnail)
         Picasso.get().load(imgComplete).placeholder(R.mipmap.marvel_logo_small).into(viewHolder.itemView.shared_image_from)
         viewHolder.itemView.shared_title_name_from.text = nameOrTitle
-        viewHolder.itemView.shared_sent_from.text = "Shared by ${user.username}"
+        viewHolder.itemView.shared_sent_from.text = "Shared by ${UserChat.user.username}"
     }
 
 

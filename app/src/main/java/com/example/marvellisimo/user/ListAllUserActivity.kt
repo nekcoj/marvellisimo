@@ -41,7 +41,7 @@ class ListAllUserActivity : AppCompatActivity() {
                 val thumbnail = character.thumbnail?.path + "." + character.thumbnail?.extension
                 val url = character.urls?.url
                 chatMessage = SharedMarvel(ref.key!!, fromId, toId, character.description!!, character.favorite!!, character.name!!, "", thumbnail, url!!, System.currentTimeMillis() / 1000, character.id!!)
-            } else if (sharedObject?.equals(Comic::class.java)!!){
+            } else if (sharedObject?.javaClass?.simpleName.toString() == "Comic"){
                 val comic = sharedObject as Comic
                 val thumbnail = comic.thumbnail?.path + "." + comic.thumbnail?.extension
                 val url = comic.urls?.url
@@ -50,7 +50,7 @@ class ListAllUserActivity : AppCompatActivity() {
 
             ref.setValue(chatMessage)
                 .addOnSuccessListener {
-                    Log.d("sharedMarvell", "Saved our chat message: ${ref.key}")
+                    Log.d("sharedMarvel", "Saved our chat message: ${ref.key}")
                 }
                 .addOnFailureListener(){
                     Log.d("sharedMarvell", "Fail to send !! ")
@@ -81,9 +81,6 @@ class ListAllUserActivity : AppCompatActivity() {
         } else if (intent.hasExtra("SHARED_COMIC")){
             sharedObject = intent.getParcelableExtra<Comic>("SHARED_COMIC")!!
         }
-
-
-
 
         db = FirebaseDatabase.getInstance()
         usersListRef = db!!.getReference("users")
@@ -120,9 +117,9 @@ class ListAllUserActivity : AppCompatActivity() {
                 p0.children.forEach {
                     Log.d("user", it.toString())
                     val user = it.getValue(User::class.java)
-                    var uid = it.child("uid").getValue(String::class.java)
-                    var username = it.child("username").getValue(String::class.java)
-                    var status = it.child("status").getValue(String::class.java)
+                    val uid = it.child("uid").getValue(String::class.java)
+                    val username = it.child("username").getValue(String::class.java)
+                    val status = it.child("status").getValue(String::class.java)
                     if (user != null && it.key != FirebaseAuth.getInstance().uid)
                         adapter.add(UserItem(User(uid!!, username!!, status!!)))
                 }
@@ -146,7 +143,7 @@ class ListAllUserActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.app_bar_menu, menu)
         Service._menu = menu!!
         Service.toggleNavbarItemsIfAuth(Service._menu)
-        val favMenuItem: MenuItem? = menu?.findItem(R.id.Favorite)
+        val favMenuItem: MenuItem? = menu.findItem(R.id.Favorite)
         favMenuItem?.isVisible = false
         return true
     }
